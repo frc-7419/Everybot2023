@@ -2,22 +2,22 @@ package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIds;
 
 public class DriveBaseSubsystem extends SubsystemBase {
-    public TalonFX left1;
-    public TalonFX right1;
-	  public TalonFX left2;
-    public TalonFX right2;
+    public TalonSRX left1;
+    public TalonSRX right1;
+	  public TalonSRX left2;
+    public TalonSRX right2;
   
   public DriveBaseSubsystem() {
-    left1 = new TalonFX(CanIds.leftFalcon1.id);
-	  right1 = new TalonFX(CanIds.rightFalcon1.id);
-	  left2 = new TalonFX(CanIds.leftFalcon2.id);
-    right2 = new TalonFX(CanIds.rightFalcon2.id);
+    left1 = new TalonSRX(CanIds.leftFalcon1.id);
+	  right1 = new TalonSRX(CanIds.rightFalcon1.id);
+	  left2 = new TalonSRX(CanIds.leftFalcon2.id);
+    right2 = new TalonSRX(CanIds.rightFalcon2.id);
 
     factoryResetAll();
 
@@ -56,10 +56,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
   }
 
   // accessors
-  public TalonFX getLeftMast(){return left1;}
-  public TalonFX getRightMast(){return right1;}
-  public TalonFX getLeftFollow(){return left2;}
-  public TalonFX getRightFollow(){return right2;}
+  public TalonSRX getLeftMast(){return left1;}
+  public TalonSRX getRightMast(){return right1;}
+  public TalonSRX getLeftFollow(){return left2;}
+  public TalonSRX getRightFollow(){return right2;}
 
   public void setLeftVoltage(double voltage){ //comment this method out as well
     left1.set(ControlMode.PercentOutput, voltage/11);
