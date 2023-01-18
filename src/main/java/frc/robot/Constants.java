@@ -30,6 +30,7 @@ public final class Constants {
         rightFalcon1(2),
         leftFalcon2(4),
         rightFalcon2(3),
+        sparkMax(11),
         ;
 
         public final int id;

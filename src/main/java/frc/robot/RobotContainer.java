@@ -15,13 +15,19 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.sparkmax.RunSparkMax;
+import frc.robot.subsystems.sparkmax.SparkMaxSubsystem;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class RobotContainer {
   private final XboxController joystick1 = new XboxController(0);
   private final XboxController joystick2 = new XboxController(1);
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
-
-
+  private final SparkMaxSubsystem sparkMaxSubsystem = new SparkMaxSubsystem();
+  private final RunSparkMax runSparkMax = new RunSparkMax(sparkMaxSubsystem);
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
 
@@ -47,6 +53,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBaseSubsystem.setDefaultCommand(arcadeDrive);
+    //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
+    sparkMaxSubsystem.setDefaultCommand(runSparkMax);
   }
 }
