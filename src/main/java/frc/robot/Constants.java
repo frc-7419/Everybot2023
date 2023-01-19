@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -37,6 +38,7 @@ public final class Constants {
         private CanIds(int id) {
             this.id = id;
         }
+        
     }
     public static class RobotConstants {
         public static final double TalonFXTicksPerRotation = 2048;
@@ -53,6 +55,8 @@ public final class Constants {
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
     }
+
+    public static final Port SerialPortAHRS = null;
 
 
 };
