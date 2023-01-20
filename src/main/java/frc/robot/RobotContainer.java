@@ -15,11 +15,13 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.gyro.GyroSubsystem;
 
 public class RobotContainer {
   private final XboxController joystick1 = new XboxController(0);
   private final XboxController joystick2 = new XboxController(1);
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
+  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
 
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
