@@ -16,7 +16,7 @@ public Constants constant = new Constants();
 
         SmartDashboard.putString("subsystem", "init gyro sub");
         try {
-	           ahrs = new AHRS(constant.SerialPortAHRS); 
+	           ahrs = new AHRS(Constants.SerialPortAHRS); 
 				} catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true); 
         }
