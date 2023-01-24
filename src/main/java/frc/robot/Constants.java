@@ -61,5 +61,19 @@ public final class Constants {
 
     public static final Port SerialPortAHRS = null;
 
+    public static class FieldConstants {
+        public static final double length = Units.feetToMeters(54);
+        public static final double width = Units.feetToMeters(27);
+    }
 
-};
+    public static class VisionConstants {
+        static final Transform3d robotToCam =
+                new Transform3d(
+                        new Translation3d(0.5, 0.0, 0.5),
+                        new Rotation3d(
+                                0, 0,
+                                0)); // Cam mounted facing forward, half a meter forward of center, half a meter up
+        // from center.
+    }
+    public static final String boboticsCam = "CAMERA NAME";
+}
