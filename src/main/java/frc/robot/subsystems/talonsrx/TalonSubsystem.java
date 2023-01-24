@@ -10,13 +10,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TalonSubsystem extends SubsystemBase {
   private TalonSRX talonSRX;
+  private Solenoid solenoid;
   /** Creates a new TalonSRX. */
   public TalonSubsystem() {
-    talonSRX = new TalonSRX(0); //arbitary for now
+    talonSRX = new TalonSRX(51);
+    this.solenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
   }
 
   @Override
@@ -26,5 +30,8 @@ public class TalonSubsystem extends SubsystemBase {
 
   public void setPower(double power) {
     talonSRX.set(TalonSRXControlMode.PercentOutput, power);
+  }
+  public void setSolenoid(boolean enable) {
+    solenoid.set(enable);
   }
 }
