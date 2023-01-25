@@ -4,14 +4,24 @@
 
 package frc.robot.subsystems.limitswitch;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimitSwitchSubsytem extends SubsystemBase {
-  /** Creates a new LimitSwitchSubsytem. */
-  public LimitSwitchSubsytem() {}
+  DigitalInput topLimitSwitch = new DigitalInput(0);
+  DigitalInput bottomLimitSwitch = new DigitalInput(1);
+  public LimitSwitchSubsytem() {
+
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+  public boolean getTopLimitSwitch(){
+    return topLimitSwitch.get();
+  }
+  public boolean getBottomLimitSwitch(){
+    return bottomLimitSwitch.get();
   }
 }
