@@ -31,9 +31,10 @@ public final class Constants {
         rightFalcon1(2),
         leftFalcon2(4),
         rightFalcon2(3),
+        
         //Can ids need to be found and added for intake + arm
         ;
-
+        
         public final int id;
 
         private CanIds(int id) {
