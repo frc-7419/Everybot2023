@@ -44,4 +44,15 @@ public double getRoll() {
 }
 
 
+  public double getYaw(){
+    return ahrs.getYaw();
+  }
+  
+  public double getPitch(){
+    return ahrs.getPitch();
+  }
+  public double getRoll(){
+    return ahrs.getRoll();
+  }
+
 }
