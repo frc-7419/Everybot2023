@@ -25,8 +25,8 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void initialize() {
-    driveBaseSubsystem.factoryResetAll();    
-    driveBaseSubsystem.setAllDefaultInversions();
+    //driveBaseSubsystem.factoryResetAll();  //no such method anymore 
+   //driveBaseSubsystem.setAllDefaultInversions();
     driveBaseSubsystem.coast(); 
   }
 
