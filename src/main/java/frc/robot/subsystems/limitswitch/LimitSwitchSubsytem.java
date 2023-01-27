@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimitSwitchSubsytem extends SubsystemBase {
-  DigitalInput topLimitSwitch = new DigitalInput(0);
-  DigitalInput bottomLimitSwitch = new DigitalInput(1);
-  public LimitSwitchSubsytem() {
+  private DigitalInput topLimitSwitch;
+  private DigitalInput bottomLimitSwitch;
 
+  public LimitSwitchSubsytem() {
+    topLimitSwitch = new DigitalInput(0);
+    bottomLimitSwitch = new DigitalInput(1);
   }
 
   @Override
