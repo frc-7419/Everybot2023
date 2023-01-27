@@ -32,4 +32,15 @@ public class GyroSubsystem extends SubsystemBase {
     return ahrs.getAngle();
 }
 
+  public double getYaw(){
+    return ahrs.getYaw();
+  }
+  
+  public double getPitch(){
+    return ahrs.getPitch();
+  }
+  public double getRoll(){
+    return ahrs.getRoll();
+  }
+
 }
