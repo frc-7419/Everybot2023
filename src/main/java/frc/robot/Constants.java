@@ -27,7 +27,7 @@ public final class Constants {
 
     public static enum CanIds {
         // 2020 drive train ids
-        leftFalcon1(5),
+        leftFalcon1(1),
         rightFalcon1(2),
         leftFalcon2(4),
         rightFalcon2(3),
