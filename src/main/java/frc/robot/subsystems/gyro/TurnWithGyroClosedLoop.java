@@ -33,6 +33,16 @@ public class TurnWithGyroClosedLoop extends CommandBase {
    double initAngle) {
     this.driveBaseSubsystem = driveBaseSubsystem;
     this.gyroSubsystem = gyroSubsystem;
+    this.target = target;
+    this.kP = kP;
+    this.kI = kI;
+    this.kD = kD;
+    this.tolerance = tolerance;
+    this.pidOutput = pidOutput;
+    this.initAngle = initAngle;
+    this.pidController = pidController;
+
+
     //TODOContinue/FINISH THIS
   }
   
