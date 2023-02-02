@@ -52,6 +52,7 @@ public class TurnWithGyroClosedLoop extends CommandBase {
     driveBaseSubsystem.coast();
     initAngle = gyroSubsystem.getYaw();
     pidController = new PIDController(kP, kI, kD);
+    pidController.setTolerance(tolerance);
     //TODOContinue/FINISH THIS
   
   }
@@ -67,7 +68,7 @@ public class TurnWithGyroClosedLoop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // driveBaseSubsystem.stop(); TODO figure it out which method is the substitution for stop on the new version
+    driveBaseSubsystem.stop(); 
     driveBaseSubsystem.brake();
   }
 
