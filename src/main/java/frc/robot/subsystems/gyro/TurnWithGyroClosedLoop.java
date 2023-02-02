@@ -9,36 +9,61 @@ import edu.wpi.first.math.controller.PIDController;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 
 public class TurnWithGyroClosedLoop extends CommandBase {
-  /** Creates a new TurnWithGyroClosedLoop. */
-  public TurnWithGyroClosedLoop() {
-    DriveBaseSubsystem driveBaseSubsystem;
-  GyroSubsystem gyroSubsystem;
-  double target;
-  double tolerance;
-  double kP;
-  double kI;
-   double kD;
-  PIDController pidController;
-   double pidOutput;
-  double initAngle;
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+  private DriveBaseSubsystem driveBaseSubsystem;
+ private  GyroSubsystem gyroSubsystem;
+ private  double target;
+ private  double tolerance;
+ private  double kP;
+ private  double kI;
+ private  double kD;
+ private  PIDController pidController;
+ private  double pidOutput;
+ private  double initAngle;
 
+  /** Creates a new TurnWithGyroClosedLoop. */
+  public TurnWithGyroClosedLoop(DriveBaseSubsystem driveBaseSubsystem,
+   GyroSubsystem gyroSubsystem,
+   double target,
+   double tolerance,
+   double kP,
+   double kI,
+   double kD,
+   PIDController pidController,
+   double pidOutput,
+   double initAngle) {
+    this.driveBaseSubsystem = driveBaseSubsystem;
+    this.gyroSubsystem = gyroSubsystem;
+    //TODOContinue/FINISH THIS
+  }
+  
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    driveBaseSubsystem.coast();
+    initAngle = gyroSubsystem.getYaw();
+    pidController = new PIDController(kP, kI, kD);
+    //TODOContinue/FINISH THIS
+  
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    pidOutput = pidController.calculate(gyroSubsystem.getYaw());
+    driveBaseSubsystem.setLeftPower(pidOutput);
+    driveBaseSubsystem.setRightPower(- pidOutput);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // driveBaseSubsystem.stop(); TODO figure it out which method is the substitution for stop on the new version
+    driveBaseSubsystem.brake();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return pidController.atSetpoint();
   }
 }
