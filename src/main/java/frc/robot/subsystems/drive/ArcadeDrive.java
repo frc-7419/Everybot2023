@@ -50,6 +50,8 @@ public class ArcadeDrive extends CommandBase {
     
     driveBaseSubsystem.setLeftPower(leftPower);
     driveBaseSubsystem.setRightPower(rightPower);
+    driveBaseSubsystem.putPositionOnDashboard();
+    driveBaseSubsystem.putRPMOnDashBoard();
   }
 
   @Override
