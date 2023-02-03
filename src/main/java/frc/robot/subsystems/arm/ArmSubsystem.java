@@ -29,9 +29,9 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("yaw", pigeon.getYaw());
-    SmartDashboard.putNumber("pitch", pigeon.getPitch());
-    SmartDashboard.putNumber("roll", pigeon.getRoll());
+    // SmartDashboard.putNumber("yaw", pigeon.getYaw());
+    // SmartDashboard.putNumber("pitch", pigeon.getPitch());
+    // SmartDashboard.putNumber("roll", pigeon.getRoll());
   }
   public void setPower(double power) {
     arm.set(power);
