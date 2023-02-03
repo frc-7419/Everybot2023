@@ -18,25 +18,15 @@ import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 // import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.sparkmax.RunSparkMax;
-import frc.robot.subsystems.sparkmax.SparkMaxSubsystem;
-import frc.robot.subsystems.talonsrx.RunTalon;
-import frc.robot.subsystems.talonsrx.TalonSubsystem;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class RobotContainer {
   private final XboxController joystick1 = new XboxController(0); //driver
   private final XboxController joystick2 = new XboxController(1); //operator
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
-  // private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();  private final SparkMaxSubsystem sparkMaxSubsystem = new SparkMaxSubsystem();
-  private final SparkMaxSubsystem sparkMaxSubsystem = new SparkMaxSubsystem();
-  private final TalonSubsystem talonSubsystem = new TalonSubsystem();
-  private final RunSparkMax runSparkMax = new RunSparkMax(sparkMaxSubsystem);
+  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
   private final RunTalon runTalon = new RunTalon(talonSubsystem, joystick1);
@@ -63,8 +53,6 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
-    sparkMaxSubsystem.setDefaultCommand(runSparkMax);
-    talonSubsystem.setDefaultCommand(runTalon);
+    driveBaseSubsystem.setDefaultCommand(arcadeDrive);
   }
 }
