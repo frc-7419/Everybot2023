@@ -114,6 +114,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
     putRPMOnDashBoard();
     putPositionOnDashboard();
   }
+  public void stop() {
+    setAllPower(0);
+  }
 }
 
 
