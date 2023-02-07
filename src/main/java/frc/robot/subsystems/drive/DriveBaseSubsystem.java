@@ -108,12 +108,64 @@ public class DriveBaseSubsystem extends SubsystemBase {
     return motor.getPosition() * Constants.RobotConstants.kWheelCircumference;
   }
 
+  public void drive(double xSpeed, double rot) {
+    // Convert our fwd/rev and rotate commands to wheel speed commands
+    DifferentialDriveWheelSpeeds speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0, rot));
+
+    currentTimeStamp = Timer.getFPGATimestamp();
+
+    double leftDistance = getLeftVelocityInMeters() * (currentTimeStamp - previousTimeStamp);
+    double rightDistance = getRightVelocityInMeters() * (currentTimeStamp - previousTimeStamp);
+
+    ld += leftDistance;
+    rd += rightDistance;
+
+    double leftOutput = leftPIDController.calculate(leftDistance,
+        speeds.leftMetersPerSecond);
+    double rightOutput = righ tPIDController.calculate(rightDistance,
+        speeds.rightMetersPerSecond);
+
+    var leftFeedforward = feedforward.calculate(speeds.leftMetersPerSecond);
+    var rightFeedforward = feedforward.calculate(speeds.rightMetersPerSecond);
+
+    setLeftVoltage(leftOutput + leftFeedforward);
+    setRightVoltage(rightOutput + rightFeedforward);
+    // Update the pose estimator with the most recent sensor readings.
+    // poseEst.update(leftDistance, rightDistance);
+    // poseEst.update(ld, rd);
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    leftLeader.setSelectedSensorPosition(0);
+    rightLeader.setSelectedSensorPosition(0);
+    poseEst.resetToPose(pose, 0, 0);
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    putRPMOnDashBoard();
-    putPositionOnDashboard();
+    currentTimeStamp = Timer.getFPGATimestamp();
+    double leftDistance = getLeftVelocityInMeters() * (currentTimeStamp - previousTimeStamp);
+    double rightDistance = getRightVelocityInMeters() * (currentTimeStamp - previousTimeStamp);
+    ld += leftDistance;
+    rd += rightDistance;
+
+    SmartDashboard.putNumber("Odo X Pos", getCtrlsPoseEstimate().getX());
+    SmartDashboard.putNumber("Odo Y Pos", getCtrlsPoseEstimate().getY());
+    SmartDashboard.putNumber("Odo Theta", getCtrlsPoseEstimate().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("Dist to Target", getDist());
+    SmartDashboard.putNumber("Angle to Target", getAngle());
+    poseEst.update(ld, rd);
+    previousTimeStamp = currentTimeStamp;
   }
+  /* 
+  @Override
+    public void periodic() {
+    // This method will be called once per scheduler run
+      putRPMOnDashBoard();
+      putPositionOnDashboard();
+  }
+  */
 }
 
 
