@@ -4,11 +4,12 @@
 
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 import com.playingwithfusion.CANVenom.ControlMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveBaseSubsystem extends SubsystemBase {
@@ -84,7 +85,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right1.resetPosition();
     right2.resetPosition();
   }
-
+  
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
     SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());
