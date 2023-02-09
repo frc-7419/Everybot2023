@@ -53,6 +53,14 @@ public final class Constants {
         public static final double timeStep = 0.2; //how often periodic() function runs
     }
 
+    public static class GearConstants {
+        public static final double ToughboxMiniRatio = (double) (50.0) / 14.0 * 45.0 / 19.0;
+        /*2 14tooth pinions mate to a 50 tooth gear,
+         above which a 19 tooth gear mates to a 45 tooth gear
+         In total around 8.4:1
+        */
+    }
+
     public static class PowerConstants {
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;

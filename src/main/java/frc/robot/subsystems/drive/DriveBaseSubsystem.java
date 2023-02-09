@@ -105,7 +105,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   }
 
   public double getPositionMeters(CANVenom motor) {
-    return (motor.getPosition() * Constants.RobotConstants.kWheelCircumference);
+    return (motor.getPosition() / Constants.GearConstants.ToughboxMiniRatio * Constants.RobotConstants.kWheelCircumference); 
   }
 
   @Override
