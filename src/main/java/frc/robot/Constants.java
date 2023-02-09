@@ -51,8 +51,8 @@ public final class Constants {
         public static final double kWheelCircumference = 2 * Math.PI * Constants.RobotConstants.kWheelRadius;
 
         public static final double timeStep = 0.2; //how often periodic() function runs
-    }
 
+    }
     public static class GearConstants {
         public static final double ToughboxMiniRatio = (double) (50.0) / 14.0 * 45.0 / 19.0;
         /*2 14tooth pinions mate to a 50 tooth gear,
