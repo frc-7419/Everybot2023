@@ -16,6 +16,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 
@@ -24,6 +25,7 @@ public class RobotContainer {
   private final XboxController joystick2 = new XboxController(1); //operator
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
   //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 

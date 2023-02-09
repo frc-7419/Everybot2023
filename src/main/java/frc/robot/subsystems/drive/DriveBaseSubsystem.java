@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 import com.playingwithfusion.CANVenom.ControlMode;
+
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -32,6 +34,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     resetPositionAll();
 
     //voltage saturation not a thing
+
+
+
+
   } 
 
   public CANVenom getLeftMast(){return left1;}
@@ -98,14 +104,22 @@ public class DriveBaseSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Mast Revolutions", right1.getPosition());
     SmartDashboard.putNumber("Right Follow Revolutions", right2.getPosition()); 
 
-    SmartDashboard.putNumber("Left Mast Position (m) ", getPositionMeters(left1));
-    SmartDashboard.putNumber("Left Follow Position (m)", getPositionMeters(left2));
-    SmartDashboard.putNumber("Right Mast Position (m)", getPositionMeters(right1));
-    SmartDashboard.putNumber("Right Follow Position (m)", getPositionMeters(right2)); 
+    SmartDashboard.putNumber("Left Mast Position (m) ", getDisplacementMeters(left1));
+    SmartDashboard.putNumber("Left Follow Position (m)", getDisplacementMeters(left2));
+    SmartDashboard.putNumber("Right Mast Position (m)", getDisplacementMeters(right1));
+    SmartDashboard.putNumber("Right Follow Position (m)", getDisplacementMeters(right2)); 
   }
 
-  public double getPositionMeters(CANVenom motor) {
+  public double getDisplacementMeters(CANVenom motor) {
     return (motor.getPosition() / Constants.GearConstants.ToughboxMiniRatio * Constants.RobotConstants.kWheelCircumference); 
+  }
+
+  public double getLeftDistance() {
+    return getDisplacementMeters(left1);
+  }
+
+  public double getRightDistance() {
+    return getDisplacementMeters(right1);
   }
 
   @Override
