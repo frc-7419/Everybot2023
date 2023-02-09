@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIds;
 
@@ -12,8 +13,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     public TalonSRX right1;
 	  public TalonSRX left2;
     public TalonSRX right2;
+    private double kStraight;
+    private double kTurn;
     
-  
+    private final SlewRateLimiter speedLimiter = new SlewRateLimiter(100);
   public DriveBaseSubsystem() {
     left1 = new TalonSRX(CanIds.leftFalcon1.id);
 	  right1 = new TalonSRX(CanIds.rightFalcon1.id);
@@ -121,6 +124,24 @@ public class DriveBaseSubsystem extends SubsystemBase {
     left1.configFactoryDefault();
     left2.configFactoryDefault();
   }
+
+  //arcade drive method that takes forward speed and rotation speed as parameters
+  // for april tag alignment
+  public void arcadeDrive(double forwardSpeed, double rotationSpeed) {
+    double xSpeed = -speedLimiter.calculate(forwardSpeed * kStraight);
+    // double zRotation = rotLimiter.calculate(joystick.getRightX() * kTurn);
+    double zRotation = rotationSpeed * kTurn;
+
+    coast();
+
+    double leftPower = xSpeed + zRotation;
+    double rightPower = xSpeed - zRotation;
+
+    
+    setLeftPower(leftPower);
+    setRightPower(rightPower);
+  }
+  
 
   
 }
