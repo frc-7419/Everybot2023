@@ -65,15 +65,13 @@ public final class Constants {
         public static final double width = Units.feetToMeters(27);
     }
 
-    public static class VisionConstants {
-        static final Transform3d robotToCam =
-                new Transform3d(
-                        new Translation3d(0.5, 0.0, 0.5),
-                        new Rotation3d(
-                                0, 0,
-                                0)); // Cam mounted facing forward, half a meter forward of center, half a meter up
-        // from center.
-        public static final String boboticsCam = "CAMERA NAME";
+    public static class PIDConstants {
+        public static final double turnWithAprilTagkP = 0.005;
+        public static final double turnWithAprilTagkI = 0;
+        public static final double turnWithAprilTagkD = 0;
+
     }
+
+    
     
 }

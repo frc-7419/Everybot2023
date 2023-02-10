@@ -125,22 +125,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
     left2.configFactoryDefault();
   }
 
-  //arcade drive method that takes forward speed and rotation speed as parameters
-  // for april tag alignment
-  public void arcadeDrive(double forwardSpeed, double rotationSpeed) {
-    double xSpeed = -speedLimiter.calculate(forwardSpeed * kStraight);
-    // double zRotation = rotLimiter.calculate(joystick.getRightX() * kTurn);
-    double zRotation = rotationSpeed * kTurn;
-
-    coast();
-
-    double leftPower = xSpeed + zRotation;
-    double rightPower = xSpeed - zRotation;
-
-    
-    setLeftPower(leftPower);
-    setRightPower(rightPower);
-  }
   
 
   
