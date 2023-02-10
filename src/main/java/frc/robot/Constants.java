@@ -59,6 +59,7 @@ public final class Constants {
         public static final double DriveBaseTurn = .35;
         public static final double IntakePower = 1.0; //arbitrary for now
         public static final double ArmPower = 0.6;//arbitrary for now
+        public static double autoDockPower;
     }
 
     public static final Port SerialPortAHRS = null;
