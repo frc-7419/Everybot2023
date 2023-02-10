@@ -6,6 +6,7 @@ package frc.robot.subsystems.gyro;
 
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.PowerConstants;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 
 public class AutoDockBangBang extends CommandBase {
@@ -32,7 +33,9 @@ public class AutoDockBangBang extends CommandBase {
   @Override
   public void execute() {
     //not sure if setpower or setvoltage, etc is good
-    driveBaseSubsystem.setAllPower(bangBangController.calculate(gyroSubsystem.getPitch(), 0));
+    double pitch = gyroSubsystem.getPitch();
+    double bangBangControllerOutput = Math.copySign(PowerConstants.autoDockPower, pitch) * bangBangController.calculate(pitch, 0);
+    driveBaseSubsystem.setAllPower(bangBangControllerOutput);
   }
 
   // Called once the command ends or is interrupted.
