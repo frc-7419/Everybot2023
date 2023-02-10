@@ -8,6 +8,13 @@ package frc.robot.subsystems.gyro;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class GyroSubsystem extends SubsystemBase {
@@ -36,5 +43,11 @@ public double getPitch() {
 
 public double getRoll() {
   return ahrs.getRoll();
+}
+public Rotation2d getRotation2d() {
+  return Rotation2d.fromDegrees(ahrs.getYaw());
+  /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
+  may cause the internal conversion that Rotation2d does to be wrong 
+  */
 }
 }
