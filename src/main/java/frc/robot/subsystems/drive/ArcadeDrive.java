@@ -15,6 +15,13 @@ public class ArcadeDrive extends CommandBase {
   private final SlewRateLimiter speedLimiter = new SlewRateLimiter(100);
   // private final SlewRateLimiter rotLimiter = new SlewRateLimiter(70);
 
+  /**
+   * These are parameters 
+   * @param joystick
+   * @param driveBaseSubsystem
+   * @param kStraight
+   * @param kTurn
+   */
   public ArcadeDrive(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem, double kStraight, double kTurn) {
     this.joystick = joystick;
     this.driveBaseSubsystem = driveBaseSubsystem;
@@ -25,11 +32,20 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void initialize() {
-    driveBaseSubsystem.factoryResetAll();    
-    driveBaseSubsystem.setAllDefaultInversions();
+    //driveBaseSubsystem.factoryResetAll();  //no such method anymore 
+   //driveBaseSubsystem.setAllDefaultInversions();
     driveBaseSubsystem.coast(); 
   }
 
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj2.command.Command#execute()
+   */
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj2.command.Command#execute()
+   */
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj2.command.Command#execute()
+   */
   @Override
   public void execute() {
     double xSpeed = -speedLimiter.calculate(joystick.getLeftY() * kStraight);
@@ -47,9 +63,11 @@ public class ArcadeDrive extends CommandBase {
     double leftPower = xSpeed + zRotation;
     double rightPower = xSpeed - zRotation;
 
-    
+    /**  */
     driveBaseSubsystem.setLeftPower(leftPower);
     driveBaseSubsystem.setRightPower(rightPower);
+    driveBaseSubsystem.putPositionOnDashboard();
+    driveBaseSubsystem.putRPMOnDashBoard();
   }
   
   
