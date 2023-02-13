@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunTalon extends CommandBase {
-  private TalonSubsystem talonSubsystem;
+  private VacuumSubsystem talonSubsystem;
   private XboxController joystick;
   /** Creates a new RunTalonSubsystem. */
-  public RunTalon(TalonSubsystem talonSubsystem, XboxController joystick) {
+  public RunTalon(VacuumSubsystem talonSubsystem, XboxController joystick) {
     this.talonSubsystem = talonSubsystem;
     this.joystick = joystick;
     // Use addRequirements() here to declare subsystem dependencies.

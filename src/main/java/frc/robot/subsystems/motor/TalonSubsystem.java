@@ -7,16 +7,17 @@ package frc.robot.subsystems.motor;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TalonSubsystem extends SubsystemBase {
   /** Creates a new TalonSubsystem. */
-  private TalonFX talon;
+  private TalonSRX talon;
   // private double power;//
 
   public TalonSubsystem() {
-    talon = new TalonFX(62);
+    talon = new TalonSRX(4);
   }
   public void setPower(double power) {
     talon.set(ControlMode.PercentOutput, power);
