@@ -78,6 +78,7 @@ public final class Constants {
         public static final double turnWithAprilTagkP = 0.005;
         public static final double turnWithAprilTagkI = 0;
         public static final double turnWithAprilTagkD = 0;
+        public static double turnWithAprilTagTolerance = 1;
 
     }
 

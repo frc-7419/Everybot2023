@@ -22,9 +22,6 @@ public class TurnWithAprilTag extends CommandBase {
   // private double tolerance;
   // private double target;
   // private double initAngle;
-
-
-  
   private double pidOutput;
 
 
@@ -37,6 +34,9 @@ public class TurnWithAprilTag extends CommandBase {
     
     addRequirements(driveBaseSubsystem,visionSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public TurnWithAprilTag(VisionSubsystem visionSubsystem2, DriveBaseSubsystem driveBaseSubsystem2) {
   }
 
   // Called when the command is initially scheduled.
