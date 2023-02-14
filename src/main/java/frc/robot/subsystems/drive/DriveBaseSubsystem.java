@@ -14,10 +14,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     public TalonSRX right2;
   
   public DriveBaseSubsystem() {
-    left1 = new TalonSRX(CanIds.leftFalcon1.id);
-	  right1 = new TalonSRX(CanIds.rightFalcon1.id);
-	  left2 = new TalonSRX(CanIds.leftFalcon2.id);
-    right2 = new TalonSRX(CanIds.rightFalcon2.id);
+    left1 = new TalonSRX(CanIds.leftMast.id);
+	  right1 = new TalonSRX(CanIds.rightMast.id);
+	  left2 = new TalonSRX(CanIds.leftFollow.id);
+    right2 = new TalonSRX(CanIds.rightFollow.id);
 
     factoryResetAll();
 
