@@ -1,53 +1,35 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// package frc.robot.subsystems.gyro;
 
-package frc.robot.subsystems.gyro;
-
-
-
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-public class GyroSubsystem extends SubsystemBase {
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.SPI;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import com.kauailabs.navx.frc.AHRS;
+// import frc.robot.Constants;
 
 
-  public GyroSubsystem() {
-    SmartDashboard.putString("subsystem", "init gyro sub");
-  }
-  AHRS ahrs = new AHRS();  
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber(   "Yaw", ahrs.getYaw());
-    SmartDashboard.putNumber(   "Pitch", ahrs.getPitch());
-    SmartDashboard.putNumber(   "Roll", ahrs.getRoll());
-  }
-  public double getAngle(){
-    return ahrs.getAngle();
-}
-public double getYaw() {
-  return ahrs.getYaw();
-}
+// public class GyroSubsystem extends SubsystemBase {
+// public Constants constant = new Constants();
+//   public AHRS ahrs;
+  
+//   public GyroSubsystem() {
 
-public double getPitch() {
-  return ahrs.getPitch();
-}
+//         SmartDashboard.putString("subsystem", "init gyro sub");
+//         try {
+// 	           ahrs = new AHRS(constant.SerialPortAHRS); 
+// 				} catch (RuntimeException ex ) {
+//             DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true); 
+//         }
 
-public double getRoll() {
-  return ahrs.getRoll();
-}
-public Rotation2d getRotation2d() {
-  return Rotation2d.fromDegrees(ahrs.getYaw());
-  /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
-  may cause the internal conversion that Rotation2d does to be wrong 
-  */
-}
-}
+//         SmartDashboard.putNumber("init angle", ahrs.getAngle());
+//     }
+
+//     public double getGyroAngle(){
+//         return ahrs.getAngle();
+//     }
+
+//     @Override
+//     public void periodic(){
+//         SmartDashboard.putNumber("gyro", this.getGyroAngle());
+//     }
+// }
