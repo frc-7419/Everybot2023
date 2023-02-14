@@ -17,17 +17,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
   private CANVenom left1, left2, right1, right2;
 
   public DriveBaseSubsystem() {
-    left1 = new TalonSRX(CanIds.leftMast.id);
-	  right1 = new TalonSRX(CanIds.rightMast.id);
-	  left2 = new TalonSRX(CanIds.leftFollow.id);
-    right2 = new TalonSRX(CanIds.rightFollow.id);
-
-    factoryResetAll();
-
-    right1.setInverted(true);
-    right1.setSensorPhase(false);
-    right2.setInverted(true);
-    right2.setSensorPhase(false);
+    left1 = new CANVenom(1);
+    left2 = new CANVenom(2);
+    right1 = new CANVenom(3);
+    right2 = new CANVenom(4);
 
     left1.setInverted(false);
     left2.setInverted(false);
