@@ -4,20 +4,19 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.drive.CanVenomDriveBaseSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 
 import frc.robot.Constants.PIDConstants;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
 public class TurnWithAprilTag extends CommandBase {
   
-  private XboxController joystick;
+  
   private VisionSubsystem visionSubsystem;
-  private DriveBaseSubsystem driveBaseSubsystem;
+  private CanVenomDriveBaseSubsystem canVenomDriveBaseSubsystem;
   private PIDController pidController;
   // private double tolerance;
   // private double target;
@@ -25,24 +24,21 @@ public class TurnWithAprilTag extends CommandBase {
   private double pidOutput;
 
 
-  public TurnWithAprilTag(DriveBaseSubsystem driveBaseSubsystem, GyroSubsystem gyroSubsystem, VisionSubsystem visionSubsystem) {
-    this.driveBaseSubsystem = driveBaseSubsystem;
+  public TurnWithAprilTag(CanVenomDriveBaseSubsystem canVenomDriveBaseSubsystem, GyroSubsystem gyroSubsystem, VisionSubsystem visionSubsystem) {
+    this.canVenomDriveBaseSubsystem = canVenomDriveBaseSubsystem;
     this.visionSubsystem = visionSubsystem;
     // this.gyroSubsystem = gyroSubsystem;
     // this.tolerance = tolerance;
     // this.target = target;
-    
-    addRequirements(driveBaseSubsystem,visionSubsystem);
+    addRequirements(canVenomDriveBaseSubsystem,visionSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public TurnWithAprilTag(VisionSubsystem visionSubsystem2, DriveBaseSubsystem driveBaseSubsystem2) {
-  }
 
-  // Called when the command is initially scheduled.
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveBaseSubsystem.coast();
+    canVenomDriveBaseSubsystem.coast();
     pidController = new PIDController(PIDConstants.turnWithAprilTagkP, 
         PIDConstants.turnWithAprilTagkI, PIDConstants.turnWithAprilTagkD);
     pidController.setTolerance(PIDConstants.turnWithAprilTagTolerance);
@@ -51,21 +47,18 @@ public class TurnWithAprilTag extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (joystick.getAButton()) {
-      if (visionSubsystem.hasTarget()) {
-        pidOutput = pidController.calculate(visionSubsystem.getYaw());
-        driveBaseSubsystem.setLeftPower(pidOutput);
-        driveBaseSubsystem.setRightPower(-pidOutput);
-      }
+    if (visionSubsystem.hasTarget()) {
+      pidOutput = pidController.calculate(visionSubsystem.getYaw());
+      canVenomDriveBaseSubsystem.setLeftPower(pidOutput);
+      canVenomDriveBaseSubsystem.setRightPower(-pidOutput);
     }
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveBaseSubsystem.setAllPower(0);
-    driveBaseSubsystem.brake();
+    canVenomDriveBaseSubsystem.setAllPower(0);
+    canVenomDriveBaseSubsystem.brake();
   }
 
   // Returns true when the command should end.

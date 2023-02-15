@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ArcadeDrive extends CommandBase {
-
-  private DriveBaseSubsystem driveBaseSubsystem;
+  private CanVenomDriveBaseSubsystem canVenomDriveBaseSubsystem;
+  //private DriveBaseSubsystem driveBaseSubsystem;
   private double kStraight;
   private double kTurn;
   private XboxController joystick;
@@ -22,19 +22,20 @@ public class ArcadeDrive extends CommandBase {
    * @param kStraight
    * @param kTurn
    */
-  public ArcadeDrive(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem, double kStraight, double kTurn) {
+  public ArcadeDrive(XboxController joystick, CanVenomDriveBaseSubsystem canVenomDriveBaseSubsystem, double kStraight, double kTurn) {
     this.joystick = joystick;
-    this.driveBaseSubsystem = driveBaseSubsystem;
+    this.canVenomDriveBaseSubsystem = canVenomDriveBaseSubsystem;
     this.kStraight = kStraight;
     this.kTurn = kTurn;
-    addRequirements(driveBaseSubsystem);
+    addRequirements(canVenomDriveBaseSubsystem);
 }
 
   @Override
   public void initialize() {
     //driveBaseSubsystem.factoryResetAll();  //no such method anymore 
    //driveBaseSubsystem.setAllDefaultInversions();
-    driveBaseSubsystem.coast(); 
+    //driveBaseSubsystem.coast();
+    canVenomDriveBaseSubsystem.coast(); 
   }
 
   /* (non-Javadoc)
@@ -52,8 +53,8 @@ public class ArcadeDrive extends CommandBase {
     // double zRotation = rotLimiter.calculate(joystick.getRightX() * kTurn);
     double zRotation = joystick.getRightX() * kTurn;
     
-    driveBaseSubsystem.coast();
-    
+    //driveBaseSubsystem.coast();
+    canVenomDriveBaseSubsystem.coast();
     // double leftPower = kTurn * joystick.getRightX() + kSlowStraight * joystick.getRightY();
     // double rightPower = -kTurn * joystick.getRightX()+ kSlowStraight * joystick.getRightY();
 
@@ -64,8 +65,8 @@ public class ArcadeDrive extends CommandBase {
     double rightPower = xSpeed - zRotation;
 
     /**  */
-    driveBaseSubsystem.setLeftPower(leftPower);
-    driveBaseSubsystem.setRightPower(rightPower);
+    canVenomDriveBaseSubsystem.setLeftPower(leftPower);
+    canVenomDriveBaseSubsystem.setRightPower(rightPower);
     
   }
   
@@ -78,7 +79,7 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    driveBaseSubsystem.setAllPower(0);
+    canVenomDriveBaseSubsystem.setAllPower(0);
   }
 
 }
