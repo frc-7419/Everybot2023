@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
  */
 
 public class AutoDock extends PIDCommand {
-  private final GyroSubsystem gyroSubsystem;
+  // private final GyroSubsystem gyroSubsystem;
 
   /** Creates a new AutoDock. */
   public AutoDock() {

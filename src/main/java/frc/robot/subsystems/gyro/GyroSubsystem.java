@@ -56,6 +56,7 @@ public double getPitch() {
 public double getRoll() {
   return ahrs.getRoll();
 }
+
 public Rotation2d getRotation2d() {
   return Rotation2d.fromDegrees(ahrs.getYaw());
   /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 

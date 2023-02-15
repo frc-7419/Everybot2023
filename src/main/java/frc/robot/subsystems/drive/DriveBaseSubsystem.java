@@ -31,11 +31,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right2.follow(right1);
 
     resetPositionAll();
-
     //voltage saturation not a thing
-
-
-
 
   } 
 
@@ -66,6 +62,21 @@ public class DriveBaseSubsystem extends SubsystemBase {
     setAllBrakeCoastMode(BrakeCoastMode.Brake);
   }
 
+  public void setLeftVoltage(double voltage) {
+    left1.setCommand(ControlMode.VoltageControl ,voltage);
+    left2.setCommand(ControlMode.VoltageControl ,voltage);
+  }
+
+  public void setRightVoltage(double voltage) {
+    left1.setCommand(ControlMode.VoltageControl ,voltage);
+    left2.setCommand(ControlMode.VoltageControl ,voltage);
+  }
+
+  public void setAllVoltage(double voltage) { //proportional -1 to 1
+    setLeftVoltage(voltage);
+    setRightVoltage(voltage);
+  }
+
   public void setLeftPower(double power) {
     left1.setCommand(ControlMode.Proportional ,power);
     left2.setCommand(ControlMode.Proportional ,power);
@@ -89,8 +100,19 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right1.resetPosition();
     right2.resetPosition();
   }
-<<<<<<< Updated upstream
-  
+
+  public double getDisplacementMeters(CANVenom motor) {
+    return (motor.getPosition() / Constants.GearConstants.ToughboxMiniRatio * Constants.RobotConstants.kWheelCircumference); 
+  }
+
+  public double getLeftDistance() {
+    return getDisplacementMeters(left1);
+  }
+
+  public double getRightDistance() {
+    return getDisplacementMeters(right1);
+  }
+
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
     SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());
@@ -109,40 +131,18 @@ public class DriveBaseSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Mast Position (m)", getPositionMeters(right1));
     SmartDashboard.putNumber("Right Follow Position (m)", getPositionMeters(right2)); 
   }
-=======
->>>>>>> Stashed changes
 
   public double getPositionMeters(CANVenom motor) {
     return motor.getPosition() * Constants.RobotConstants.kWheelCircumference;
   }
 
   @Override
-    public void periodic() {
+  public void periodic() {
     // This method will be called once per scheduler run
-      putRPMOnDashBoard();
-      putPositionOnDashboard();
+    //putRPMOnDashBoard();
+    //putPositionOnDashboard();
   }
-  */
   public void stop() {
     setAllPower(0);
-  }
-
-  public void putRPMOnDashBoard() {
-    SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
-    SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());
-    SmartDashboard.putNumber("Right Mast RPM", right1.getSpeed());
-    SmartDashboard.putNumber("Right Follow RPM", right2.getSpeed());
-  }
-  
-  public void putPositionOnDashboard() {
-    SmartDashboard.putNumber("Left Mast Revolutions ", left1.getPosition());
-    SmartDashboard.putNumber("Left Follow Revolutions", left2.getPosition());
-    SmartDashboard.putNumber("Right Mast Revolutions", right1.getPosition());
-    SmartDashboard.putNumber("Right Follow Revolutions", right2.getPosition()); 
-
-    SmartDashboard.putNumber("Left Mast Position (m) ", getDisplacementMeters(left1));
-    SmartDashboard.putNumber("Left Follow Position (m)", getDisplacementMeters(left2));
-    SmartDashboard.putNumber("Right Mast Position (m)", getDisplacementMeters(right1));
-    SmartDashboard.putNumber("Right Follow Position (m)", getDisplacementMeters(right2)); 
   }
 }
