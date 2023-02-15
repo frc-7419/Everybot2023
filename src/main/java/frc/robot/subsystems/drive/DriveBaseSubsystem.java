@@ -89,6 +89,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right1.resetPosition();
     right2.resetPosition();
   }
+<<<<<<< Updated upstream
   
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
@@ -108,6 +109,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Mast Position (m)", getPositionMeters(right1));
     SmartDashboard.putNumber("Right Follow Position (m)", getPositionMeters(right2)); 
   }
+=======
+>>>>>>> Stashed changes
 
   public double getPositionMeters(CANVenom motor) {
     return motor.getPosition() * Constants.RobotConstants.kWheelCircumference;
@@ -123,5 +126,23 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public void stop() {
     setAllPower(0);
   }
-}
 
+  public void putRPMOnDashBoard() {
+    SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
+    SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());
+    SmartDashboard.putNumber("Right Mast RPM", right1.getSpeed());
+    SmartDashboard.putNumber("Right Follow RPM", right2.getSpeed());
+  }
+  
+  public void putPositionOnDashboard() {
+    SmartDashboard.putNumber("Left Mast Revolutions ", left1.getPosition());
+    SmartDashboard.putNumber("Left Follow Revolutions", left2.getPosition());
+    SmartDashboard.putNumber("Right Mast Revolutions", right1.getPosition());
+    SmartDashboard.putNumber("Right Follow Revolutions", right2.getPosition()); 
+
+    SmartDashboard.putNumber("Left Mast Position (m) ", getDisplacementMeters(left1));
+    SmartDashboard.putNumber("Left Follow Position (m)", getDisplacementMeters(left2));
+    SmartDashboard.putNumber("Right Mast Position (m)", getDisplacementMeters(right1));
+    SmartDashboard.putNumber("Right Follow Position (m)", getDisplacementMeters(right2)); 
+  }
+}

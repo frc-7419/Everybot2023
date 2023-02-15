@@ -19,11 +19,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class GyroSubsystem extends SubsystemBase {
 
+  AHRS ahrs;
 
   public GyroSubsystem() {
-    SmartDashboard.putString("subsystem", "init gyro sub");
+    try { //for now just do what 7419 did. pretty sure MXP refers to the expansion port on the roborio
+      /*
+       * Communicate w/navX-MXP via the MXP SPI Bus (use mini USB to USB A cable)
+       * Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or S
+       * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
+       * details.
+       */
+      ahrs = new AHRS(SerialPort.Port.kMXP);
+      SmartDashboard.putString("subsystem", "init gyro sub");
+  } catch (RuntimeException ex) {
+      DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
   }
-  AHRS ahrs = new AHRS();  
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber(   "Yaw", ahrs.getYaw());
