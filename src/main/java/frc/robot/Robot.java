@@ -7,16 +7,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.led.RainbowAnimation;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
