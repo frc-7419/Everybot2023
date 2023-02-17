@@ -25,6 +25,7 @@ public class DriveTrainPoseSubsystem extends SubsystemBase {
     this.gyroSubsystem = gyroSubsystem;
     this.driveBaseSubsystem = driveBaseSubsystem;
     m_pose = new Pose2d(0, 0, new Rotation2d()); 
+    
     //for now, i dont see the use
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.RobotConstants.kTrackWidth);
 
@@ -39,6 +40,7 @@ public class DriveTrainPoseSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // Update the pose
     m_pose = m_odometry.update(gyroSubsystem.getRotation2d(), driveBaseSubsystem.getLeftDistance(), driveBaseSubsystem.getRightDistance());
+    putPose();
   }
 
   public void resetPose() {
