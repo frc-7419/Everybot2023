@@ -17,10 +17,15 @@ public class DriveBaseSubsystem extends SubsystemBase {
   private CANVenom left1, left2, right1, right2;
 
   public DriveBaseSubsystem() {
-    left1 = new CANVenom(1);
-    left2 = new CANVenom(2);
-    right1 = new CANVenom(3);
-    right2 = new CANVenom(4);
+    // left1 = new CANVenom(1);
+    // left2 = new CANVenom(2);
+    // right1 = new CANVenom(3);
+    // right2 = new CANVenom(4);
+
+    right2 = new CANVenom(1);
+    right1 = new CANVenom(2);
+    left2 = new CANVenom(3);
+    left1 = new CANVenom(4);
 
     left1.setInverted(false);
     left2.setInverted(false);
