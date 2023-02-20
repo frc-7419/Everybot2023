@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class EncoderSubsystem extends SubsystemBase {
   /** Creates a new EncoderSubsystem. */
-  private Encoder encoder = new Encoder(0, 1);
+  public Encoder encoder = new Encoder(0, 1);
   public EncoderSubsystem() {
     encoder.setDistancePerPulse(4./256.);
 
@@ -27,5 +27,8 @@ public class EncoderSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public static void getDistance() {
   }
 }

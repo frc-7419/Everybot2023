@@ -11,8 +11,19 @@ import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
+import frc.robot.subsystems.encoder.EncoderSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.LowerArm;
+import frc.robot.subsystems.arm.RaiseArm;
+
+
+
+
 
 public class RobotContainer {
   private final XboxController joystick1 = new XboxController(0); //driver
@@ -20,6 +31,11 @@ public class RobotContainer {
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
+  private final double leftPower = -0.25;
+  private final double rightPower = -0.25;
+  EncoderSubsystem Es = new EncoderSubsystem();
+  ArmSubsystem As = new ArmSubsystem();
+  RaiseArm Rs = new RaiseArm(As);
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
   //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
@@ -44,7 +60,24 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new WaitCommand(5);
+    
+    double angle = gyroSubsystem.getAngle();
+    while(gyroSubsystem.getAngle() < angle-90){
+      driveBaseSubsystem.setRightPower(rightPower);
+    }
+    while(Es.encoder.getDistance()<1){
+      driveBaseSubsystem.setLeftPower(leftPower);
+    driveBaseSubsystem.setLeftPower(rightPower);
+    }
+    angle = gyroSubsystem.getAngle();
+    while(gyroSubsystem.getAngle() < angle-90){
+      driveBaseSubsystem.setRightPower(rightPower);
+    }
+    Rs.execute();
+    
+     return new WaitCommand(5);
+
+    
   }
 
   public void setDefaultCommands() {
