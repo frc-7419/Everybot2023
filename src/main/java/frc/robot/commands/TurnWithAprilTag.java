@@ -24,7 +24,7 @@ public class TurnWithAprilTag extends CommandBase {
   private double pidOutput;
 
 
-  public TurnWithAprilTag(CanVenomDriveBaseSubsystem canVenomDriveBaseSubsystem, GyroSubsystem gyroSubsystem, VisionSubsystem visionSubsystem) {
+  public TurnWithAprilTag(VisionSubsystem visionSubsystem, CanVenomDriveBaseSubsystem canVenomDriveBaseSubsystem) {
     this.canVenomDriveBaseSubsystem = canVenomDriveBaseSubsystem;
     this.visionSubsystem = visionSubsystem;
     // this.gyroSubsystem = gyroSubsystem;
@@ -35,7 +35,10 @@ public class TurnWithAprilTag extends CommandBase {
   }
 
 
-// Called when the command is initially scheduled.
+
+
+
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     canVenomDriveBaseSubsystem.coast();
