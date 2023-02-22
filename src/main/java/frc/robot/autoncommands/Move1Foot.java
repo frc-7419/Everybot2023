@@ -6,17 +6,23 @@ package frc.robot.autoncommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.encoder.EncoderSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Move1Foot extends SequentialCommandGroup {
+  private final double leftPower = -0.25;
+  private final double rightPower = -0.25;
+  EncoderSubsystem Es = new EncoderSubsystem();
   /** Creates a new Move1Foot. */
   public Move1Foot(DriveBaseSubsystem driveBaseSubsystem) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    
+    while(Es.encoder.getDistance()<1){
+      driveBaseSubsystem.setLeftPower(leftPower);
+    driveBaseSubsystem.setLeftPower(rightPower);
+    }
     addCommands(
-
     );
   }
 }
