@@ -4,7 +4,6 @@
 
 package frc.robot.autoncommands;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.encoder.EncoderSubsystem;
@@ -13,12 +12,13 @@ import frc.robot.subsystems.drive.MoveToSetpoint;;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Move1Feet extends SequentialCommandGroup {
+public class Turn90Degrees extends SequentialCommandGroup {
   
-  public Move1Feet(DriveBaseSubsystem driveBaseSubsystem, EncoderSubsystem encoderSubsystem) {
+  public Turn90Degrees() {
     
     
     addCommands(
-      new MoveToSetpoint(driveBaseSubsystem, 1, encoderSubsystem));
+  
+    );
   }
 }

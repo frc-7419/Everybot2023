@@ -16,20 +16,23 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.encoder.EncoderSubsystem;
 
 
-public class StraightMotionMagic extends CommandBase {
-  private final double leftPower = -0.25;
-  private final double rightPower = -0.25;
-  EncoderSubsystem Es = new EncoderSubsystem();
+public class MoveToSetpoint extends CommandBase {
+  private double leftPower;
+  private double rightPower;
+  private EncoderSubsystem Es;
   public double setpoint;
-  private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
+  private DriveBaseSubsystem driveBaseSubsystem ;
   /** Creates a new StraightMotionMagic. */
-  public StraightMotionMagic(double setpoint) {
+  public MoveToSetpoint(DriveBaseSubsystem driveBaseSubsystem,double setpoint, EncoderSubsystem Es) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.setpoint = setpoint;
+    this.driveBaseSubsystem = driveBaseSubsystem;
+    this.Es = Es;
+    leftPower = -0.25;
+    rightPower = -0.25;
+    Es = new EncoderSubsystem();
     
-    while(Es.encoder.getDistance()<setpoint){
-      driveBaseSubsystem.setLeftPower(leftPower);
-    driveBaseSubsystem.setLeftPower(rightPower);
-    }
+    addRequirements(driveBaseSubsystem, Es);
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +42,12 @@ public class StraightMotionMagic extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    while(Es.encoder.getDistance()<setpoint){
+      driveBaseSubsystem.setLeftPower(leftPower);
+    driveBaseSubsystem.setLeftPower(rightPower);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -39,7 +39,7 @@ public class RobotContainer {
   RaiseArm Rs = new RaiseArm(As);
   LowerArm Ls = new LowerArm(As);
 
-  private final Move1Feet move1Foot = new Move1Feet(driveBaseSubsystem);
+  private final Move1Feet move1Foot = new Move1Feet(driveBaseSubsystem, Es);
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
   //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
