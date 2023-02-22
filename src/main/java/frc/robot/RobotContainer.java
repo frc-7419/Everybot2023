@@ -16,6 +16,7 @@ import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.autoncommands.Move1Foot;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.LowerArm;
@@ -36,6 +37,9 @@ public class RobotContainer {
   EncoderSubsystem Es = new EncoderSubsystem();
   ArmSubsystem As = new ArmSubsystem();
   RaiseArm Rs = new RaiseArm(As);
+  LowerArm Ls = new LowerArm(As);
+
+  private final Move1Foot move1Foot = new Move1Foot(driveBaseSubsystem);
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
   //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
@@ -60,22 +64,11 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    
-    double angle = gyroSubsystem.getAngle();
-    while(gyroSubsystem.getAngle() < angle-90){
-      driveBaseSubsystem.setRightPower(rightPower);
-    }
-    while(Es.encoder.getDistance()<1){
-      driveBaseSubsystem.setLeftPower(leftPower);
-    driveBaseSubsystem.setLeftPower(rightPower);
-    }
-    angle = gyroSubsystem.getAngle();
-    while(gyroSubsystem.getAngle() < angle-90){
-      driveBaseSubsystem.setRightPower(rightPower);
-    }
-    Rs.execute();
-    
-     return new WaitCommand(5);
+
+
+
+    return move1Foot;
+    //return new WaitCommand(5);
 
     
   }
