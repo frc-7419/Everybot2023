@@ -16,7 +16,7 @@ import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.autoncommands.Move1Foot;
+import frc.robot.autoncommands.Move1Feet;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.LowerArm;
@@ -39,7 +39,7 @@ public class RobotContainer {
   RaiseArm Rs = new RaiseArm(As);
   LowerArm Ls = new LowerArm(As);
 
-  private final Move1Foot move1Foot = new Move1Foot(driveBaseSubsystem);
+  private final Move1Feet move1Foot = new Move1Feet(driveBaseSubsystem);
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
   //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
