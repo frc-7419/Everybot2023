@@ -10,7 +10,7 @@ public class ArcadeDrive extends CommandBase {
   private double kStraight;
   private double kTurn;
   private XboxController joystick;
-  
+   
   // Limits *acceleration* not max speed; basically kD
   private final SlewRateLimiter speedLimiter = new SlewRateLimiter(100);
   // private final SlewRateLimiter rotLimiter = new SlewRateLimiter(70);
