@@ -17,10 +17,15 @@ public class DriveBaseSubsystem extends SubsystemBase {
   private CANVenom left1, left2, right1, right2;
 
   public DriveBaseSubsystem() {
-    left1 = new CANVenom(1);
-    left2 = new CANVenom(2);
-    right1 = new CANVenom(3);
-    right2 = new CANVenom(4);
+    // left1 = new CANVenom(1);
+    // left2 = new CANVenom(2);
+    // right1 = new CANVenom(3);
+    // right2 = new CANVenom(4);
+
+    right2 = new CANVenom(1);
+    right1 = new CANVenom(2);
+    left2 = new CANVenom(3);
+    left1 = new CANVenom(4);
 
     left1.setInverted(false);
     left2.setInverted(false);
@@ -31,8 +36,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right2.follow(right1);
 
     resetPositionAll();
-
     //voltage saturation not a thing
+
   } 
 
   public CANVenom getLeftMast(){return left1;}
@@ -62,6 +67,21 @@ public class DriveBaseSubsystem extends SubsystemBase {
     setAllBrakeCoastMode(BrakeCoastMode.Brake);
   }
 
+  public void setLeftVoltage(double voltage) {
+    left1.setCommand(ControlMode.VoltageControl ,voltage);
+    left2.setCommand(ControlMode.VoltageControl ,voltage);
+  }
+
+  public void setRightVoltage(double voltage) {
+    left1.setCommand(ControlMode.VoltageControl ,voltage);
+    left2.setCommand(ControlMode.VoltageControl ,voltage);
+  }
+
+  public void setAllVoltage(double voltage) { //proportional -1 to 1
+    setLeftVoltage(voltage);
+    setRightVoltage(voltage);
+  }
+
   public void setLeftPower(double power) {
     left1.setCommand(ControlMode.Proportional ,power);
     left2.setCommand(ControlMode.Proportional ,power);
@@ -85,7 +105,19 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right1.resetPosition();
     right2.resetPosition();
   }
-  
+
+  public double getDisplacementMeters(CANVenom motor) {
+    return (motor.getPosition() / Constants.GearConstants.ToughboxMiniRatio * Constants.RobotConstants.kWheelCircumference); 
+  }
+
+  public double getLeftDistance() {
+    return getDisplacementMeters(left1);
+  }
+
+  public double getRightDistance() {
+    return getDisplacementMeters(right1);
+  }
+
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
     SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());
@@ -106,17 +138,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
   }
 
   public double getPositionMeters(CANVenom motor) {
-    return (motor.getPosition() * Constants.RobotConstants.kWheelCircumference);
+    return motor.getPosition() * Constants.RobotConstants.kWheelCircumference;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    putRPMOnDashBoard();
-    putPositionOnDashboard();
+    //putRPMOnDashBoard();
+    //putPositionOnDashboard();
   }
   public void stop() {
     setAllPower(0);
   }
 }
-
