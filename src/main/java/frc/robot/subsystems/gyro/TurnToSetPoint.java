@@ -19,7 +19,7 @@ import frc.robot.subsystems.encoder.EncoderSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;;
 
 
-public class StraightGyroMagic extends CommandBase {
+public class TurnToSetPoint extends CommandBase {
   private double leftPower;
   private double rightPower;
   private EncoderSubsystem Es;
@@ -27,7 +27,7 @@ public class StraightGyroMagic extends CommandBase {
   private DriveBaseSubsystem driveBaseSubsystem ;
   private GyroSubsystem gyroSubsystem;
   /** Creates a new StraightMotionMagic. */
-  public StraightGyroMagic(DriveBaseSubsystem driveBaseSubsystem,double setpoint, GyroSubsystem gyroSubsystem) {
+  public TurnToSetPoint(DriveBaseSubsystem driveBaseSubsystem,double setpoint, GyroSubsystem gyroSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.setpoint = setpoint;
     this.driveBaseSubsystem = driveBaseSubsystem;
@@ -48,7 +48,7 @@ public class StraightGyroMagic extends CommandBase {
   @Override
   public void execute() {
     double angle = gyroSubsystem.getAngle();
-    while(gyroSubsystem.getAngle() < angle-90){
+    while(gyroSubsystem.getAngle() < angle+90){
       driveBaseSubsystem.setRightPower(rightPower);
     }
   }
