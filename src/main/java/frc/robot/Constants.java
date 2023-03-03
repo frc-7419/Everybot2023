@@ -20,12 +20,9 @@ public final class Constants {
 
     public static enum CanIds {
         // 2020 drive train ids
-        leftFalcon1(1),
-        rightFalcon1(2),
-        leftFalcon2(4),
-        rightFalcon2(3),
         
         //Can ids need to be found and added for intake + arm
+        leftFalcon1(3),
         ;
         
         public final int id;
@@ -57,7 +54,7 @@ public final class Constants {
     public static class PowerConstants {
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double IntakePower = 1.0; //arbitrary for now
+        public static final double IntakePower = 0.6; //arbitrary for now
         public static final double ArmPower = 0.6;//arbitrary for now
         public static double autoDockPower;
     }
