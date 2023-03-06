@@ -7,6 +7,8 @@ package frc.robot.autoncommands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.encoder.EncoderSubsystem;
+import frc.robot.subsystems.gyro.GyroSubsystem;
+import frc.robot.subsystems.gyro.TurnToSetPoint;
 import frc.robot.subsystems.drive.MoveToSetpoint;;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,11 +16,11 @@ import frc.robot.subsystems.drive.MoveToSetpoint;;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Turn90Degrees extends SequentialCommandGroup {
   
-  public Turn90Degrees() {
+  public Turn90Degrees(DriveBaseSubsystem driveBaseSubsystem,GyroSubsystem gyroSubsystem) {
     
     
     addCommands(
-  
+    new TurnToSetPoint(driveBaseSubsystem, 1, gyroSubsystem)
     );
   }
 }

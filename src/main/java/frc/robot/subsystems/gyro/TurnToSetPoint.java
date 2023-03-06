@@ -48,7 +48,7 @@ public class TurnToSetPoint extends CommandBase {
   @Override
   public void execute() {
     double angle = gyroSubsystem.getAngle();
-    while(gyroSubsystem.getAngle() < angle+90){
+    while(gyroSubsystem.getAngle() < angle+setpoint){
       driveBaseSubsystem.setRightPower(rightPower);
     }
   }
