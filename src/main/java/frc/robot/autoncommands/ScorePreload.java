@@ -4,23 +4,23 @@
 
 package frc.robot.autoncommands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.drive.MoveToSetpoint;
 import frc.robot.subsystems.encoder.EncoderSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;
-import frc.robot.subsystems.gyro.TurnToSetPoint;
-import frc.robot.subsystems.drive.MoveToSetpoint;;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Turn90Degrees extends SequentialCommandGroup {
-  
-  public Turn90Degrees(DriveBaseSubsystem driveBaseSubsystem,GyroSubsystem gyroSubsystem) {
-    
-    
+public class ScorePreload extends ParallelCommandGroup {
+  /** Creates a new Bruh. */
+  public ScorePreload(DriveBaseSubsystem driveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem) {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new TurnToSetPoint(driveBaseSubsystem, 1, gyroSubsystem)
+      new MoveToSetpoint(driveBaseSubsystem, 2, encoderSubsystem)
+      // RAISE arm, still needs to be made
     );
   }
 }

@@ -16,7 +16,7 @@ import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.autoncommands.Move1Feet;
+import frc.robot.autoncommands.Position1Charge;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.LowerArm;
@@ -29,23 +29,23 @@ import frc.robot.subsystems.arm.RaiseArm;
 public class RobotContainer {
   private final XboxController joystick1 = new XboxController(0); //driver
   private final XboxController joystick2 = new XboxController(1); //operator
-  private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
-  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private final static DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
+  private final static GyroSubsystem gyroSubsystem = new GyroSubsystem();
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   private final double leftPower = -0.25;
   private final double rightPower = -0.25;
-  EncoderSubsystem Es = new EncoderSubsystem();
+  static EncoderSubsystem Es = new EncoderSubsystem();
   ArmSubsystem As = new ArmSubsystem();
   RaiseArm Rs = new RaiseArm(As);
   LowerArm Ls = new LowerArm(As);
-
-  private final Move1Feet move1Foot = new Move1Feet(driveBaseSubsystem, Es);
+  
   //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
   //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-
+  
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
-
+  private static final Position1Charge position1Charge = new Position1Charge(driveBaseSubsystem, gyroSubsystem, Es);
+  
   public RobotContainer() {
     configureButtonBindings();
     configureAutoSelector();
@@ -64,11 +64,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-
-
-
-    return move1Foot;
-    //return new WaitCommand(5);
+    return position1Charge;
 
     
   }
