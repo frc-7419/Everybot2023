@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -35,7 +38,7 @@ public class RobotContainer {
   private final double leftPower = -0.25;
   private final double rightPower = -0.25;
   static EncoderSubsystem Es = new EncoderSubsystem();
-  ArmSubsystem As = new ArmSubsystem();
+  static ArmSubsystem As = new ArmSubsystem();
   RaiseArm Rs = new RaiseArm(As);
   LowerArm Ls = new LowerArm(As);
   
@@ -44,7 +47,7 @@ public class RobotContainer {
   
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
-  private static final Position1Charge position1Charge = new Position1Charge(driveBaseSubsystem, gyroSubsystem, Es);
+  private static final Position1Charge position1Charge = new Position1Charge(driveBaseSubsystem, gyroSubsystem, Es, As);
   
   public RobotContainer() {
     configureButtonBindings();

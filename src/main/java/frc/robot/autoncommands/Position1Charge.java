@@ -7,6 +7,8 @@ package frc.robot.autoncommands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.move1Foot;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.LowerArm;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -22,7 +24,7 @@ public class Position1Charge extends SequentialCommandGroup {
 
 
   /** Creates a new ScorePreload. */
-  public Position1Charge(DriveBaseSubsystem DriveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem) {
+  public Position1Charge(DriveBaseSubsystem DriveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem, ArmSubsystem armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // LEFTMOST POSITION FROM ALLIANCE AREA
@@ -32,8 +34,8 @@ public class Position1Charge extends SequentialCommandGroup {
       new MoveToSetpoint(DriveBaseSubsystem, 1, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
       // parallel
-      new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem),
-      // LOWER ARM (STILL NEEDS TO BE MADE)
+      new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem, armSubsystem),
+      new LowerArm(armSubsystem),
       new MoveToSetpoint(DriveBaseSubsystem, -1, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 180, gyroSubsystem),
       new MoveToSetpoint(DriveBaseSubsystem, 9, encoderSubsystem),

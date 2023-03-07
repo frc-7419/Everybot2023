@@ -5,6 +5,8 @@
 package frc.robot.autoncommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.RaiseArm;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.MoveToSetpoint;
 import frc.robot.subsystems.encoder.EncoderSubsystem;
@@ -15,12 +17,12 @@ import frc.robot.subsystems.gyro.GyroSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScorePreload extends ParallelCommandGroup {
   /** Creates a new Bruh. */
-  public ScorePreload(DriveBaseSubsystem driveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem) {
+  public ScorePreload(DriveBaseSubsystem driveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem, ArmSubsystem armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveToSetpoint(driveBaseSubsystem, 2, encoderSubsystem)
-      // RAISE arm, still needs to be made
+      new MoveToSetpoint(driveBaseSubsystem, 2, encoderSubsystem),
+      new RaiseArm(armSubsystem)
     );
   }
 }
