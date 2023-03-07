@@ -23,6 +23,10 @@ public final class Constants {
         
         //Can ids need to be found and added for intake + arm
         leftFalcon1(62),
+        driveLeft1(3),
+        driveLeft2(4),
+        driveRight1(1),
+        driveRight2(2)
         ;
         
         public final int id;
@@ -51,12 +55,19 @@ public final class Constants {
         */
     }
 
+    public static class ArmConstants {
+        public static final double kP = 0.0001;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kTolerance = 100;
+    }
+
     public static class PowerConstants {
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
         public static final double IntakePower = 0.7; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
-        public static double autoDockPower;
+        public static double autoDockPower = 0.2;
     }
 
     public static final Port SerialPortAHRS = null;

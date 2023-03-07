@@ -92,7 +92,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right2.setCommand(ControlMode.Proportional ,power);
   }
 
-  public void setAllPower(double power) { //proportional -1 to 1
+  public void setAllPower(double power) {
     left1.setCommand(ControlMode.Proportional ,power);
     left2.setCommand(ControlMode.Proportional ,power);
     right1.setCommand(ControlMode.Proportional ,power);

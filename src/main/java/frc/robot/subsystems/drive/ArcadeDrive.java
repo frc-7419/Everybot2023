@@ -32,15 +32,6 @@ public class ArcadeDrive extends CommandBase {
     driveBaseSubsystem.coast(); 
   }
 
-  /* (non-Javadoc)
-   * @see edu.wpi.first.wpilibj2.command.Command#execute()
-   */
-  /* (non-Javadoc)
-   * @see edu.wpi.first.wpilibj2.command.Command#execute()
-   */
-  /* (non-Javadoc)
-   * @see edu.wpi.first.wpilibj2.command.Command#execute()
-   */
   @Override
   public void execute() {
     double xSpeed = -speedLimiter.calculate(joystick.getLeftY() * PowerConstants.DriveBaseStraight);
