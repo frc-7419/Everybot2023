@@ -12,19 +12,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax intake;
-  /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     intake = new CANSparkMax(11, MotorType.kBrushless); //Neo 550 probably
-    //maybe 11V voltage compensation
+    // intake.enableVoltageCompensation(11);
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 
   public void setPower(double power) {
-    intake.set(power);;
+    intake.set(power);
   }
 
   public void brake() {

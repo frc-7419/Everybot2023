@@ -9,26 +9,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunArmWithJoystick extends CommandBase {
-  /** Creates a new RunArmWithJoystick. */
   private final XboxController joystick;
   private final ArmSubsystem armSubsystem;
   public RunArmWithJoystick(XboxController joystick, ArmSubsystem armSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.joystick = joystick;
     this.armSubsystem = armSubsystem;
     addRequirements(armSubsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     armSubsystem.coast(); //not sure why coast at init but 7419 did so for elevator
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Falcon Percent Power", armSubsystem.getPercentPower());
+    SmartDashboard.putNumber("Arm Percent Power", armSubsystem.getPercentPower());
     if (joystick.getLeftY() != 0) {
       armSubsystem.coast();
       armSubsystem.setPower(joystick.getLeftY() * 0.1);
@@ -39,11 +35,9 @@ public class RunArmWithJoystick extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
