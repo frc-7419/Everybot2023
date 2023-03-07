@@ -31,7 +31,7 @@ public class RunArmWithJoystick extends CommandBase {
     SmartDashboard.putNumber("Falcon Percent Power", armSubsystem.getPercentPower());
     if (joystick.getLeftY() != 0) {
       armSubsystem.coast();
-      armSubsystem.setPower(joystick.getLeftY() * 0.6);
+      armSubsystem.setPower(joystick.getLeftY() * 0.1);
     }
     else {
       armSubsystem.setPower(0);

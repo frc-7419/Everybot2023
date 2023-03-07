@@ -14,7 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax intake;
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    intake = new CANSparkMax(0, MotorType.kBrushless); //Neo 550 probably
+    intake = new CANSparkMax(11, MotorType.kBrushless); //Neo 550 probably
     //maybe 11V voltage compensation
   }
 

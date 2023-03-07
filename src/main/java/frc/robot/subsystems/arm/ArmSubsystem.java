@@ -27,7 +27,7 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void setPower(double power) {
-    arm.set(ControlMode.PercentOutput, power);
+    arm.set(ControlMode.PercentOutput, -power);
   }
 
   public void setVoltage(double ticks) {

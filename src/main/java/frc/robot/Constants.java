@@ -22,7 +22,7 @@ public final class Constants {
         // 2020 drive train ids
         
         //Can ids need to be found and added for intake + arm
-        leftFalcon1(3),
+        leftFalcon1(62),
         ;
         
         public final int id;
@@ -54,8 +54,8 @@ public final class Constants {
     public static class PowerConstants {
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double IntakePower = 0.6; //arbitrary for now
-        public static final double ArmPower = 0.6;//arbitrary for now
+        public static final double IntakePower = 0.7; //arbitrary for now
+        public static final double ArmPower = 0.2;//arbitrary for now
         public static double autoDockPower;
     }
 

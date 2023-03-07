@@ -29,7 +29,7 @@ public class RobotContainer {
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(joystick2, armSubsystem);
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, joystick1);
 
-  private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
+  private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.2, 0.2);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
 
   public RobotContainer() {
