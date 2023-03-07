@@ -8,11 +8,14 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 
 public class RobotContainer {
   private final XboxController joystick1 = new XboxController(0); //driver
@@ -20,8 +23,11 @@ public class RobotContainer {
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
-  //private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(); //comment these out as we dont even have the parts built yet or ports
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
+  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(joystick2, armSubsystem);
+  private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, joystick1);
 
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -50,5 +56,7 @@ public class RobotContainer {
   public void setDefaultCommands() {
     
     driveBaseSubsystem.setDefaultCommand(arcadeDrive);
+    armSubsystem.setDefaultCommand(runArmWithJoystick);
+    intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
   }
 }

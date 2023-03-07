@@ -5,6 +5,7 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PowerConstants;
@@ -29,14 +30,18 @@ public class RunIntakeWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Intake Power", intakeSubsystem.getPower());
     if (joystick.getLeftTriggerAxis() > 0) {
+      intakeSubsystem.coast();
       intakeSubsystem.setPower(PowerConstants.IntakePower);
     }
-    else if (joystick.getRightTriggerAxis() < 0) {
+    else if (joystick.getRightTriggerAxis() > 0) {
+      intakeSubsystem.coast();
       intakeSubsystem.setPower(-PowerConstants.IntakePower);
     }
     else {
       intakeSubsystem.setPower(0);
+      intakeSubsystem.brake();
     }
   }
 

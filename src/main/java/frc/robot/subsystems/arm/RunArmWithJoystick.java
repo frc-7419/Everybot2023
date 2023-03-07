@@ -5,6 +5,7 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunArmWithJoystick extends CommandBase {
@@ -27,9 +28,10 @@ public class RunArmWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("Falcon Percent Power", armSubsystem.getPercentPower());
     if (joystick.getLeftY() != 0) {
       armSubsystem.coast();
-      armSubsystem.setPower(joystick.getLeftY());
+      armSubsystem.setPower(joystick.getLeftY() * 0.6);
     }
     else {
       armSubsystem.setPower(0);

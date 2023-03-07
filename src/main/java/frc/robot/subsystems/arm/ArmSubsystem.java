@@ -41,4 +41,12 @@ public class ArmSubsystem extends SubsystemBase {
   public void brake() {
     arm.setNeutralMode(NeutralMode.Brake);
   }
+  
+  public double getVoltage() {
+    return arm.getMotorOutputVoltage();
+  }
+
+  public double getPercentPower() {
+    return arm.getMotorOutputPercent();
+  }
 }
