@@ -18,7 +18,6 @@ public class AutonPlans extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    robotContainer.getAutonomousCommand().schedule();
     /*
      * Right Most Position From Alliance Area:
      * If Cube Is Preloaded
