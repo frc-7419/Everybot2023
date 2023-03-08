@@ -7,6 +7,8 @@ package frc.robot.autoncommands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.move1Foot;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.LowerArm;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -22,25 +24,25 @@ public class Position1Charge extends SequentialCommandGroup {
 
 
   /** Creates a new ScorePreload. */
-  public Position1Charge(DriveBaseSubsystem DriveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem) {
+  public Position1Charge(DriveBaseSubsystem DriveBaseSubsystem, GyroSubsystem gyroSubsystem, EncoderSubsystem encoderSubsystem, ArmSubsystem armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // LEFTMOST POSITION FROM ALLIANCE AREA
     addCommands(
       // LEFT IS NEGATIVE RIGHT IS POSITIVE
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 1, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, 0.3048, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
       // parallel
-      new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem),
-      // LOWER ARM (STILL NEEDS TO BE MADE)
-      new MoveToSetpoint(DriveBaseSubsystem, -1, encoderSubsystem),
+      new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem, armSubsystem),
+      new LowerArm(armSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, -0.3048, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 180, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 9, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, 2.7432, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 90, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 4.5, encoderSubsystem),
-      new TurnToSetPoint(DriveBaseSubsystem, 90, gyroSubsystem)//,
-      //new MoveToSetpoint(DriveBaseSubsystem, 2.5, encoderSubsystem)
+      new MoveToSetpoint(DriveBaseSubsystem, 1.3716, encoderSubsystem),
+      new TurnToSetPoint(DriveBaseSubsystem, 0.762, gyroSubsystem)//,
+      //new MoveToSetpoint(DriveBaseSubsystem, 0.762, encoderSubsystem)
       // The line above isn't needed if someone does auto dock.
 
     );
