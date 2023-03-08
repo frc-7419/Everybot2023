@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.fasterxml.jackson.databind.deser.impl.SetterlessProperty;
+import com.playingwithfusion.CANVenom;
 
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.LowerArm;
@@ -22,6 +24,7 @@ public class MoveToSetpoint extends CommandBase {
   private EncoderSubsystem Es;
   public double setpoint;
   private DriveBaseSubsystem driveBaseSubsystem ;
+  public CANVenom motorCanVenom;
   /** Creates a new StraightMotionMagic. */
   public MoveToSetpoint(DriveBaseSubsystem driveBaseSubsystem,double setpoint, EncoderSubsystem Es) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -43,10 +46,14 @@ public class MoveToSetpoint extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while(Es.encoder.getDistance()<setpoint){
+    if(driveBaseSubsystem.getPositionMeters(motorCanVenom)<setpoint){
       driveBaseSubsystem.setLeftPower(leftPower);
-    driveBaseSubsystem.setLeftPower(rightPower);
+      driveBaseSubsystem.setRightPower(rightPower);
     }
+    if(driveBaseSubsystem.getPositionMeters(motorCanVenom)>setpoint){
+      driveBaseSubsystem.setLeftPower(-leftPower);
+      driveBaseSubsystem.setRightPower(-rightPower);
+    } 
   }
 
   // Called once the command ends or is interrupted.
