@@ -31,18 +31,18 @@ public class Position1Charge extends SequentialCommandGroup {
     addCommands(
       // LEFT IS NEGATIVE RIGHT IS POSITIVE
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
-      new MoveToSetwpoint(DriveBaseSubsystem, 1, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, 0.3048, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
       // parallel
       new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem, armSubsystem),
       new LowerArm(armSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, -1, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, -0.3048, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 180, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 9, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, 2.7432, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 90, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 4.5, encoderSubsystem),
-      new TurnToSetPoint(DriveBaseSubsystem, 90, gyroSubsystem)//,
-      //new MoveToSetpoint(DriveBaseSubsystem, 2.5, encoderSubsystem)
+      new MoveToSetpoint(DriveBaseSubsystem, 1.3716, encoderSubsystem),
+      new TurnToSetPoint(DriveBaseSubsystem, 0.762, gyroSubsystem)//,
+      //new MoveToSetpoint(DriveBaseSubsystem, 0.762, encoderSubsystem)
       // The line above isn't needed if someone does auto dock.
 
     );
