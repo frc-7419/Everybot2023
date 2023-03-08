@@ -31,7 +31,7 @@ public class Position1Charge extends SequentialCommandGroup {
     addCommands(
       // LEFT IS NEGATIVE RIGHT IS POSITIVE
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 1, encoderSubsystem),
+      new MoveToSetwpoint(DriveBaseSubsystem, 1, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem,90, gyroSubsystem),
       // parallel
       new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem, armSubsystem),
