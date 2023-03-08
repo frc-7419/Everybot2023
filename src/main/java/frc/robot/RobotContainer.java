@@ -14,7 +14,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
-import frc.robot.subsystems.encoder.EncoderSubsystem;
+// import frc.robot.subsystems.encoder.EncoderSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,7 +37,7 @@ public class RobotContainer {
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   private final double leftPower = -0.25;
   private final double rightPower = -0.25;
-  static EncoderSubsystem Es = new EncoderSubsystem();
+  // static EncoderSubsystem Es = new EncoderSubsystem();
   static ArmSubsystem As = new ArmSubsystem();
   RaiseArm Rs = new RaiseArm(As);
   LowerArm Ls = new LowerArm(As);
@@ -47,7 +47,7 @@ public class RobotContainer {
   
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(joystick1, driveBaseSubsystem, 0.6, 0.6);
   // private SendableChooser<Command> autonChooser = new SendableChooser<>();
-  private static final Position1Charge position1Charge = new Position1Charge(driveBaseSubsystem, gyroSubsystem, Es, As);
+  private static final Position1Charge position1Charge = new Position1Charge(driveBaseSubsystem, gyroSubsystem, As);
   
   public RobotContainer() {
     configureButtonBindings();
