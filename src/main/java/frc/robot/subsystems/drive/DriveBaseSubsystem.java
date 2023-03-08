@@ -132,15 +132,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Mast Revolutions", right1.getPosition());
     SmartDashboard.putNumber("Right Follow Revolutions", right2.getPosition()); 
 
-    SmartDashboard.putNumber("Left Mast Position (m) ", getPositionMeters(left1));
-    SmartDashboard.putNumber("Left Follow Position (m)", getPositionMeters(left2));
-    SmartDashboard.putNumber("Right Mast Position (m)", getPositionMeters(right1));
-    SmartDashboard.putNumber("Right Follow Position (m)", getPositionMeters(right2)); 
+    SmartDashboard.putNumber("Left Mast Position (m) ", getDisplacementMeters(left1));
+    SmartDashboard.putNumber("Left Follow Position (m)", getDisplacementMeters(left2));
+    SmartDashboard.putNumber("Right Mast Position (m)", getDisplacementMeters(right1));
+    SmartDashboard.putNumber("Right Follow Position (m)", getDisplacementMeters(right2)); 
   }
 
-  public double getPositionMeters(CANVenom motor) {
-    return motor.getPosition() * Constants.RobotConstants.kWheelCircumference;
-  }
 
   @Override
   public void periodic() {

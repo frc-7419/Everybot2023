@@ -35,11 +35,11 @@ public class Position2Charge extends SequentialCommandGroup {
       new ScorePreload(DriveBaseSubsystem, gyroSubsystem, encoderSubsystem, armSubsystem),
       new LowerArm(armSubsystem),
       
-      new MoveToSetpoint(DriveBaseSubsystem, -1, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, -0.3048, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 180, gyroSubsystem),
-      new MoveToSetpoint(DriveBaseSubsystem, 9, encoderSubsystem),
+      new MoveToSetpoint(DriveBaseSubsystem, 2.7432, encoderSubsystem),
       new TurnToSetPoint(DriveBaseSubsystem, 90, gyroSubsystem)//,
-      //new MoveToSetpoint(DriveBaseSubsystem, -2.5, encoderSubsystem)
+      //new MoveToSetpoint(DriveBaseSubsystem, -0.762, encoderSubsystem)
       // The line above isn't needed if someone does auto dock.
 
     );

@@ -21,7 +21,7 @@ public class ScorePreload extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveToSetpoint(driveBaseSubsystem, 2, encoderSubsystem),
+      new MoveToSetpoint(driveBaseSubsystem, 0.6096, encoderSubsystem),
       new RaiseArm(armSubsystem)
       //test
     );
