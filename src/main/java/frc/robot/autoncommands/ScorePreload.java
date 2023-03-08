@@ -23,6 +23,7 @@ public class ScorePreload extends ParallelCommandGroup {
     addCommands(
       new MoveToSetpoint(driveBaseSubsystem, 2, encoderSubsystem),
       new RaiseArm(armSubsystem)
+      //test
     );
   }
 }
