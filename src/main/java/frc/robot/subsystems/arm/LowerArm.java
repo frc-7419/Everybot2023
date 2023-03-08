@@ -9,33 +9,25 @@ import frc.robot.Constants;
 
 public class LowerArm extends CommandBase {
   private ArmSubsystem armSubsystem;
-  /** Creates a new LowerArm. */
   public LowerArm(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     armSubsystem.coast();
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     armSubsystem.setPower(-Constants.PowerConstants.ArmPower); 
-    //think about joystick binding later
   }
 
-  // Called once the command ends or is interrupted.
+  @Override
+  public void execute() {}
+
   @Override
   public void end(boolean interrupted) {
     armSubsystem.coast();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

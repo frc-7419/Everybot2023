@@ -64,7 +64,7 @@ public class TurnWithGyroClosedLoop extends CommandBase {
   public void execute() {
     pidOutput = pidController.calculate(gyroSubsystem.getYaw());
     driveBaseSubsystem.setLeftPower(pidOutput);
-    driveBaseSubsystem.setRightPower(- pidOutput);
+    driveBaseSubsystem.setRightPower(-pidOutput);
   }
 
   // Called once the command ends or is interrupted.

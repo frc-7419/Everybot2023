@@ -40,7 +40,7 @@ public class DriveTrainPoseSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // Update the pose
     m_pose = m_odometry.update(gyroSubsystem.getRotation2d(), driveBaseSubsystem.getLeftDistance(), driveBaseSubsystem.getRightDistance());
-    putPose();
+    // putPose();
   }
 
   public void resetPose() {
