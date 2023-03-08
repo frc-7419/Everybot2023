@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.gyro;
 
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.PowerConstants;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
@@ -11,40 +12,39 @@ import frc.robot.subsystems.drive.DriveBaseSubsystem;
 public class AutoDockBangBang extends CommandBase {
   private GyroSubsystem gyroSubsystem;
   private DriveBaseSubsystem driveBaseSubsystem;
-  private final double PITCH_SETPOINT = 0;
+  private BangBangController bangBangController;
 
+  /** Creates a new AutoDockBangBang. */
   public AutoDockBangBang(GyroSubsystem gyroSubsystem, DriveBaseSubsystem driveBaseSubsystem) {
+    // Use addRequirements() here to declare subsystem dependencies.
 
     this.gyroSubsystem = gyroSubsystem;
     this.driveBaseSubsystem = driveBaseSubsystem;
 
+    bangBangController = new BangBangController();
     driveBaseSubsystem.coast();
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //not sure if setpower or setvoltage, etc is good
     double pitch = gyroSubsystem.getPitch();
-
-    double output = PowerConstants.autoDockPower;
-
-    if (pitch < output) {
-      output *= -1;
-    }
-
-    driveBaseSubsystem.setAllPower(output);
+    double bangBangControllerOutput = Math.copySign(PowerConstants.autoDockPower, pitch) * bangBangController.calculate(pitch, 0);
+    driveBaseSubsystem.setAllPower(bangBangControllerOutput);
   }
 
+  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    driveBaseSubsystem.setAllPower(0);
-    driveBaseSubsystem.brake();
-  }
+  public void end(boolean interrupted) {}
 
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return gyroSubsystem.getPitch() == PITCH_SETPOINT;
+    return false;
   }
 }
