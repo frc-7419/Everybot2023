@@ -15,14 +15,14 @@ import frc.robot.subsystems.arm.LowerArm;
 import frc.robot.subsystems.arm.RaiseArm;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.encoder.EncoderSubsystem;
+// import frc.robot.subsystems.encoder.EncoderSubsystem;
 import frc.robot.subsystems.gyro.GyroSubsystem;;
 
 
 public class TurnToSetPoint extends CommandBase {
   private double leftPower;
   private double rightPower;
-  private EncoderSubsystem Es;
+  // private EncoderSubsystem Es;
   public double setpoint;
   private DriveBaseSubsystem driveBaseSubsystem ;
   private GyroSubsystem gyroSubsystem;
@@ -34,9 +34,9 @@ public class TurnToSetPoint extends CommandBase {
     this.gyroSubsystem = gyroSubsystem;
     leftPower = -0.25;
     rightPower = -0.25;
-    Es = new EncoderSubsystem();
+    // Es = new EncoderSubsystem();
     
-    addRequirements(driveBaseSubsystem, Es);
+    addRequirements(driveBaseSubsystem);
   }
 
   // Called when the command is initially scheduled.

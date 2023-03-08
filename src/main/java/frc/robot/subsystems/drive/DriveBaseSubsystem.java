@@ -138,7 +138,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Follow Position (m)", getDisplacementMeters(right2)); 
   }
 
-
+  public double getPositionMeters(CANVenom motor) {
+    return motor.getPosition() * Constants.RobotConstants.kWheelCircumference;
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
