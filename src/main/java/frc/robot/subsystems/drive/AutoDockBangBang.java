@@ -1,36 +1,28 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.subsystems.gyro;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.PowerConstants;
-import frc.robot.subsystems.drive.DriveBaseSubsystem;
 
 public class AutoDockBangBang extends CommandBase {
-  private GyroSubsystem gyroSubsystem;
   private DriveBaseSubsystem driveBaseSubsystem;
   private final double PITCH_SETPOINT = 0;
 
-  public AutoDockBangBang(GyroSubsystem gyroSubsystem, DriveBaseSubsystem driveBaseSubsystem) {
-
-    this.gyroSubsystem = gyroSubsystem;
+  public AutoDockBangBang(DriveBaseSubsystem driveBaseSubsystem) {
     this.driveBaseSubsystem = driveBaseSubsystem;
+  }
 
+  @Override
+  public void initialize() {
     driveBaseSubsystem.coast();
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
   public void execute() {
-    double pitch = gyroSubsystem.getPitch();
+    double pitch = driveBaseSubsystem.getPitch();
 
     double output = PowerConstants.autoDockPower;
 
-    if (pitch < output) {
+    if (pitch < PITCH_SETPOINT) {
       output *= -1;
     }
 
@@ -45,6 +37,7 @@ public class AutoDockBangBang extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return gyroSubsystem.getPitch() == PITCH_SETPOINT;
+    return false;
+    // return gyroSubsystem.getPitch() == PITCH_SETPOINT;
   }
 }

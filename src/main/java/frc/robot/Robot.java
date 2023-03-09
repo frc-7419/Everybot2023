@@ -14,10 +14,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
 
-  // private AddressableLED led = new AddressableLED(0);
-  // private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(60);
-  // private int rainbowFirstPixelHue = 0;
-
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
