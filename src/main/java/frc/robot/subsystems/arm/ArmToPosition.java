@@ -1,5 +1,6 @@
 package frc.robot.subsystems.arm;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -30,7 +31,12 @@ public class ArmToPosition extends CommandBase {
 
   @Override
   public void execute() {
-    double output = pidController.calculate(armSubsystem.getPosition());
+    double output = 
+      MathUtil.clamp(
+        pidController.calculate(armSubsystem.getPosition()),
+        -ArmConstants.maxPower,
+        ArmConstants.maxPower
+      );
     armSubsystem.setPower(output);
     SmartDashboard.putNumber("Arm PID Output", output);
   }

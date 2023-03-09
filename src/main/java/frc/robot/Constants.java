@@ -48,6 +48,7 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kTolerance = 100;
+        public static final double maxPower = 0.2;
     }
 
     public static class PowerConstants {
