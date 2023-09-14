@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.Drive;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
-import frc.robot.subsystems.Gyro.GyroSubsystem;
+import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.Constants.RobotConstants;
-
-public class DrivebaseSubsystem extends SubsystemBase {
+import frc.robot.Constants.SwerveConstants;
+public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DrivebaseSubsystem. */
 
   private final SwerveModule[] swerveModules;
@@ -22,7 +22,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
   // Creating my kinematics object using the module locations from Constants
   private final SwerveDriveKinematics m_kinematics;
 
-  public DrivebaseSubsystem() {
+  public DriveBaseSubsystem() {
 
     swerveModules = new SwerveModule[] {
       new SwerveModule(SwerveConstants.swerve0.rotateMotorID, SwerveConstants.swerve0.speedMotorID, SwerveConstants.swerve0.canCoderID, 0),

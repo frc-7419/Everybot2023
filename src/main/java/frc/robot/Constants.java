@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -65,6 +67,8 @@ public final class Constants {
         public static final double kWheelCircumference = 2 * Math.PI * Constants.RobotConstants.kWheelRadius;
 
         public static final double timeStep = 0.2; //how often periodic() function runs
+        public static final double LENGTH = Units.inchesToMeters(27.0);
+        public static final double WIDTH = Units.inchesToMeters(27.0);
 
     }
     public static class GearConstants {
@@ -120,10 +124,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class RobotConstants {
-    public static final double LENGTH = Units.inchesToMeters(27.0);
-    public static final double WIDTH = Units.inchesToMeters(27.0);
-  }
+
   
   public static class SwerveConstants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first

@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
@@ -29,6 +30,7 @@ public class SwerveModule {
     private CANSparkMax speedMotor;
     private CANCoder canCoder;
     private int moduleNumber;
+    private Encoder positionEncoder;
   
     private PIDController angleController;
     
