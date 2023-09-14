@@ -22,6 +22,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
   private CANVenom left1, left2, right1, right2;
+  private final SwerveModule[] swerveModules;
 
   public DriveBaseSubsystem() {
     // left1 = new CANVenom(1);
@@ -125,7 +126,24 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public double getRightDistance() {
     return getDisplacementMeters(right1);
   }
+  public SwerveModule getSwerveModule(int index) {
+    return swerveModules[index];
+  }
+  public SwerveDriveKinematics getSwerveDriveKinematics() {
+    return m_kinematics;
+  }
 
+  public SwerveModule[] getSwerveModules() {
+    return swerveModules;
+  }
+  swerveModules = new SwerveModule[] {
+    new SwerveModule(SwerveConstants.swerve0.rotateMotorID, SwerveConstants.swerve0.speedMotorID, SwerveConstants.swerve0.canCoderID, 0),
+    new SwerveModule(SwerveConstants.swerve1.rotateMotorID, SwerveConstants.swerve1.speedMotorID, SwerveConstants.swerve1.canCoderID, 1),
+    new SwerveModule(SwerveConstants.swerve2.rotateMotorID, SwerveConstants.swerve2.speedMotorID, SwerveConstants.swerve2.canCoderID, 2),
+    new SwerveModule(SwerveConstants.swerve3.rotateMotorID, SwerveConstants.swerve3.speedMotorID, SwerveConstants.swerve3.canCoderID, 3),
+  };
+  m_kinematics = new SwerveDriveKinematics(SwerveConstants.swerve0.location, SwerveConstants.swerve1.location, SwerveConstants.swerve2.location, SwerveConstants.swerve3.location); 
+}
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
     SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());
