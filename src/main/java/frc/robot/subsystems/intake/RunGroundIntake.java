@@ -27,6 +27,7 @@ public class RunGroundIntake extends CommandBase {
 
     @Override
     public void execute() {
+        SmartDashboard.putNumber("Intake Power", intakeSubsystem.getPower());
         if (joystick.getLeftTriggerAxis > 0) {
             runIntake(Constants.IntakePower);
         }
