@@ -10,6 +10,7 @@ import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
+import frc.robot.subsystems.drive.SwerveModule;
 import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -31,7 +32,8 @@ public class RobotContainer {
   private final SwerveModule rearLeftModule = new SwerveModule(rearLeftID, rearLeftSteerID, rearLeftEncoderID, moduleNumber);
   private final SwerveModule rearRightModule = new SwerveModule(rearRightID, rearRightSteerID, rearRightEncoderID, moduleNumber);
 
-SwerveDriveSubsystem swerveDrive = new SwerveDriveSubsystem(frontLeftModule, frontRightModule, rearLeftModule, rearRightModule);
+  DriveBaseSubsystem swerveDrive = new DriveBaseSubsystem(frontLeftModule, frontRightModule, rearLeftModule, rearRightModule);
+
 
 
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(driver, driveBaseSubsystem);
