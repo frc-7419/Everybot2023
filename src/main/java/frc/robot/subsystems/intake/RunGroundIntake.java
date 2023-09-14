@@ -41,7 +41,7 @@ public class RunGroundIntake extends CommandBase {
     }
 
     @Override
-    public void isFinished(){
+    public boolean isFinished() {
         return False;
     }
 
