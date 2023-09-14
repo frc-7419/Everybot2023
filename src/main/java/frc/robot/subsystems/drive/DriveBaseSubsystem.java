@@ -21,6 +21,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
   private CANVenom left1, left2, right1, right2;
   private final SwerveModule[] swerveModules;
+  private final SwerveDriveKinematics m_kinematics;
   
 
   public DriveBaseSubsystem() {
@@ -33,7 +34,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
     right1 = new CANVenom(2);
     left2 = new CANVenom(3);
     left1 = new CANVenom(4);
+
+    swerveModules = new SwerveModule[] {
+    new SwerveModule(SwerveConstants.swerve0.rotateMotorID, SwerveConstants.swerve0.speedMotorID, SwerveConstants.swerve0.canCoderID, 0),
+    new SwerveModule(SwerveConstants.swerve1.rotateMotorID, SwerveConstants.swerve1.speedMotorID, SwerveConstants.swerve1.canCoderID, 1),
+    new SwerveModule(SwerveConstants.swerve2.rotateMotorID, SwerveConstants.swerve2.speedMotorID, SwerveConstants.swerve2.canCoderID, 2),
+    new SwerveModule(SwerveConstants.swerve3.rotateMotorID, SwerveConstants.swerve3.speedMotorID, SwerveConstants.swerve3.canCoderID, 3),
+  };
+  m_kinematics = new SwerveDriveKinematics(SwerveConstants.swerve0.location, SwerveConstants.swerve1.location, SwerveConstants.swerve2.location, SwerveConstants.swerve3.location); 
   }
+  
   // public DriveBaseSubsystem() {
   //   left1.setInverted(false);
   //   left2.setInverted(false);
@@ -129,21 +139,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
     return swerveModules[index];
   }
   public SwerveDriveKinematics getSwerveDriveKinematics() {
-    SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.swerve0.location, SwerveConstants.swerve1.location, SwerveConstants.swerve2.location, SwerveConstants.swerve3.location); 
+    
     return m_kinematics;
   }
 
   public SwerveModule[] getSwerveModules() {
     return swerveModules;
   }
-  swerveModules = new SwerveModule[] {
-    new SwerveModule(SwerveConstants.swerve0.rotateMotorID, SwerveConstants.swerve0.speedMotorID, SwerveConstants.swerve0.canCoderID, 0),
-    new SwerveModule(SwerveConstants.swerve1.rotateMotorID, SwerveConstants.swerve1.speedMotorID, SwerveConstants.swerve1.canCoderID, 1),
-    new SwerveModule(SwerveConstants.swerve2.rotateMotorID, SwerveConstants.swerve2.speedMotorID, SwerveConstants.swerve2.canCoderID, 2),
-    new SwerveModule(SwerveConstants.swerve3.rotateMotorID, SwerveConstants.swerve3.speedMotorID, SwerveConstants.swerve3.canCoderID, 3),
-  };
   
-}
+  
+
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
     SmartDashboard.putNumber("Left Follow RPM", left2.getSpeed());

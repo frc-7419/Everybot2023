@@ -10,6 +10,7 @@ import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
+import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.drive.SwerveModule;
 import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
@@ -27,12 +28,12 @@ public class RobotContainer {
 
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, driver);
-  private final SwerveModule frontLeftModule = new SwerveModule(frontLeftID, frontLeftSteerID, frontLeftEncoderID, moduleNumber);
-  private final SwerveModule frontRightModule = new SwerveModule(frontRightID, frontRightSteerID, frontRightEncoderID, moduleNumber);
-  private final SwerveModule rearLeftModule = new SwerveModule(rearLeftID, rearLeftSteerID, rearLeftEncoderID, moduleNumber);
-  private final SwerveModule rearRightModule = new SwerveModule(rearRightID, rearRightSteerID, rearRightEncoderID, moduleNumber);
+  // private final SwerveModule frontLeftModule = new SwerveModule(fID, frontLeftSteerID, frontLeftEncoderID, moduleNumber);
+  // private final SwerveModule frontRightModule = new SwerveModule(frontRightID, frontRightSteerID, frontRightEncoderID, moduleNumber);
+  // private final SwerveModule rearLeftModule = new SwerveModule(rearLeftID, rearLeftSteerID, rearLeftEncoderID, moduleNumber);
+  // private final SwerveModule rearRightModule = new SwerveModule(rearRightID, rearRightSteerID, rearRightEncoderID, moduleNumber);
 
-  DriveBaseSubsystem swerveDrive = new DriveBaseSubsystem(frontLeftModule, frontRightModule, rearLeftModule, rearRightModule);
+  DriveBaseSubsystem swerveDrive = new DriveBaseSubsystem();
 
 
 
@@ -55,7 +56,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    swerveDrive.setDefaultCommand(new SwerveDriveFieldCentric(joystick, swerveDrive, gyro));
+    swerveDrive.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive, gyroSubsystem));
     //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
