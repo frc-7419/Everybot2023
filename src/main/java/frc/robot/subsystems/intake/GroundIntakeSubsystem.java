@@ -12,6 +12,10 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     // Intake2 is the right intake from the perspective of the bot
     private CANSparkMax intake2;
 
+    public GroundIntakeSubsystem(){
+        intake1 = new CANSparkMax(1, MotorType.kBrushless);
+        intake2 = new CANSparkMax(2, MotorType.kBrushless);
+    }
     @Override
     public void periodic() {}
 

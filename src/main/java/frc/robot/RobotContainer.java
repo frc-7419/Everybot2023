@@ -14,6 +14,8 @@ import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.RunIntakeWithJoystick;
+import frc.robot.subsystems.intake.GroundIntakeSubsystem;
+import frc.robot.subsystems.intake.RunGroundIntake;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -23,11 +25,13 @@ public class RobotContainer {
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-
+  private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, driver);
+  private final RunGroundIntake runGroundIntake = new RunGroundIntake(groundIntakeSubsystem, driver);
 
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(driver, driveBaseSubsystem);
+  
 
   public RobotContainer() {
     configureButtonBindings();
@@ -48,6 +52,6 @@ public class RobotContainer {
   public void setDefaultCommands() {
     driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
-    intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
+    GroundIntakeSubsystem.setDefaultCommand(runGroundIntake);
   }
 }
