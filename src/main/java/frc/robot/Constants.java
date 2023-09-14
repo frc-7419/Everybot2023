@@ -86,12 +86,22 @@ public final class Constants {
 
     }
 
+    public static class WristConstants {
+        //placeholders
+        public static final double kP = 0.0001;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kTolerance = 100;
+
+    }
+
     public static class PowerConstants {
 
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
         public static final double IntakePower = 0.7; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
+        public static final double WristPower = 0.2;
         public static double autoDockPower = 0.2;
 
     }
