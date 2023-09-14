@@ -124,7 +124,7 @@ public class SwerveModule {
 
     // TODO: Get position (Right now we have a placeholder)
     public double getPosition() { //placeholder for now
-        return 0.0;
+        return positionEncoder.getDistance();
     }
 
     /**

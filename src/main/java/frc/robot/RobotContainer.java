@@ -26,6 +26,13 @@ public class RobotContainer {
 
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, driver);
+  private final SwerveModule frontLeftModule = new SwerveModule(frontLeftID, frontLeftSteerID, frontLeftEncoderID, moduleNumber);
+  private final SwerveModule frontRightModule = new SwerveModule(frontRightID, frontRightSteerID, frontRightEncoderID, moduleNumber);
+  private final SwerveModule rearLeftModule = new SwerveModule(rearLeftID, rearLeftSteerID, rearLeftEncoderID, moduleNumber);
+  private final SwerveModule rearRightModule = new SwerveModule(rearRightID, rearRightSteerID, rearRightEncoderID, moduleNumber);
+
+SwerveDriveSubsystem swerveDrive = new SwerveDriveSubsystem(frontLeftModule, frontRightModule, rearLeftModule, rearRightModule);
+
 
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(driver, driveBaseSubsystem);
 
@@ -46,7 +53,8 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBaseSubsystem.setDefaultCommand(arcadeDrive);
+    swerveDrive.setDefaultCommand(new SwerveDriveFieldCentric(joystick, swerveDrive, gyro));
+    //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
   }
