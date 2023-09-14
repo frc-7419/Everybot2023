@@ -19,19 +19,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveModuleConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.Gyro.GyroSubsystem;
+import frc.robot.subsystems.gyro.GyroSubsystem;
 
 public class SwerveDriveFieldCentric extends CommandBase {
   /** Creates a new RunSwerveWithJoystick. */
   private XboxController joystick;
-  private DrivebaseSubsystem drivebaseSubsystem;
+  private DriveBaseSubsystem drivebaseSubsystem;
   private GyroSubsystem gyroSubsystem;
 
   private SwerveDriveOdometry m_odometry;
   private Pose2d m_pose;
 
  // Sets the joystick, driveBaseSubsystem and gyroSubsystem.
-  public SwerveDriveFieldCentric(XboxController joystick, DrivebaseSubsystem drivebaseSubsystem, GyroSubsystem gyroSubsystem) {
+  public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem drivebaseSubsystem, GyroSubsystem gyroSubsystem) {
     this.joystick = joystick;
     this.drivebaseSubsystem = drivebaseSubsystem;
     this.gyroSubsystem = gyroSubsystem;

@@ -8,13 +8,21 @@ import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 import com.playingwithfusion.CANVenom.ControlMode;
 
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveModuleConstants;
+import frc.robot.subsystems.gyro.GyroSubsystem;
+import frc.robot.Constants.RobotConstants;
+import frc.robot.Constants.SwerveConstants;
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
   private CANVenom left1, left2, right1, right2;
+  private final SwerveModule[] swerveModules;
+  private final SwerveDriveKinematics m_kinematics;
+  
 
   public DriveBaseSubsystem() {
     // left1 = new CANVenom(1);
@@ -27,18 +35,28 @@ public class DriveBaseSubsystem extends SubsystemBase {
     left2 = new CANVenom(3);
     left1 = new CANVenom(4);
 
-    left1.setInverted(false);
-    left2.setInverted(false);
-    right1.setInverted(true);
-    right2.setInverted(true);
+    swerveModules = new SwerveModule[] {
+    new SwerveModule(SwerveConstants.swerve0.rotateMotorID, SwerveConstants.swerve0.speedMotorID, SwerveConstants.swerve0.canCoderID, 0),
+    new SwerveModule(SwerveConstants.swerve1.rotateMotorID, SwerveConstants.swerve1.speedMotorID, SwerveConstants.swerve1.canCoderID, 1),
+    new SwerveModule(SwerveConstants.swerve2.rotateMotorID, SwerveConstants.swerve2.speedMotorID, SwerveConstants.swerve2.canCoderID, 2),
+    new SwerveModule(SwerveConstants.swerve3.rotateMotorID, SwerveConstants.swerve3.speedMotorID, SwerveConstants.swerve3.canCoderID, 3),
+  };
+  m_kinematics = new SwerveDriveKinematics(SwerveConstants.swerve0.location, SwerveConstants.swerve1.location, SwerveConstants.swerve2.location, SwerveConstants.swerve3.location); 
+  }
+  
+  // public DriveBaseSubsystem() {
+  //   left1.setInverted(false);
+  //   left2.setInverted(false);
+  //   right1.setInverted(true);
+  //   right2.setInverted(true);
 
-    left2.follow(left1);
-    right2.follow(right1);
+  //   left2.follow(left1);
+  //   right2.follow(right1);
 
-    resetPositionAll();
-    //voltage saturation not a thing
+  //   resetPositionAll();
+  //   //voltage saturation not a thing
 
-  } 
+  // } 
 
   public CANVenom getLeftMast(){return left1;}
   public CANVenom getRightMast(){return right1;}
@@ -117,6 +135,19 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public double getRightDistance() {
     return getDisplacementMeters(right1);
   }
+  public SwerveModule getSwerveModule(int index) {
+    return swerveModules[index];
+  }
+  public SwerveDriveKinematics getSwerveDriveKinematics() {
+    
+    return m_kinematics;
+  }
+
+  public SwerveModule[] getSwerveModules() {
+    return swerveModules;
+  }
+  
+  
 
   public void putRPMOnDashBoard() {
     SmartDashboard.putNumber("Left Mast RPM", left1.getSpeed());
