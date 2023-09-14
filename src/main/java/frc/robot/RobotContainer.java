@@ -12,10 +12,8 @@ import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
 import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
-import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
-import frc.robot.subsystems.intake.RunGroundIntake;
+import frc.robot.subsystems.intake.RunGroundIntakeWithJoystick;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -24,11 +22,10 @@ public class RobotContainer {
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final GroundIntakeSubsystem intakeSubsystem = new GroundIntakeSubsystem();
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, driver);
-  private final RunGroundIntake runGroundIntake = new RunGroundIntake(groundIntakeSubsystem, driver);
+  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(driver, driveBaseSubsystem);
   
@@ -52,6 +49,6 @@ public class RobotContainer {
   public void setDefaultCommands() {
     driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
-    GroundIntakeSubsystem.setDefaultCommand(runGroundIntake);
+    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }
 }

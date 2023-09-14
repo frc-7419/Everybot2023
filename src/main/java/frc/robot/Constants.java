@@ -90,7 +90,7 @@ public final class Constants {
 
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double IntakePower = 0.7; //arbitrary for now
+        public static final double groundIntakePower = 0.7; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
         public static double autoDockPower = 0.2;
 
