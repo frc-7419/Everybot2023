@@ -14,6 +14,9 @@ import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.RunIntakeWithJoystick;
+import frc.robot.subsystems.wrist.RunWristWithJoystick;
+import frc.robot.subsystems.wrist.WristSubsystem;
+import frc.robot.subsystems.wrist.WristToPosition;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
 import frc.robot.subsystems.intake.RunGroundIntake;
 
@@ -29,7 +32,8 @@ public class RobotContainer {
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(intakeSubsystem, driver);
   private final RunGroundIntake runGroundIntake = new RunGroundIntake(groundIntakeSubsystem, driver);
-
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
+  private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(driver, driveBaseSubsystem);
   
 
@@ -43,6 +47,12 @@ public class RobotContainer {
 
     new JoystickButton(driver, XboxController.Button.kB.value)
       .whileTrue(new ArmToPosition(armSubsystem, 5000));
+    
+    //Wrist setpoints - needs testing
+    new JoystickButton(driver, XboxController.Button.kX.value)
+      .whileTrue(new WristToPosition(wristSubsystem, 0));
+    new JoystickButton(driver, XboxController.Button.kY.value)
+      .whileTrue(new WristToPosition(wristSubsystem, 5000));
   }
 
   public Command getAutonomousCommand() {
@@ -53,5 +63,6 @@ public class RobotContainer {
     driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     GroundIntakeSubsystem.setDefaultCommand(runGroundIntake);
+    wristSubsystem.setDefaultCommand(runWristWithJoystick);
   }
 }
