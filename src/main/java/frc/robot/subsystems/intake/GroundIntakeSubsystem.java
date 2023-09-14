@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class GroundIntakeSubsystem extends SubsystemBase {
   /** Creates a new groundIntakeSubsystem. */
 
-  private CANSparkMax left, right;
+  private CANSparkMax left;
+  private CANSparkMax right;
+  
   public GroundIntakeSubsystem() {
     //replace with constants later
     left = new CANSparkMax( 0, MotorType.kBrushless);
