@@ -154,7 +154,7 @@ public final class Constants {
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
       2, 1, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      3, 4, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      4, 3, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
       0, 0, 0, new Translation2d(-RobotConstants.LENGTH, RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
