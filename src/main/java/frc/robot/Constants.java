@@ -152,9 +152,9 @@ public final class Constants {
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double anglekP = 0.6;
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      6, 5, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
+      2, 1, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      0, 0, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      3, 4, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
       0, 0, 0, new Translation2d(-RobotConstants.LENGTH, RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
