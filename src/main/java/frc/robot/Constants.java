@@ -22,14 +22,7 @@ public final class Constants {
 
     public static enum CanIds {
 
-        // 2020 drive train ids
-        
-        //Can ids need to be found and added for intake + arm
-        leftFalcon1(62),
-        driveLeft1(3),
-        driveLeft2(4),
-        driveRight1(1),
-        driveRight2(2)
+        arm(62)
         ;
         
         public final int id;
@@ -40,44 +33,20 @@ public final class Constants {
         
     }
 
-    public static class CanIdsNoEnum {
-
-        public static final int leftFalcon1 = CanIds.leftFalcon1.id;
-        public static final int driveLeft1 = CanIds.driveLeft1.id;
-        public static final int driveLeft2 = CanIds.driveLeft2.id;
-        public static final int driveRight1 = CanIds.driveRight1.id;
-        public static final int driveRight2 = CanIds.driveRight2.id;
-
-    }
-
     public static class Swerve {
         public static final double swerveKinematics = 0.0; // TODO: Needs to be changed to accurate swerve Kinematics
 
-        // translation2d(wheel base/2, track base /2)
+
         public static final double pigeonID = 0.0;
     }
     
     public static class RobotConstants {
-
-        public static final double TalonFXTicksPerRotation = 2048;
-
-        public static final double kTrackWidth = 0.6858; // meters
-
-        public static final double kWheelRadius = 3 * 0.0254; // We use Hi-Grip 6 inch wheels so convert to meters
-        public static final double kWheelCircumference = 2 * Math.PI * Constants.RobotConstants.kWheelRadius;
-
-        public static final double timeStep = 0.2; //how often periodic() function runs
         public static final double LENGTH = Units.inchesToMeters(27.0);
         public static final double WIDTH = Units.inchesToMeters(27.0);
 
     }
     public static class GearConstants {
 
-        /*2 14tooth pinions mate to a 50 tooth gear,
-         above which a 19 tooth gear mates to a 45 tooth gear
-         In total around 8.4:1
-        */
-        public static final double ToughboxMiniRatio = (double) (50.0) / 14.0 * 45.0 / 19.0;
 
     }
 
@@ -91,20 +60,11 @@ public final class Constants {
     }
 
     public static class PowerConstants {
-
-        public static final double DriveBaseStraight = .55;
-        public static final double DriveBaseTurn = .35;
         public static final double IntakePower = 0.7; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
-        public static double autoDockPower = 0.2;
-
     }
 
     public static class DriveConstants{
-
-        public static final double driveKS = 0.0;
-        public static final double driveKV = 0.0;
-        public static final double driveKA = 0.0;
 
     }
 
@@ -129,10 +89,7 @@ public final class Constants {
   public static class SwerveConstants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     public static double maxSpeed = 5.0;
-    /*
-    * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
-    * SO YOU NEED TO DOUBLE CHECK THIS IS CORRECT IN PRACTICE
-    */
+
     /* ANGLE MOTOR
     * NEO Shaft to 12T Pulley to 24T Pulley to 14T Gear to 72T Main Rotation Gear
     */
@@ -151,6 +108,7 @@ public final class Constants {
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double anglekP = 0.6;
+
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
       2, 1, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
@@ -165,6 +123,7 @@ public final class Constants {
     public int rotateMotorID;
     public int canCoderID;
     public Translation2d location;
+    
     public SwerveModuleConstants(int speedMotorID, int rotateMotorID, int canCoderID, Translation2d location) {
       this.speedMotorID = speedMotorID;
       this.rotateMotorID = rotateMotorID;
