@@ -22,10 +22,6 @@ public final class Constants {
 
     // public static enum CanIds {
 
-<<<<<<< Updated upstream
-        arm(62)
-        ;
-=======
     //     // 2020 drive train ids
         
     //     //Can ids need to be found and added for intake + arm
@@ -34,13 +30,10 @@ public final class Constants {
     //     // driveLeft2(4),
     //     // driveRight1(1),
     //     // driveRight2(2)
->>>>>>> Stashed changes
         
         
     //     public final int id;
 
-<<<<<<< Updated upstream
-=======
     //     private CanIds(int id) {
     //         this.id = id;
     //     }
@@ -57,7 +50,6 @@ public final class Constants {
 
     // }
 
->>>>>>> Stashed changes
     public static class Swerve {
         public static final double swerveKinematics = 0.0; // TODO: Needs to be changed to accurate swerve Kinematics
 
@@ -66,10 +58,6 @@ public final class Constants {
     }
     
     public static class RobotConstants {
-<<<<<<< Updated upstream
-        public static final double LENGTH = Units.inchesToMeters(27.0);
-        public static final double WIDTH = Units.inchesToMeters(27.0);
-=======
 
         public static final double TalonFXTicksPerRotation = 2048;
 
@@ -81,7 +69,6 @@ public final class Constants {
         public static final double timeStep = 0.2; //how often periodic() function runs
         public static final double LENGTH = Units.inchesToMeters(26.5);
         public static final double WIDTH = Units.inchesToMeters(26.5);
->>>>>>> Stashed changes
 
     }
     public static class GearConstants {
@@ -127,16 +114,11 @@ public final class Constants {
   
   public static class SwerveConstants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
-<<<<<<< Updated upstream
-    public static double maxSpeed = 5.0;
-
-=======
     public static double maxSpeed = 2.0;
     /*
     * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
     * SO YOU NEED TO DOUBLE CHECK THIS IS CORRECT IN PRACTICE
     */
->>>>>>> Stashed changes
     /* ANGLE MOTOR
     * NEO Shaft to 12T Pulley to 24T Pulley to 14T Gear to 72T Main Rotation Gear
     */
@@ -170,12 +152,7 @@ public final class Constants {
     public int rotateMotorID;
     //public int canCoderID;
     public Translation2d location;
-<<<<<<< Updated upstream
-    
-    public SwerveModuleConstants(int speedMotorID, int rotateMotorID, int canCoderID, Translation2d location) {
-=======
     public SwerveModuleConstants(int speedMotorID, int rotateMotorID,  Translation2d location) {
->>>>>>> Stashed changes
       this.speedMotorID = speedMotorID;
       this.rotateMotorID = rotateMotorID;
       //this.canCoderID = canCoderID;
