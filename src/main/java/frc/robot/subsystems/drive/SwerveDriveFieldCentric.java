@@ -50,14 +50,14 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Gets the swerve position when the command is initially scheduled
   @Override
   public void initialize() {
-    m_odometry = new SwerveDriveOdometry(
-    drivebaseSubsystem.getSwerveDriveKinematics(), gyroSubsystem.getRotation2d(),
-    new SwerveModulePosition[] {
-      drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
-      drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
-      drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
-      drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
-    }, new Pose2d(0, 0, new Rotation2d(0)));
+    // m_odometry = new SwerveDriveOdometry(
+    // drivebaseSubsystem.getSwerveDriveKinematics(), gyroSubsystem.getRotation2d(),
+    // new SwerveModulePosition[] {
+    //   drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
+    //   drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
+    //   drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
+    //   drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
+    // }, new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,13 +68,13 @@ public class SwerveDriveFieldCentric extends CommandBase {
   }
   // Called to update the swerve position
   public void updatePose() {
-    m_pose = m_odometry.update(gyroSubsystem.getRotation2d(),
-    new SwerveModulePosition[] {
-      drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
-      drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
-      drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
-      drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
-    });
+    // m_pose = m_odometry.update(gyroSubsystem.getRotation2d(),
+    // new SwerveModulePosition[] {
+    //   drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
+    //   drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
+    //   drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
+    //   drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
+    // });
   }
 
   public ChassisSpeeds getChassisSpeedsFromJoystick() {
