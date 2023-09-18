@@ -40,6 +40,12 @@ public class RobotContainer {
 
     new JoystickButton(driver, XboxController.Button.kB.value)
       .whileTrue(new ArmToPosition(armSubsystem, 5000));
+    
+    //Wrist setpoints - needs testing
+    new JoystickButton(driver, XboxController.Button.kX.value)
+      .whileTrue(new WristToPosition(wristSubsystem, 0));
+    new JoystickButton(driver, XboxController.Button.kY.value)
+      .whileTrue(new WristToPosition(wristSubsystem, 5000));
   }
 
   public Command getAutonomousCommand() {
