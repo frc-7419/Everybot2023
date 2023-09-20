@@ -29,7 +29,8 @@ public final class Constants {
         driveRight1(1),
         driveRight2(2),
         leftIntake(5),
-        rightIntake(6)
+        rightIntake(6),
+        wrist(7);
         ;
         
         public final int id;
@@ -49,6 +50,7 @@ public final class Constants {
         public static final int driveRight2 = CanIds.driveRight2.id;
         public static final int leftIntake = CanIds.leftIntake.id;
         public static final int rightIntake = CanIds.rightIntake.id;
+        public static final int wrist = CanIds.wrist.id;
 
     }
 
