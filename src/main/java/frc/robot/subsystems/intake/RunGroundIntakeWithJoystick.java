@@ -1,8 +1,6 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.GroundIntakeSubsystem;
-import frc.robot.Constants;
 import frc.robot.Constants.PowerConstants;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -25,10 +23,10 @@ public class RunGroundIntakeWithJoystick extends CommandBase {
 
     @Override
     public void execute() {
-        if(joystick.getRightTriggerAxis() > 0.05){
+        if(joystick.getRightTriggerAxis() > 0.1){
             groundIntakeSubsystem.runIntake(PowerConstants.IntakePower);
         }
-        else if(joystick.getLeftTriggerAxis() < 0.05){
+        else if(joystick.getLeftTriggerAxis() >  0.1){
             groundIntakeSubsystem.runIntake(-PowerConstants.IntakePower);
         }
         else{

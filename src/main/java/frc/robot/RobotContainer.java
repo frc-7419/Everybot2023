@@ -7,17 +7,21 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmToPosition;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
+import frc.robot.subsystems.intake.GroundIntakeSubsystem;
+import frc.robot.subsystems.intake.RunGroundIntakeWithJoystick;
 import frc.robot.subsystems.wrist.WristSubsystem;
 import frc.robot.subsystems.wrist.WristToPosition;
 import frc.robot.subsystems.wrist.RunWristWithJoystick;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
-  private final XboxController operator = new XboxController(1); //operator
-  private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  private final WristSubsystem wristSubsystem = new WristSubsystem();
-  private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
+  // private final XboxController operator = new XboxController(1); //operator
+  // private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+  // private final WristSubsystem wristSubsystem = new WristSubsystem();
+  // private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
+  private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
   
 
   public RobotContainer() {
@@ -28,14 +32,14 @@ public class RobotContainer {
     // new JoystickButton(driver, XboxController.Button.kA.value)
     //   .whileTrue(new AutoDockBangBang(gyroSubsystem, driveBaseSubsystem));
 
-    new JoystickButton(driver, XboxController.Button.kB.value)
-      .whileTrue(new ArmToPosition(armSubsystem, 5000));
+    // new JoystickButton(driver, XboxController.Button.kB.value)
+    //   .whileTrue(new ArmToPosition(armSubsystem, 5000));
     
-    //Wrist setpoints - needs testing
-    new JoystickButton(driver, XboxController.Button.kX.value)
-      .whileTrue(new WristToPosition(wristSubsystem, 0));
-    new JoystickButton(driver, XboxController.Button.kY.value)
-      .whileTrue(new WristToPosition(wristSubsystem, 5000));
+    // //Wrist setpoints - needs testing
+    // new JoystickButton(driver, XboxController.Button.kX.value)
+    //   .whileTrue(new WristToPosition(wristSubsystem, 0));
+    // new JoystickButton(driver, XboxController.Button.kY.value)
+    //   .whileTrue(new WristToPosition(wristSubsystem, 5000));
   }
 
   public Command getAutonomousCommand() {
@@ -43,7 +47,8 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    armSubsystem.setDefaultCommand(runArmWithJoystick);
-    wristSubsystem.setDefaultCommand(runWristWithJoystick);
+    // armSubsystem.setDefaultCommand(runArmWithJoystick);
+    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    // wristSubsystem.setDefaultCommand(runWristWithJoystick);
   }
 }

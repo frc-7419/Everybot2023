@@ -22,10 +22,10 @@ public class GroundIntakeSubsystem extends SubsystemBase {
   
   public GroundIntakeSubsystem() {
     //replace with constants later
-    left = new CANSparkMax(Constants.CanIdsNoEnum.leftIntake, MotorType.kBrushless);
-    right = new CANSparkMax(Constants.CanIdsNoEnum.rightIntake,  MotorType.kBrushless);
+    //left = new CANSparkMax(Constants.CanIdsNoEnum.leftIntake, MotorType.kBrushless);
+    right = new CANSparkMax(Constants.CanIdsNoEnum.gripper,  MotorType.kBrushless);
 
-    left.setInverted(false);
+    // left.setInverted(false);
     right.setInverted(true);
   }
 
@@ -33,30 +33,31 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     right.setVoltage(power);
   }
   public void setLeftVoltage(double power){
-    left.setVoltage(power);
+    //left.setVoltage(power);
   }
 
   public void setAllVoltage(double power) {
     setRightVoltage(power);
-    setLeftVoltage(power);
+    //setLeftVoltage(power);
   }
 
   public void setRightPower(double power){
     right.set(power);
   }
   public void setLeftPower(double power){
-    left.set(power);
+    //left.set(power);
   }
   public void setAllPower(double power){
     setRightPower(power);
-    setLeftPower(power);
+    // setLeftPower(power);
+    
   }
   public void coast(){
-    left.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    // left.setIdleMode(CANSparkMax.IdleMode.kCoast);
     right.setIdleMode(CANSparkMax.IdleMode.kCoast);
   }
   public void brake(){
-    left.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    // left.setIdleMode(CANSparkMax.IdleMode.kBrake);
     right.setIdleMode(CANSparkMax.IdleMode.kBrake);
   }
 
