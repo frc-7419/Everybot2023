@@ -28,7 +28,7 @@ public class RunGroundIntakeWithJoystick extends CommandBase {
         if(joystick.getRightTriggerAxis() > 0.05){
             groundIntakeSubsystem.runIntake(PowerConstants.groundIntakePower);
         }
-        else if(joystick.getLeftTriggerAxis() < 0.05){
+        else if(joystick.getLeftTriggerAxis() > 0.05){
             groundIntakeSubsystem.runIntake(-PowerConstants.groundIntakePower);
         }
         else{

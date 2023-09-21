@@ -22,7 +22,6 @@ public class RobotContainer {
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
   private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final GroundIntakeSubsystem intakeSubsystem = new GroundIntakeSubsystem();
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
