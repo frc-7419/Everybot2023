@@ -69,10 +69,10 @@ public class SwerveModule {
     //  * @param speed in m/s (to match with wpilib's format) which is later converted
     //  * @param rotation2D angle in wpilib's Rotation2D object format
     //  */
-    public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
-      setSpeed(speed);
+    // public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
+    //   setSpeed(speed);
     //   setAnglePID(rotation2D); 
-    }
+    // }
     
     /**
      * This function sets the speed of the motors
@@ -114,7 +114,7 @@ public class SwerveModule {
     // /**
     //  * This function returns the rotation of the degrees from the CANCoder
     //  * @return the degrees from the CANCoder
-    //  */
+    // //  */
     // public Rotation2d getRotation2d() {
     //     return Rotation2d.fromDegrees(getAngle());
     // }
