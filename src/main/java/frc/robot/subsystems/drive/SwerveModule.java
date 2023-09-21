@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -25,12 +26,10 @@ import edu.wpi.first.math.util.Units;
 // Inputs: Motor IDs(CanSparks for now, but change when new motors arrive)
 // Outputs: The Swerve Drive functionality for EveryBot
 public class SwerveModule {
-    // TODO: Change the CAN Motors after we receive the new motors
     private CANSparkMax rotateMotor;
     private CANSparkMax speedMotor;
     private CANCoder turnEncoder;
-    private int moduleNumber;
-    private Encoder driveEncoder;
+    private RelativeEncoder driveEncoder;
   
     private PIDController angleController;
     
@@ -40,16 +39,12 @@ public class SwerveModule {
      * @param rID is a CAN ID parameter(int)
      * @param sID is a CAN ID parameter(int)
      * @param eID is a CAN ID parameter(int)
-     * @param moduleNumber is a dashboard identifier of the values of the motors(int)
      */
-    public SwerveModule(int rID, int sID, int moduleNumber) {
-        this.moduleNumber = moduleNumber;
-
-        // TODO: Change these values and functions later after the new motors arrive
+    public SwerveModule(int rID, int sID, int eID) {
         rotateMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
-        driveEncoder = new Encoder()
+        driveEncoder = speedMotor.getEncoder();
   
         config();
 
@@ -125,9 +120,8 @@ public class SwerveModule {
         return Units.degreesToRotations(speedMotor.getEncoder().getVelocity() * SwerveConstants.gearRatioCANCoder) * SwerveConstants.wheelDiameter;
     }
 
-    // TODO: Get position (Right now we have a placeholder)
-    public double getPosition() { //placeholder for now
-        return driveEncoder.getDistance();
+    public double getPosition() {
+        return driveEncoder.getPosition();
     }
 
     /**
@@ -143,8 +137,7 @@ public class SwerveModule {
      * Puts the data on the SmartDashboard
      */
     public void getSwerveModuleState() {
-        SmartDashboard.putNumber("Swerve Mod " + moduleNumber + " Angle", getAngle());
-        SmartDashboard.putNumber("Swerve Mod " + moduleNumber + " Speed", getSpeed());
+    
     }
 
   }
