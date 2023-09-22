@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.subsystems.gyro.GyroSubsystem;
@@ -29,8 +30,6 @@ public class SwerveDriveOdometry extends CommandBase {
         addRequirements(drivebaseSubsystem);
     }
     
-
-
     
     @Override
     public void initialize(){
@@ -48,12 +47,13 @@ public class SwerveDriveOdometry extends CommandBase {
         });
     }
 
-    
+  
 
 
 
     private Pose2d update(Rotation2d rotation2d, SwerveModulePosition[] swerveModulePositions) {
-        return null;
+
+        return new Pose2d(swerveModule.getPosition(), swerveModule.getPosition(), rotation2d);
     }
 
 
