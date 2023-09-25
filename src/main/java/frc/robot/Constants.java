@@ -137,25 +137,26 @@ public final class Constants {
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double anglekP = 0.6;
-
+    //TO-DO set the correct turnEncoder IDs
+    //TO-DO instead of swerve0, swerve1, swerve2, and swerve3 set the correct name like frontleft, frontright, backleft, etc.. 
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      2, 1, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
+      2, 1, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      4, 3, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      4, 3, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
-      6, 5, new Translation2d(-RobotConstants.LENGTH, RobotConstants.LENGTH));
+      6, 5, 0, new Translation2d(-RobotConstants.LENGTH, RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
-      8, 7, new Translation2d(-RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      8, 7, 0, new Translation2d(-RobotConstants.LENGTH, -RobotConstants.LENGTH));
   }
   public static class SwerveModuleConstants {
     public int speedMotorID;
-    public int rotateMotorID;
-    //public int canCoderID;
+    public int turnMotorID;
+    public int turnEncoderID;
     public Translation2d location;
-    public SwerveModuleConstants(int speedMotorID, int rotateMotorID,  Translation2d location) {
+    public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, Translation2d location) {
       this.speedMotorID = speedMotorID;
-      this.rotateMotorID = rotateMotorID;
-      //this.canCoderID = canCoderID;
+      this.turnMotorID = turnMotorID;
+      this.turnEncoderID = turnEncoderID;
       this.location = location;
     }
   }
