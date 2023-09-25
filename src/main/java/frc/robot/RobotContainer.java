@@ -9,8 +9,8 @@ import frc.robot.subsystems.arm.ArmToPosition;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 // import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.drive.SDO;
 // import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
-import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.drive.SwerveModule;
 // import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
@@ -49,7 +49,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    swerveDrive.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive, gyroSubsystem));
+    swerveDrive.setDefaultCommand(new SDO(null, swerveDrive, gyroSubsystem));
     //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     // armSubsystem.setDefaultCommand(runArmWithJoystick);
   }
