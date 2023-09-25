@@ -19,17 +19,18 @@ public class SDO extends CommandBase {
     private SwerveDriveOdometry m_odometry;
     private SwerveModulePosition[] positions = new SwerveModulePosition[4];
     private Pose2d m_pose;
+  
     
     public SDO(SwerveDriveKinematics swerveDriveKinematics, DriveBaseSubsystem driveBaseSubsystem
                                 , GyroSubsystem gyroSubsystem) {
         this.gyroSubsystem = gyroSubsystem;
         this.swerveDriveKinematics = swerveDriveKinematics;
         this.drivebaseSubsystem = driveBaseSubsystem;
-
-        positions[0] = drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition();
-        positions[1] = drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition();
-        positions[2] = drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition();
-        positions[3] = drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition();
+        
+        positions[0] = drivebaseSubsystem.getSwerveModule(0).getPosition();
+        positions[1] = drivebaseSubsystem.getSwerveModule(1).getPosition();
+        positions[2] = drivebaseSubsystem.getSwerveModule(2).getPosition();
+        positions[3] = drivebaseSubsystem.getSwerveModule(3).getPosition();
 
         addRequirements(drivebaseSubsystem);
     }
@@ -42,10 +43,10 @@ public class SDO extends CommandBase {
 
     @Override
     public void execute() {
-        positions[0] = drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition();
-        positions[1] = drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition();
-        positions[2] = drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition();
-        positions[3] = drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition();
+        positions[0] = drivebaseSubsystem.getSwerveModule(0).getPosition();
+        positions[1] = drivebaseSubsystem.getSwerveModule(1).getPosition();
+        positions[2] = drivebaseSubsystem.getSwerveModule(2).getPosition();
+        positions[3] = drivebaseSubsystem.getSwerveModule(3).getPosition();
         m_pose = m_odometry.update(new Rotation2d(gyroSubsystem.getAngle()), positions);
     }
 
