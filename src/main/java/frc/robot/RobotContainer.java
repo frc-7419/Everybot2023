@@ -15,11 +15,11 @@ import frc.robot.subsystems.wrist.RunWristWithJoystick;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
-  // private final XboxController operator = new XboxController(1); //operator
-  // private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  // private final WristSubsystem wristSubsystem = new WristSubsystem();
-  // private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
+  private final XboxController operator = new XboxController(1); //operator
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
+  private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
   
@@ -47,8 +47,8 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    // armSubsystem.setDefaultCommand(runArmWithJoystick);
+    armSubsystem.setDefaultCommand(runArmWithJoystick);
+    wristSubsystem.setDefaultCommand(runWristWithJoystick);
     groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
-    // wristSubsystem.setDefaultCommand(runWristWithJoystick);
   }
 }
