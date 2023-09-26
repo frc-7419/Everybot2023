@@ -9,7 +9,7 @@ import frc.robot.subsystems.arm.ArmToPosition;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 // import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
-import frc.robot.subsystems.drive.SDO;
+import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 // import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
 import frc.robot.subsystems.drive.SwerveModule;
 // import frc.robot.subsystems.gyro.AutoDockBangBang;
@@ -20,8 +20,8 @@ import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
   private final XboxController operator = new XboxController(1); //operator
-  private final DriveBaseSubsystem swerveDrive = new DriveBaseSubsystem();
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private final DriveBaseSubsystem swerveDrive = new DriveBaseSubsystem(gyroSubsystem);
   // private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   // private final ArmSubsystem armSubsystem = new ArmSubsystem();
   // private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -49,7 +49,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    swerveDrive.setDefaultCommand(new SDO(null, swerveDrive, gyroSubsystem));
+    swerveDrive.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive, gyroSubsystem));
     //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     // armSubsystem.setDefaultCommand(runArmWithJoystick);
   }
