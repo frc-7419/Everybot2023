@@ -9,7 +9,7 @@ import frc.robot.subsystems.arm.ArmToPosition;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
-import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
+
 import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
@@ -20,7 +20,7 @@ public class RobotContainer {
   private final XboxController operator = new XboxController(1); //operator
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
-  private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
+  
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
