@@ -28,8 +28,9 @@ public final class Constants {
         driveLeft2(4),
         driveRight1(1),
         driveRight2(2),
-        intakeLeft(6)
-        ;
+        intakeLeft(8),
+        intakeRight(12);
+    
         
         public final int id;
 
@@ -93,7 +94,7 @@ public final class Constants {
 
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double groundIntakePower = 0.7; //arbitrary for now
+        public static final double groundIntakePower = 0.2; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
         public static double autoDockPower = 0.2;
 
