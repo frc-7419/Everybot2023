@@ -68,7 +68,7 @@ public final class Constants {
 
         public static final double timeStep = 0.2; //how often periodic() function runs
         public static final double LENGTH = Units.inchesToMeters(26.5);
-        public static final double WIDTH = Units.inchesToMeters(26.5);
+        public static final double HALF_LENGTH = LENGTH/2.0;
 
     }
     public static class GearConstants {
@@ -137,16 +137,19 @@ public final class Constants {
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double anglekP = 0.6;
-    //TO-DO set the correct turnEncoder IDs
-    //TO-DO instead of swerve0, swerve1, swerve2, and swerve3 set the correct name like frontleft, frontright, backleft, etc.. 
+    //TODO: set the correct turnEncoder IDs
+    //TODO: instead of swerve0, swerve1, swerve2, and swerve3 set the correct name like frontleft, frontright, backleft, etc..
+    //TODO: make sure postions are correct and agree with info below
+    //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
+    //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      2, 1, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
+      2, 1, 0, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      4, 3, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      4, 3, 0, new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
-      6, 5, 0, new Translation2d(-RobotConstants.LENGTH, RobotConstants.LENGTH));
+      6, 5, 0, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
-      8, 7, 0, new Translation2d(-RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      8, 7, 0, new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
   }
   public static class SwerveModuleConstants {
     public int speedMotorID;
