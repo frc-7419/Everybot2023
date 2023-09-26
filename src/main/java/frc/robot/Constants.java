@@ -29,8 +29,10 @@ public final class Constants {
         driveLeft1(3),
         driveLeft2(4),
         driveRight1(1),
-        driveRight2(2)
-        ;
+        driveRight2(2),
+        intakeLeft(8),
+        intakeRight(12);
+    
         
         public final int id;
 
@@ -47,6 +49,8 @@ public final class Constants {
         public static final int driveLeft2 = CanIds.driveLeft2.id;
         public static final int driveRight1 = CanIds.driveRight1.id;
         public static final int driveRight2 = CanIds.driveRight2.id;
+        public static final int intakeLeft = CanIds.intakeLeft.id;
+
 
     }
 
@@ -94,7 +98,7 @@ public final class Constants {
 
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double IntakePower = 0.7; //arbitrary for now
+        public static final double groundIntakePower = 0.2; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
         public static double autoDockPower = 0.2;
 
