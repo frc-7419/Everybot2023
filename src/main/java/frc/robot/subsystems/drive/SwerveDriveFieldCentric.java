@@ -4,33 +4,20 @@
 
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.math.MathUtil;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.gyro.GyroSubsystem;
 
 public class SwerveDriveFieldCentric extends CommandBase {
   /** Creates a new RunSwerveWithJoystick. */
+  private SwerveDrive swerveDrive;
   private XboxController joystick;
-  private DriveBaseSubsystem drivebaseSubsystem;
-  private GyroSubsystem gyroSubsystem;
-
-  private SwerveDriveOdometry m_odometry;
-  private Pose2d m_pose;
 
  // Sets the joystick, driveBaseSubsystem and gyroSubsystem.
-  public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem drivebaseSubsystem, GyroSubsystem gyroSubsystem) {
+  public SwerveDriveFieldCentric(XboxController joystick, SwerveDrive swerveDrive) {
     this.joystick = joystick;
-    this.drivebaseSubsystem = drivebaseSubsystem;
-    this.gyroSubsystem = gyroSubsystem;
+    this.swerveDrive = swerveDrive;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivebaseSubsystem, gyroSubsystem);
+    addRequirements(swerveDrive);
   }
   
   /*
@@ -44,55 +31,13 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Gets the swerve position when the command is initially scheduled
   @Override
   public void initialize() {
-    // m_odometry = new SwerveDriveOdometry(
-    // drivebaseSubsystem.getSwerveDriveKinematics(), gyroSubsystem.getRotation2d(),
-    // new SwerveModulePosition[] {
-    //   drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
-    //   drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
-    //   drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
-    //   drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
-    // }, new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    setSwerveModuleStates(ChassisSpeedstoModuleSpeeds(getChassisSpeedsFromJoystick())); 
-    
+    swerveDrive.setModuleStatesFromJoystick(joystick);
   }
-  // Called to update the swerve position
-  public void updatePose() {
-    // m_pose = m_odometry.update(gyroSubsystem.getRotation2d(),
-    // new SwerveModulePosition[] {
-    //   drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
-    //   drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
-    //   drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
-    //   drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
-    // });
-  }
-
-  public ChassisSpeeds getChassisSpeedsFromJoystick() {
-    //Make sure there is no joystick drift, YOU CAN REMOVE Deadband if it's not necessary
-    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.02)*SwerveConstants.maxSpeed;
-    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.02)*SwerveConstants.maxSpeed * -1;
-    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.02)*SwerveConstants.maxSpeed;
-    
-    //WPILIB does the Field-Relative Conversions for you, easy peasy
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyroSubsystem.getRotation2d());
-    return speeds;
-  }
-  // Sets the module states to the chassis speeds. 
-  public SwerveModuleState[] ChassisSpeedstoModuleSpeeds(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] moduleStates = drivebaseSubsystem.getSwerveDriveKinematics().toSwerveModuleStates(chassisSpeeds);
-    return moduleStates;
-  }
-
-  public void setSwerveModuleStates(SwerveModuleState[] moduleStates) {
-    for (int i=0; i<4; ++i) {
-      drivebaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
-    }
-  }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

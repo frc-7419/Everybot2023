@@ -3,25 +3,27 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+//import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.ArmToPosition;
-import frc.robot.subsystems.arm.RunArmWithJoystick;
+//import frc.robot.subsystems.arm.ArmToPosition;
+//import frc.robot.subsystems.arm.RunArmWithJoystick;
 // import frc.robot.subsystems.drive.ArcadeDrive;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 // import frc.robot.subsystems.drive.DriveTrainPoseSubsystem;
-import frc.robot.subsystems.drive.SwerveModule;
+//import frc.robot.subsystems.drive.SwerveModule;
 // import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 // import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.intake.RunIntakeWithJoystick;
+//import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
   private final XboxController operator = new XboxController(1); //operator
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
-  private final DriveBaseSubsystem swerveDrive = new DriveBaseSubsystem(gyroSubsystem);
+  private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem(gyroSubsystem);
+  private final SwerveDrive swerveDrive = new SwerveDrive(driveBase, gyroSubsystem);
   // private final DriveTrainPoseSubsystem driveTrainPoseSubsystem = new DriveTrainPoseSubsystem(gyroSubsystem, driveBaseSubsystem);
   // private final ArmSubsystem armSubsystem = new ArmSubsystem();
   // private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -49,7 +51,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    swerveDrive.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive, gyroSubsystem));
+    driveBase.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive));
     //driveBaseSubsystem.setDefaultCommand(arcadeDrive);
     // armSubsystem.setDefaultCommand(runArmWithJoystick);
   }
