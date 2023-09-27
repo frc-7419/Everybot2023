@@ -103,6 +103,15 @@ public final class Constants {
         public static final double groundIntakePower = 0.2; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
         public static double autoDockPower = 0.2;
+        public static double WristPower = 0.5; //random # for now
+    }
+
+    public static class WristConstants {
+        //placeholders
+        public static final double kP = 0.0001;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kTolerance = 100;
 
     }
 
