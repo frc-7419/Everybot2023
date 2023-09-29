@@ -20,9 +20,9 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-    public static enum CanIds {
+     public static enum CanIds {
 
-        // 2020 drive train ids
+    //     // 2020 drive train ids
         
         //Can ids need to be found and added for intake + arm
         leftFalcon1(62),
@@ -34,15 +34,14 @@ public final class Constants {
         intakeRight(12);
     
         
-        public final int id;
+        
+         public final int id;
 
         private CanIds(int id) {
             this.id = id;
         }
         
-    }
-
-    public static class CanIdsNoEnum {
+     }
 
         public static final int leftFalcon1 = CanIds.leftFalcon1.id;
         public static final int driveLeft1 = CanIds.driveLeft1.id;
@@ -52,12 +51,18 @@ public final class Constants {
         public static final int intakeLeft = CanIds.intakeLeft.id;
 
 
-    }
+    //     public static final int leftFalcon1 = CanIds.leftFalcon1.id;
+    //     public static final int driveLeft1 = CanIds.driveLeft1.id;
+    //     public static final int driveLeft2 = CanIds.driveLeft2.id;
+    //     public static final int driveRight1 = CanIds.driveRight1.id;
+    //     public static final int driveRight2 = CanIds.driveRight2.id;
+
+    // }
 
     public static class Swerve {
         public static final double swerveKinematics = 0.0; // TODO: Needs to be changed to accurate swerve Kinematics
 
-        // translation2d(wheel base/2, track base /2)
+
         public static final double pigeonID = 0.0;
     }
     
@@ -71,17 +76,12 @@ public final class Constants {
         public static final double kWheelCircumference = 2 * Math.PI * Constants.RobotConstants.kWheelRadius;
 
         public static final double timeStep = 0.2; //how often periodic() function runs
-        public static final double LENGTH = Units.inchesToMeters(27.0);
-        public static final double WIDTH = Units.inchesToMeters(27.0);
+        public static final double LENGTH = Units.inchesToMeters(26.5);
+        public static final double HALF_LENGTH = LENGTH/2.0;
 
     }
     public static class GearConstants {
 
-        /*2 14tooth pinions mate to a 50 tooth gear,
-         above which a 19 tooth gear mates to a 45 tooth gear
-         In total around 8.4:1
-        */
-        public static final double ToughboxMiniRatio = (double) (50.0) / 14.0 * 45.0 / 19.0;
 
     }
 
@@ -100,15 +100,9 @@ public final class Constants {
         public static final double DriveBaseTurn = .35;
         public static final double groundIntakePower = 0.2; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
-        public static double autoDockPower = 0.2;
-
     }
 
     public static class DriveConstants{
-
-        public static final double driveKS = 0.0;
-        public static final double driveKV = 0.0;
-        public static final double driveKA = 0.0;
 
     }
 
@@ -132,7 +126,7 @@ public final class Constants {
   
   public static class SwerveConstants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
-    public static double maxSpeed = 5.0;
+    public static double maxSpeed = 2.0;
     /*
     * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
     * SO YOU NEED TO DOUBLE CHECK THIS IS CORRECT IN PRACTICE
@@ -155,27 +149,32 @@ public final class Constants {
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double anglekP = 0.6;
+    //TODO: set the correct turnEncoder IDs
+    //TODO: instead of swerve0, swerve1, swerve2, and swerve3 set the correct name like frontleft, frontright, backleft, etc..
+    //TODO: make sure postions are correct and agree with info below
+    //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
+    //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      6, 5, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
+      2, 1, 0, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      0, 0, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      4, 3, 0, new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
-      0, 0, 0, new Translation2d(-RobotConstants.LENGTH, RobotConstants.LENGTH));
+      6, 5, 0, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
-      0, 0, 0, new Translation2d(-RobotConstants.LENGTH, -RobotConstants.LENGTH));
+      8, 7, 0, new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
   }
   public static class SwerveModuleConstants {
     public int speedMotorID;
-    public int rotateMotorID;
-    public int canCoderID;
+    public int turnMotorID;
+    public int turnEncoderID;
     public Translation2d location;
-    public SwerveModuleConstants(int speedMotorID, int rotateMotorID, int canCoderID, Translation2d location) {
+    public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, Translation2d location) {
       this.speedMotorID = speedMotorID;
-      this.rotateMotorID = rotateMotorID;
-      this.canCoderID = canCoderID;
+      this.turnMotorID = turnMotorID;
+      this.turnEncoderID = turnEncoderID;
       this.location = location;
     }
   }
 
 
-};
+}
