@@ -5,6 +5,7 @@
 package frc.robot.subsystems.intake;
 
 
+import frc.robot.Constants;
 import frc.robot.subsystems.wrist.WristSubsystem;
 import frc.robot.subsystems.wrist.WristToPosition;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -18,11 +19,13 @@ public class RunLowerIntake extends SequentialCommandGroup {
   public RunLowerIntake(WristSubsystem wristSubsystem, GroundIntakeSubsystem groundIntakeSubsystem) {
     
     addCommands(
-    Commands.parallel(
+    Commands.sequence(
+      new WristToPosition(wristSubsystem, Constants.WristConstants.downSetpoint),
       new RunGroundIntake(groundIntakeSubsystem),
       new WaitCommand(1),
-      new WristToPosition(wristSubsystem, 5)),
-    new WaitCommand(2.5),
-    new RunGroundOuttake(groundIntakeSubsystem));
+      new WristToPosition(wristSubsystem, Constants.WristConstants.upSetpoint),
+      new WaitCommand(2.5),
+      new RunGroundOuttake(groundIntakeSubsystem))
+    );
   }
 }

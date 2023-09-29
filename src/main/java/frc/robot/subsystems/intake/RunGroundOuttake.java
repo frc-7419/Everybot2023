@@ -5,6 +5,7 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
 
 public class RunGroundOuttake extends CommandBase {
@@ -24,7 +25,7 @@ public class RunGroundOuttake extends CommandBase {
   @Override
   public void execute() {
     groundIntakeSubsystem.coast();
-    groundIntakeSubsystem.setAllPower(-0.5);
+    groundIntakeSubsystem.setAllPower(-Constants.PowerConstants.WristPower);
   }
   
   // Called once the command ends or is interrupted.

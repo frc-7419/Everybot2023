@@ -100,7 +100,7 @@ public final class Constants {
 
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double groundIntakePower = 0.2; //arbitrary for now
+        public static final double groundIntakePower = 0.5; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
         public static double autoDockPower = 0.2;
         public static double WristPower = 0.5; //random # for now
@@ -112,6 +112,9 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kTolerance = 100;
+        public static final double downSetpoint = 0;
+        public static final double upSetpoint = 0;
+        
 
     }
 
