@@ -20,27 +20,36 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-    // public static enum CanIds {
+     public static enum CanIds {
 
     //     // 2020 drive train ids
         
-    //     //Can ids need to be found and added for intake + arm
-    //     // leftFalcon1(62),
-    //     // driveLeft1(3),
-    //     // driveLeft2(4),
-    //     // driveRight1(1),
-    //     // driveRight2(2)
+        //Can ids need to be found and added for intake + arm
+        leftFalcon1(62),
+        driveLeft1(3),
+        driveLeft2(4),
+        driveRight1(1),
+        driveRight2(2),
+        intakeLeft(8),
+        intakeRight(12);
+    
         
         
-    //     public final int id;
+         public final int id;
 
-    //     private CanIds(int id) {
-    //         this.id = id;
-    //     }
+        private CanIds(int id) {
+            this.id = id;
+        }
         
-    // }
+     }
 
-    // public static class CanIdsNoEnum {
+        public static final int leftFalcon1 = CanIds.leftFalcon1.id;
+        public static final int driveLeft1 = CanIds.driveLeft1.id;
+        public static final int driveLeft2 = CanIds.driveLeft2.id;
+        public static final int driveRight1 = CanIds.driveRight1.id;
+        public static final int driveRight2 = CanIds.driveRight2.id;
+        public static final int intakeLeft = CanIds.intakeLeft.id;
+
 
     //     public static final int leftFalcon1 = CanIds.leftFalcon1.id;
     //     public static final int driveLeft1 = CanIds.driveLeft1.id;
@@ -86,7 +95,10 @@ public final class Constants {
     }
 
     public static class PowerConstants {
-        public static final double IntakePower = 0.7; //arbitrary for now
+
+        public static final double DriveBaseStraight = .55;
+        public static final double DriveBaseTurn = .35;
+        public static final double groundIntakePower = 0.2; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
     }
 
