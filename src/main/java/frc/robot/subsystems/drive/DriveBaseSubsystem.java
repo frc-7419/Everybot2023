@@ -45,6 +45,27 @@ public class DriveBaseSubsystem extends SubsystemBase {
     return m_kinematics;
   }
 
+  public void coast(){
+    getSwerveModule(0).coast();
+    getSwerveModule(1).coast();
+    getSwerveModule(2).coast();
+    getSwerveModule(3).coast();
+  }
+
+  public void brake(){
+    getSwerveModule(0).brake();
+    getSwerveModule(1).brake();
+    getSwerveModule(2).brake();
+    getSwerveModule(3).brake();
+  }
+
+  public void setAllPower(double power){
+    getSwerveModule(0).setPower(power);
+    getSwerveModule(1).setPower(power);
+    getSwerveModule(2).setPower(power);
+    getSwerveModule(3).setPower(power);
+  }
+
   public SwerveModule[] getSwerveModules() {
     return swerveModules;
   }

@@ -9,6 +9,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -128,12 +129,28 @@ public class SwerveModule {
         return new SwerveModulePosition(getDrivePosition(), getRotation2d());
     }
 
+    public void brake() {
+        speedMotor.setIdleMode(IdleMode.kBrake);
+        turnMotor.setIdleMode(IdleMode.kBrake);
+    }
+
+    public void coast() {
+        speedMotor.setIdleMode(IdleMode.kCoast);
+        turnMotor.setIdleMode(IdleMode.kCoast);
+    }
+
+    public void setPower(double power){
+        speedMotor.set(power);
+        turnMotor.set(power);
+    }
+
+
     /**
      * Potential use for debugging
      * Puts the data on the SmartDashboard
      */
     public void getSwerveModuleState() {
-    
+
     }
 
   }
