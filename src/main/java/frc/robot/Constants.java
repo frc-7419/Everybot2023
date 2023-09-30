@@ -62,6 +62,12 @@ public final class Constants {
         // translation2d(wheel base/2, track base /2)
         public static final double pigeonID = 0.0;
     }
+    public static class GroundIntakeConstants {
+
+        public static final double stallVelocityThreshold = 0;
+        public static final double gripperDelaySeconds = 0;
+
+    }
     
     public static class RobotConstants {
 

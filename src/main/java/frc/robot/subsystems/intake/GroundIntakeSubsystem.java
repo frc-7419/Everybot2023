@@ -66,6 +66,12 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     coast();
     setAllPower(power);
 }
+  public double getLeftVelocity(){
+    return left.getEncoder().getVelocity();
+  }
+  public double getRightVelocity(){
+    return right.getEncoder().getVelocity();
+  }
 
 
   @Override
