@@ -64,8 +64,8 @@ public final class Constants {
     }
     public static class GroundIntakeConstants {
 
-        public static final double stallVelocityThreshold = 0;
-        public static final double gripperDelaySeconds = 0;
+        public static final double stallVelocityThreshold = 500;
+        public static final double groundIntakeDelaySeconds = 0.5;
 
     }
     

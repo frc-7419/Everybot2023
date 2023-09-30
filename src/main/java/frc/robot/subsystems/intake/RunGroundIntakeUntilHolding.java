@@ -11,7 +11,7 @@ import frc.robot.Constants.GroundIntakeConstants;
 
 public class RunGroundIntakeUntilHolding extends CommandBase {
   private GroundIntakeSubsystem groundIntakeSubsystem;
-  private boolean isIntaking;
+  private boolean intakeMode;
   private boolean holdMode;
   private double lastTimeStamp;
 
@@ -23,24 +23,26 @@ public class RunGroundIntakeUntilHolding extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    groundIntakeSubsystem.coast();
+    lastTimeStamp = Timer.getFPGATimestamp();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(isIntaking){
-    groundIntakeSubsystem.coast();
+    if(intakeMode){
     groundIntakeSubsystem.setAllPower(Constants.PowerConstants.groundIntakePower);
     double currentTimeStamp = Timer.getFPGATimestamp();
     double timePassed = currentTimeStamp - lastTimeStamp;
     boolean isStalling = groundIntakeSubsystem.getRightVelocity() < Constants.GroundIntakeConstants.stallVelocityThreshold || groundIntakeSubsystem.getLeftVelocity() < Constants.GroundIntakeConstants.stallVelocityThreshold ;
-    boolean didDelay = timePassed > GroundIntakeConstants.gripperDelaySeconds;
+    boolean didDelay = timePassed > GroundIntakeConstants.groundIntakeDelaySeconds;
 
     if (isStalling && didDelay) {
       // Hold mode won't be set to true unless we run it for 0.5 seconds to get the motor up to
       // speed
       holdMode = true;
-      isIntaking = false;
+      intakeMode = false;
     }
   }
     else {
@@ -60,6 +62,9 @@ public class RunGroundIntakeUntilHolding extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(holdMode){
+      return true;
+    }
     return false;
   }
 }

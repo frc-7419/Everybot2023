@@ -9,6 +9,7 @@ import frc.robot.subsystems.arm.ArmToPosition;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
 import frc.robot.subsystems.intake.RunGroundIntake;
+import frc.robot.subsystems.intake.RunGroundIntakeUntilHolding;
 import frc.robot.subsystems.intake.RunGroundOuttake;
 import frc.robot.subsystems.intake.RunLowerIntake;
 import frc.robot.subsystems.intake.RunGroundIntakeWithJoystick;
@@ -31,18 +32,13 @@ public class RobotContainer {
   private  final RunGroundIntake runGroundIntake = new RunGroundIntake(groundIntakeSubsystem);
   private  final RunGroundOuttake runGroundOuttake = new RunGroundOuttake(groundIntakeSubsystem);
   private final WristToPosition wristToPosition = new WristToPosition(wristSubsystem, 5);
-  private final RunLowerIntake runLowerIntake = new RunLowerIntake(wristSubsystem, groundIntakeSubsystem);
+  private final RunGroundIntakeUntilHolding  runGroundIntakeUntilHolding = new RunGroundIntakeUntilHolding(groundIntakeSubsystem);
   public RobotContainer() {
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    // new JoystickButton(driver, XboxController.Button.kA.value)
-    //   .whileTrue(new AutoDockBangBang(gyroSubsystem, driveBaseSubsystem));
-
-    // new JoystickButton(driver, XboxController.Button.kB.value)
-    //   .whileTrue(new ArmToPosition(armSubsystem, 5000));
-    new JoystickButton(driver, XboxController.Button.kA.value).onTrue(runLowerIntake);
+    new JoystickButton(driver, XboxController.Button.kA.value).onTrue(runGroundIntakeUntilHolding);
   
   }
 
@@ -51,8 +47,6 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    // armSubsystem.setDefaultCommand(runArmWithJoystick);
-    // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
-    groundIntakeSubsystem.setDefaultCommand(runLowerIntake);
+    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }
 }
