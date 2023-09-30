@@ -22,6 +22,7 @@ public class SwerveDrive extends SubsystemBase {
    */
   public SwerveDrive(DriveBaseSubsystem driveBase, GyroSubsystem gryo) {
     this.driveBase = driveBase;
+    //gryo lmao
     this.gryo = gryo;
   }
   /**

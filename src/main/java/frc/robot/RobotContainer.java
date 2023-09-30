@@ -21,7 +21,7 @@ public class RobotContainer {
   private final XboxController operator = new XboxController(1); //operator
   // private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
-    private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem(gyroSubsystem);
+  private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem(gyroSubsystem);
   private final SwerveDrive swerveDrive = new SwerveDrive(driveBase, gyroSubsystem);
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
