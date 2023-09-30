@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.ArmToPosition;
-import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
 import frc.robot.subsystems.intake.RunGroundIntake;
 import frc.robot.subsystems.intake.RunGroundIntakeUntilHolding;
@@ -23,8 +20,6 @@ public class RobotContainer {
   
   private final XboxController driver = new XboxController(0); //driver
   private final XboxController operator = new XboxController(1); //operator
-  private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final WristSubsystem wristSubsystem = new WristSubsystem();
   private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
