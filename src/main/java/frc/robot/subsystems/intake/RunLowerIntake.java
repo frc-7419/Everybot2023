@@ -25,6 +25,7 @@ public class RunLowerIntake extends SequentialCommandGroup {
       new WaitCommand(1),
       new WristToPosition(wristSubsystem, Constants.WristConstants.upSetpoint),
       new WaitCommand(2.5),
+      Commands.parallel(new RunGroundOuttake(groundIntakeSubsystem)),
       new RunGroundOuttake(groundIntakeSubsystem))
     );
   }
