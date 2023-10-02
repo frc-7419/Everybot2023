@@ -36,6 +36,14 @@ public class SwerveDriveFieldCentric extends CommandBase {
   @Override
   public void execute() {
     swerveDrive.setModuleStatesFromJoystick(joystick);
+
+    //AUTO ALIGN PREVIEW
+    if (joystick.getLeftBumper() ) {
+      swerveDrive.alignWithAllianceWall();
+    }
+    else if (joystick.getRightBumper() ) {
+      swerveDrive.alignWithOpposingWall();
+    }
   }
   // Called once the command ends or is interrupted.
   @Override

@@ -5,10 +5,12 @@
 package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 
@@ -78,6 +80,20 @@ public class SwerveDrive extends SubsystemBase {
    */
   public void setModuleStatesFromJoystick(XboxController joystick) {
     setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
+  }
+
+  /**
+   * This should rotate the robot immediately to alliance wall (with no translation speed)
+   */
+  public void alignWithAllianceWall() {
+    setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, Constants.SwerveConstants.maxRotationalSpeed, Rotation2d.fromDegrees(0)));
+  }
+
+  /**
+   * This should rotate the robot immediately to opposing wall (with no translation speed)
+   */
+  public void alignWithOpposingWall() {
+    setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, Constants.SwerveConstants.maxRotationalSpeed, Rotation2d.fromDegrees(180)));
   }
 
   @Override
