@@ -6,7 +6,6 @@ package frc.robot.subsystems.intake;
 
 import frc.robot.Constants;
 import frc.robot.Constants.CanIds;
-import frc.robot.Constants.CanIdsNoEnum;
 
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 import com.revrobotics.CANSparkMax;
