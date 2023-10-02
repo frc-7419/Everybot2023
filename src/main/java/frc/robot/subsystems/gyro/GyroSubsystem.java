@@ -22,7 +22,7 @@ public class GyroSubsystem extends SubsystemBase {
   AHRS ahrs;
 
   public GyroSubsystem() {
-    try { //for now just do what 7419 did. pretty sure MXP refers to the expansion port on the roborio
+    try { 
       /*
        * Communicate w/navX-MXP via the MXP SPI Bus (use mini USB to USB A cable)
        * Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or S
@@ -31,6 +31,7 @@ public class GyroSubsystem extends SubsystemBase {
        */
       ahrs = new AHRS(SerialPort.Port.kMXP);
       SmartDashboard.putString("subsystem", "init gyro sub");
+      ahrs.reset(); //field centric, we need yaw to be zero
   } catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
   }
@@ -42,25 +43,27 @@ public class GyroSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(   "Pitch", ahrs.getPitch());
     SmartDashboard.putNumber(   "Roll", ahrs.getRoll());
   }
+
   public double getAngle(){
-    return ahrs.getAngle();
-}
-public double getYaw() {
-  return ahrs.getYaw();
-}
+      return ahrs.getAngle();
+  }
 
-public double getPitch() {
-  return ahrs.getPitch();
-}
+  public double getYaw() {
+    return ahrs.getYaw();
+  }
 
-public double getRoll() {
-  return ahrs.getRoll();
-}
+  public double getPitch() {
+    return ahrs.getPitch();
+  }
 
-public Rotation2d getRotation2d() {
-  return Rotation2d.fromDegrees(ahrs.getYaw());
-  /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
-  may cause the internal conversion that Rotation2d does to be wrong 
-  */
-}
+  public double getRoll() {
+    return ahrs.getRoll();
+  }
+
+  public Rotation2d getRotation2d() {
+    return Rotation2d.fromDegrees(ahrs.getYaw());
+    /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
+    may cause the internal conversion that Rotation2d does to be wrong 
+    */
+  }
 }

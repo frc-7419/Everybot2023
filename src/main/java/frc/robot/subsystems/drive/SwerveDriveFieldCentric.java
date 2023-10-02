@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SwerveDriveFieldCentric extends CommandBase {
-  /** Creates a new RunSwerveWithJoystick. */
   private SwerveDrive swerveDrive;
   private XboxController joystick;
 

@@ -10,8 +10,6 @@ import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
-// import frc.robot.subsystems.drive.DriveBaseSubsystem;
-// import frc.robot.subsystems.gyro.AutoDockBangBang;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
 import frc.robot.subsystems.intake.RunGroundIntakeWithJoystick;
@@ -19,17 +17,17 @@ import frc.robot.subsystems.intake.RunGroundIntakeWithJoystick;
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
   private final XboxController operator = new XboxController(1); //operator
-  // private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
-  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
-    private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem(gyroSubsystem);
-  private final SwerveDrive swerveDrive = new SwerveDrive(driveBase, gyroSubsystem);
-  private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
-  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
-  
-  
+  //Subsystems
+  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem(gyroSubsystem);
+  // private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+
+  //Commands
+  private final SwerveDrive swerveDrive = new SwerveDrive(driveBaseSubsystem, gyroSubsystem);
+  // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+  // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -50,8 +48,8 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBase.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive));
-    armSubsystem.setDefaultCommand(runArmWithJoystick);
-    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    driveBaseSubsystem.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive));
+    // armSubsystem.setDefaultCommand(runArmWithJoystick);
+    // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }
 }

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX arm;
   public ArmSubsystem() {
-    // arm = new TalonFX(CanIds.leftFalcon1.id);
+    //arm = new TalonFX(CanIds.leftFalcon1.id);
     arm.setInverted(true);
     arm.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
     arm.setSelectedSensorPosition(0);

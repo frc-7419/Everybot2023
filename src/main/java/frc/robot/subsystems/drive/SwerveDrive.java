@@ -12,50 +12,58 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 
+
+//The Reason Why Both SwerveDrive Exists and FieldCentricSwerveDrive Exists, is in case we ever decided robot-centric swerve is better.
 public class SwerveDrive extends SubsystemBase {
-  private DriveBaseSubsystem driveBase;
-  private GyroSubsystem gryo;
+  private DriveBaseSubsystem driveBaseSubsystem;
+  private GyroSubsystem gyroSubsystem;
+
   /**
-   * Makes a new SwerveDrive, this is used to control the modules
-   * @param driveBase
-   * @param gryo
+   * SwerveDrive Command For Tele-Op Period
+   * @param driveBaseSubsystem
+   * @param gyroSubsystem
    */
-  public SwerveDrive(DriveBaseSubsystem driveBase, GyroSubsystem gryo) {
-    this.driveBase = driveBase;
-    this.gryo = gryo;
+  public SwerveDrive(DriveBaseSubsystem driveBaseSubsystem, GyroSubsystem gyroSubsystem) {
+    this.driveBaseSubsystem = driveBaseSubsystem;
+    this.gyroSubsystem = gyroSubsystem;
   }
+
   /**
-   * Gets joystick and returns the chassis speed
+   * Returns chassis speeds from field-centric joystick controls
    * @param joystick
    * @return
    */
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
+
     //Make sure there is no joystick drift, YOU CAN REMOVE Deadband if it's not necessary
-    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.02)*SwerveConstants.maxSpeed;
-    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.02)*SwerveConstants.maxSpeed * -1;
-    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.02)*SwerveConstants.maxSpeed;
+    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.02)*SwerveConstants.maxTranslationalSpeed;
+    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.02)*SwerveConstants.maxTranslationalSpeed * -1;
+    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.02)*SwerveConstants.maxRotationalSpeed;
+
     //WPILIB does the Field-Relative Conversions for you, easy peasy
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gryo.getRotation2d());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyroSubsystem.getRotation2d());
     return speeds;
   }
+
   /**
-   * Converts chassis speeds to module speeds
+   * Converts chassis speeds to individual module speeds
    * @param chassisSpeeds
-   * @return
+   * @return 
    */
   public SwerveModuleState[] ChassisSpeedstoModuleSpeeds(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] moduleStates = driveBase.getSwerveDriveKinematics().toSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] moduleStates = driveBaseSubsystem.getSwerveDriveKinematics().toSwerveModuleStates(chassisSpeeds);
     return moduleStates;
   }
   /**
-   * Sets module states, this is what makes the robot begin moving
+   * What actually sets the individual swerve moduel states!
    * @param moduleStates
    */
   public void setModuleStates(SwerveModuleState[] moduleStates) {
     for (int i=0; i<4; ++i) {
-      driveBase.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
     }
   }
+
   /**
    * Sets the module states form the chassis speed
    * @param chassisSpeeds
@@ -63,13 +71,15 @@ public class SwerveDrive extends SubsystemBase {
   public void setModuleStatesFromChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setModuleStates(ChassisSpeedstoModuleSpeeds(chassisSpeeds));
   }
+
   /**
-   * sets the module states from the joystick,can be used for teleop
+   * this is what makes the robot begin moving, the entry point for swerve centric drive!
    * @param joystick
    */
   public void setModuleStatesFromJoystick(XboxController joystick) {
     setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
   }
+
   @Override
   public void periodic() {
   }
