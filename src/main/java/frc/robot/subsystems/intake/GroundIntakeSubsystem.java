@@ -5,8 +5,7 @@
 package frc.robot.subsystems.intake;
 
 import frc.robot.Constants;
-
-
+import frc.robot.Constants.CanIds;
 
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 import com.revrobotics.CANSparkMax;
@@ -20,27 +19,26 @@ public class GroundIntakeSubsystem extends SubsystemBase {
   private CANSparkMax left;
   private CANSparkMax right;
   
-  
   public GroundIntakeSubsystem() {
     //replace with constants later
-    
-    left = new CANSparkMax(8, MotorType.kBrushless);
-    right = new CANSparkMax(12,  MotorType.kBrushless);
+    left = new CANSparkMax(CanIds.leftIntake.id, MotorType.kBrushless);
+    right = new CANSparkMax(CanIds.rightIntake.id, MotorType.kBrushless);
 
-    left.setInverted(false);
-    right.setInverted(true);
+
+    // left.setInverted(false);
+    // right.setInverted(true);
   }
 
   public void setRightVoltage(double power){
     right.setVoltage(power);
   }
   public void setLeftVoltage(double power){
-    left.setVoltage(power);
+    //left.setVoltage(power);
   }
 
   public void setAllVoltage(double power) {
     setRightVoltage(power);
-    setLeftVoltage(power);
+    //setLeftVoltage(power);
   }
 
   public void setRightPower(double power){
@@ -52,6 +50,7 @@ public class GroundIntakeSubsystem extends SubsystemBase {
   public void setAllPower(double power){
     setRightPower(power);
     setLeftPower(power);
+    
   }
   public void coast(){
     left.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -66,6 +65,12 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     coast();
     setAllPower(power);
 }
+  public double getLeftVelocity(){
+    return left.getEncoder().getVelocity();
+  }
+  public double getRightVelocity(){
+    return right.getEncoder().getVelocity();
+  }
 
 
   @Override

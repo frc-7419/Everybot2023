@@ -30,9 +30,10 @@ public final class Constants {
         driveLeft2(4),
         driveRight1(1),
         driveRight2(2),
-        intakeLeft(8),
-        intakeRight(12);
-    
+        leftIntake(8),
+        rightIntake(12),
+        wrist(7); //change
+        ;
         
         
          public final int id;
@@ -48,8 +49,9 @@ public final class Constants {
         public static final int driveLeft2 = CanIds.driveLeft2.id;
         public static final int driveRight1 = CanIds.driveRight1.id;
         public static final int driveRight2 = CanIds.driveRight2.id;
-        public static final int intakeLeft = CanIds.intakeLeft.id;
-
+        public static final int leftIntake = CanIds.leftIntake.id;
+        public static final int rightIntake = CanIds.rightIntake.id;
+        public static final int wrist = CanIds.wrist.id;
 
     //     public static final int leftFalcon1 = CanIds.leftFalcon1.id;
     //     public static final int driveLeft1 = CanIds.driveLeft1.id;
@@ -64,6 +66,12 @@ public final class Constants {
 
 
         public static final double pigeonID = 0.0;
+    }
+    public static class GroundIntakeConstants {
+
+        public static final double stallVelocityThreshold = 500;
+        public static final double groundIntakeDelaySeconds = 0.5;
+
     }
     
     public static class RobotConstants {
@@ -98,11 +106,29 @@ public final class Constants {
         public static final double autoDockPower = 0.2;
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double groundIntakePower = 0.2; //arbitrary for now
+        public static final double groundIntakePower = 0.5; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
+        public static double WristPower = 0.5; //random # for now
+    }
+
+    public static class WristConstants {
+        //placeholders
+        public static final double kP = 0.0001;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kTolerance = 100;
+        public static final double downSetpoint = 0;
+        public static final double upSetpoint = 0;
+        
+
     }
 
     public static class DriveConstants{
+
+        public static final double driveKS = 0.0;
+        
+        public static final double driveKV = 0.0;
+        public static final double driveKA = 0.0;
 
     }
 
