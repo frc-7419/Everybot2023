@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -19,59 +20,63 @@ import edu.wpi.first.math.util.Units;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-     public static enum CanIds {
-
-    //     // 2020 drive train ids
-        
-        //Can ids need to be found and added for intake + arm
-        leftFalcon1(62),
-        driveLeft1(3),
-        driveLeft2(4),
-        driveRight1(1),
-        driveRight2(2),
-        leftIntake(8),
-        rightIntake(12),
-        wrist(7); //change
-        ;
-        
-        
-         public final int id;
-
-        private CanIds(int id) {
-            this.id = id;
+    public static class SwerveConstants {
+        //Not sure how to calculate this theoretically but this needs to be determined experimentally first
+        public static double maxSpeed = 2.0;
+        /*
+        * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
+        * SO YOU NEED TO DOUBLE CHECK THIS IS CORRECT IN PRACTICE
+        */
+        /* ANGLE MOTOR
+        * NEO Shaft to 12T Pulley to 24T Pulley to 14T Gear to 72T Main Rotation Gear
+        */
+        public static double gearRatioAngleMotor = (double) 12.0/24.0*14.0/72.0;
+        /* DRIVE MOTOR
+        * NEO shaft to 12T Pulley to 24T Pulley to 24T Gear to 22T Gear to 15T bevel to 45T Bevel
+        *
+        * The CANCODER measures rotations of a the driven 1:1 PULLEY in which the driver pulley is on the same
+        * shaft as the 24T Pulley
+        */
+        public static double gearRatioSpeedMotor = (double) 12.0/24.0* 24.0/22.0 * 15.0/45.0;
+        /*
+        * So Number of Rotations of this CANCOder sensor measured means this amount of rotations in actual SPEED wheel
+        */
+        public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
+        public static double wheelDiameter = Units.inchesToMeters(4.0);
+        public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
+        public static final double anglekP = 0.6;
+        public static final int pigeonID = 0;
+        //TODO: set the correct turnEncoder IDs
+        //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
+        //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
+        public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
+          2, 1, 0, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
+        public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(
+          4, 3, 0, new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+        public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
+          6, 5, 0, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
+        public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
+          8, 7, 0, new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+        public static final SwerveDriveKinematics swerveDriveKinematics = new SwerveDriveKinematics(frontLeft.location, frontRight.location, backLeft.location, backRight.location);
+      }
+      public static class SwerveModuleConstants {
+        public int driveMotorID;
+        public int turnMotorID;
+        public int turnEncoderID;
+        public Translation2d location;
+        public SwerveModuleConstants(int driveMotorID, int turnMotorID, int turnEncoderID, Translation2d location) {
+          this.driveMotorID = driveMotorID;
+          this.turnMotorID = turnMotorID;
+          this.turnEncoderID = turnEncoderID;
+          this.location = location;
         }
-        
-     }
-
-        public static final int leftFalcon1 = CanIds.leftFalcon1.id;
-        public static final int driveLeft1 = CanIds.driveLeft1.id;
-        public static final int driveLeft2 = CanIds.driveLeft2.id;
-        public static final int driveRight1 = CanIds.driveRight1.id;
-        public static final int driveRight2 = CanIds.driveRight2.id;
-        public static final int leftIntake = CanIds.leftIntake.id;
-        public static final int rightIntake = CanIds.rightIntake.id;
-        public static final int wrist = CanIds.wrist.id;
-
-    //     public static final int leftFalcon1 = CanIds.leftFalcon1.id;
-    //     public static final int driveLeft1 = CanIds.driveLeft1.id;
-    //     public static final int driveLeft2 = CanIds.driveLeft2.id;
-    //     public static final int driveRight1 = CanIds.driveRight1.id;
-    //     public static final int driveRight2 = CanIds.driveRight2.id;
-
-    // }
-
-    public static class Swerve {
-        public static final double swerveKinematics = 0.0; // TODO: Needs to be changed to accurate swerve Kinematics
-
-
-        public static final double pigeonID = 0.0;
     }
     public static class GroundIntakeConstants {
-
         public static final double stallVelocityThreshold = 500;
         public static final double groundIntakeDelaySeconds = 0.5;
-
+        //TODO: fix can IDs
+        public static final int leftIntakeID = 0;
+        public static final int rightIntakeID = 0;
     }
     
     public static class RobotConstants {
@@ -88,20 +93,12 @@ public final class Constants {
         public static final double HALF_LENGTH = LENGTH/2.0;
 
     }
-    public static class GearConstants {
-
-
-    }
-
     public static class ArmConstants {
-
         public static final double kP = 0.0001;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kTolerance = 100;
-
     }
-
     public static class PowerConstants {
         public static final double autoDockPower = 0.2;
         public static final double DriveBaseStraight = .55;
@@ -110,97 +107,27 @@ public final class Constants {
         public static final double ArmPower = 0.2;//arbitrary for now
         public static double WristPower = 0.5; //random # for now
     }
-
     public static class WristConstants {
-        //placeholders
+        //TODO: placeholders replace with actual values
         public static final double kP = 0.0001;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kTolerance = 100;
         public static final double downSetpoint = 0;
         public static final double upSetpoint = 0;
-        
-
+        public static final int wristCanID = 0;
     }
 
     public static class DriveConstants{
-
         public static final double driveKS = 0.0;
-        
         public static final double driveKV = 0.0;
         public static final double driveKA = 0.0;
-
     }
-
     public static class AngleOffset {
-
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(37.35);
-
     }
-
     public static final Port SerialPortAHRS = null;
-    
-    /**
-     * THIS IS FOR THE SWERVE DRIVE CONSTANTS
-     */
-
     public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-
-
-  
-  public static class SwerveConstants {
-    //Not sure how to calculate this theoretically but this needs to be determined experimentally first
-    public static double maxSpeed = 2.0;
-    /*
-    * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
-    * SO YOU NEED TO DOUBLE CHECK THIS IS CORRECT IN PRACTICE
-    */
-    /* ANGLE MOTOR
-    * NEO Shaft to 12T Pulley to 24T Pulley to 14T Gear to 72T Main Rotation Gear
-    */
-    public static double gearRatioAngleMotor = (double) 12.0/24.0*14.0/72.0;
-    /* DRIVE MOTOR
-     * NEO shaft to 12T Pulley to 24T Pulley to 24T Gear to 22T Gear to 15T bevel to 45T Bevel
-     *
-     * The CANCODER measures rotations of a the driven 1:1 PULLEY in which the driver pulley is on the same
-     * shaft as the 24T Pulley
-     */
-    public static double gearRatioSpeedMotor = (double) 12.0/24.0* 24.0/22.0 * 15.0/45.0;
-    /*
-     * So Number of Rotations of this CANCOder sensor measured means this amount of rotations in actual SPEED wheel
-     */
-    public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
-    public static double wheelDiameter = Units.inchesToMeters(4.0);
-    public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
-    public static final double anglekP = 0.6;
-    //TODO: set the correct turnEncoder IDs
-    //TODO: instead of swerve0, swerve1, swerve2, and swerve3 set the correct name like frontleft, frontright, backleft, etc..
-    //TODO: make sure postions are correct and agree with info below
-    //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
-    //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
-    public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      2, 1, 0, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
-    public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      4, 3, 0, new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
-    public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
-      6, 5, 0, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
-    public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
-      8, 7, 0, new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
-  }
-  public static class SwerveModuleConstants {
-    public int speedMotorID;
-    public int turnMotorID;
-    public int turnEncoderID;
-    public Translation2d location;
-    public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, Translation2d location) {
-      this.speedMotorID = speedMotorID;
-      this.turnMotorID = turnMotorID;
-      this.turnEncoderID = turnEncoderID;
-      this.location = location;
-    }
-  }
-
-
 }
