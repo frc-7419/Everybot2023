@@ -8,7 +8,6 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmToPosition;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
-import frc.robot.subsystems.drive.SwerveDrive;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.gyro.GyroSubsystem;
 import frc.robot.subsystems.intake.GroundIntakeSubsystem;
@@ -25,7 +24,7 @@ public class RobotContainer {
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
 
   //Commands
-  private final SwerveDrive swerveDrive = new SwerveDrive(driveBaseSubsystem, gyroSubsystem);
+  private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem, gyroSubsystem);
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
@@ -48,7 +47,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBaseSubsystem.setDefaultCommand(new SwerveDriveFieldCentric(driver, swerveDrive));
+    driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     // armSubsystem.setDefaultCommand(runArmWithJoystick);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }
