@@ -30,15 +30,15 @@ public class DriveBaseSubsystem extends SubsystemBase {
       new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID, SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero),
       new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID, SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero),
     };
-    positions[0] = getSwerveModule(0).getPosition();
-    positions[1] = getSwerveModule(1).getPosition();
-    positions[2] = getSwerveModule(2).getPosition();
-    positions[3] = getSwerveModule(3).getPosition();
+    // positions[0] = getSwerveModule(0).getPosition();
+    // positions[1] = getSwerveModule(1).getPosition();
+    // positions[2] = getSwerveModule(2).getPosition();
+    // positions[3] = getSwerveModule(3).getPosition();
 
     //TODO: we need the gyro and the module pos for odometry
     this.gyroSubsystem = gyroSubsystem;
-    m_odometry = new SwerveDriveOdometry(m_kinematics, new Rotation2d(gyroSubsystem.getAngle()), positions, new Pose2d(0, 0, new Rotation2d(0)));
-    m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
+    // m_odometry = new SwerveDriveOdometry(m_kinematics, new Rotation2d(gyroSubsystem.getAngle()), positions, new Pose2d(0, 0, new Rotation2d(0)));
+    // m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
   }
 
   public SwerveModule getSwerveModule(int index) {
@@ -55,10 +55,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
   //call odometry update in this periodic
   @Override
   public void periodic() {
-    positions[0] = getSwerveModule(0).getPosition();
-    positions[1] = getSwerveModule(1).getPosition();
-    positions[2] = getSwerveModule(2).getPosition();
-    positions[3] = getSwerveModule(3).getPosition();
-    m_odometry.update(new Rotation2d(gyroSubsystem.getAngle()), positions);
+    // positions[0] = getSwerveModule(0).getPosition();
+    // positions[1] = getSwerveModule(1).getPosition();
+    // positions[2] = getSwerveModule(2).getPosition();
+    // positions[3] = getSwerveModule(3).getPosition();
+    // m_odometry.update(new Rotation2d(gyroSubsystem.getAngle()), positions);
   }
 }
