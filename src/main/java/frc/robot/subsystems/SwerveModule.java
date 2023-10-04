@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
@@ -25,7 +26,7 @@ import edu.wpi.first.math.util.Units;
 // Outputs: The Swerve Drive functionality for EveryBot
 public class SwerveModule {
     private CANSparkMax turnMotor;
-    private CANSparkMax speedMotor;
+    private CANSparkMax driveMotor;
     private CANCoder turnEncoder;
     private RelativeEncoder driveEncoder;
     private PIDController angleController;
@@ -33,18 +34,16 @@ public class SwerveModule {
 
     /**
      * Contains the main SwerveModule logic of the bot
-     * @param rID is a CAN ID parameter(int)
-     * @param sID is a CAN ID parameter(int)
-     * @param eID is a CAN ID parameter(int)
+     * @param driveMotorID is a CAN ID parameter(int)
+     * @param turnMotorID is a CAN ID parameter(int)
+     * @param turnEncoderID is a CAN ID parameter(int)
      */
-    public SwerveModule(int rID, int sID, int eID) {
-        turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
-        speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
-        turnEncoder = new CANCoder(eID);
-        driveEncoder = speedMotor.getEncoder();
-  
+    public SwerveModule(int driveMotorID, int turnMotorID, int turnEncoderID) {
+        this.driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
+        this.turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
+        driveEncoder = driveMotor.getEncoder();
+        this.turnEncoder = new CANCoder(turnEncoderID);
         config();
-
         angleController = new PIDController(SwerveConstants.anglekP, 0, 0); //never changes after initialization anyways
         angleController.setTolerance(1); //degrees for now...
         angleController.enableContinuousInput(-180, 180); //[-180,180] instead of [0,360) seems to be how most vendor classes implement angle return output in degrees
@@ -62,9 +61,9 @@ public class SwerveModule {
     * @param speed in m/s (to match with wpilib's format) which is later converted
     * @param rotation2D angle in wpilib's Rotation2D object format
     */
-    public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
-      setSpeed(speed);
-      setAnglePID(rotation2D); 
+    public void setSwerveModuleState(SwerveModuleState state) {
+      setSpeed(state.speedMetersPerSecond);
+      setAnglePID(state.angle); 
     }
     
     /**
@@ -73,18 +72,18 @@ public class SwerveModule {
      */
     public void setSpeed(double speed) {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
-        speedMotor.set(speed/SwerveConstants.maxSpeed); 
+        driveMotor.set(speed/SwerveConstants.maxSpeed); 
     }
 
     /**
-    * Rotates the bot to the specified angle with precision
+    * turns the bot to the specified angle with precision
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
     */
     public void setAnglePID(Rotation2d rotation2D) {    
         //the units for angle is in degrees now
         double angle = MathUtil.inputModulus(rotation2D.getDegrees(), -180, 180);
         //We should clamp the PID output to between -1 and 1
-        turnMotor.set(MathUtil.clamp( angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
+        driveMotor.set(MathUtil.clamp( angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
     }
 
     /**
@@ -114,7 +113,7 @@ public class SwerveModule {
 
     //from what I've seen the CANCODER does not tell you anything about wheel rotation but rather speed
     public double getSpeed() {
-        return Units.degreesToRotations(speedMotor.getEncoder().getVelocity() * SwerveConstants.gearRatioCANCoder) * SwerveConstants.wheelDiameter;
+        return Units.degreesToRotations(driveEncoder.getVelocity() * SwerveConstants.gearRatioCANCoder) * SwerveConstants.wheelDiameter;
     }
 
     public double getDrivePosition() {
@@ -130,17 +129,17 @@ public class SwerveModule {
     }
 
     public void brake() {
-        speedMotor.setIdleMode(IdleMode.kBrake);
+        driveMotor.setIdleMode(IdleMode.kBrake);
         turnMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public void coast() {
-        speedMotor.setIdleMode(IdleMode.kCoast);
+        driveMotor.setIdleMode(IdleMode.kCoast);
         turnMotor.setIdleMode(IdleMode.kCoast);
     }
 
     public void setPower(double power){
-        speedMotor.set(power);
+        driveMotor.set(power);
         turnMotor.set(power);
     }
 

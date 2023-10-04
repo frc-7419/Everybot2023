@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.intake;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.intake.GroundIntakeSubsystem;
+import frc.robot.subsystems.GroundIntakeSubsystem;
 
 public class RunGroundIntake extends CommandBase {
   /** Creates a new RunGroundIntake. */
