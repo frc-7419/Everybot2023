@@ -101,25 +101,27 @@ public final class Constants {
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
-    public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      2, 1, 0, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
-    public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
-      4, 3, 0, new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
-    public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
-      6, 5, 0, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
-    public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(
-      8, 7, 0, new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
+      2, 1, 9, 78.223, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
+    public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(
+      4, 3, 10, 285.469,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
+      6, 5, 12,273.691,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
+      8, 7, 11, 113.379, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
   }
 
   public static class SwerveModuleConstants {
     public int speedMotorID;
     public int turnMotorID;
     public int turnEncoderID;
+    public double absolutePositionAtRobotZero;
     public Translation2d location;
-    public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, Translation2d location) {
+    public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, double absolutePositionAtRobotZero, Translation2d location) {
       this.speedMotorID = speedMotorID;
       this.turnMotorID = turnMotorID;
       this.turnEncoderID = turnEncoderID;
+      this.absolutePositionAtRobotZero = absolutePositionAtRobotZero;
       this.location = location;
     }
   }

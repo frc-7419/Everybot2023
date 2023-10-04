@@ -29,30 +29,34 @@ public class SwerveModule {
     private CANCoder turnEncoder;
     private RelativeEncoder driveEncoder;
     private PIDController angleController;
+    private double cancoderOffset;
 
     /**
      * Contains the main SwerveModule logic of the bot
      * @param rID is a CAN ID parameter(int)
      * @param sID is a CAN ID parameter(int)
      * @param eID is a CAN ID parameter(int)
+     * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
      */
-    public SwerveModule(int rID, int sID, int eID) {
+    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero) {
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
+        cancoderOffset = -absolutePositionAtRobotZero;
         driveEncoder = speedMotor.getEncoder();
   
         config();
 
         angleController = new PIDController(SwerveConstants.anglekP, 0, 0); //never changes after initialization anyways
         angleController.setTolerance(1); //degrees for now...
-        angleController.enableContinuousInput(-180, 180); //[-180,180] instead of [0,360) seems to be how most vendor classes implement angle return output in degrees
+        angleController.enableContinuousInput(0, 360); //[-180,180] instead of [0,360) seems to be how most vendor classes implement angle return output in degrees
     }
 
     public void config() {
         turnEncoder.configFactoryDefault();
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180); //SushiSquad and Fusion prefer 0 to 360 but whatever
+        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
+        turnEncoder.configMagnetOffset(cancoderOffset);
     }
 
     /**
@@ -80,7 +84,7 @@ public class SwerveModule {
     */
     public void setAnglePID(Rotation2d rotation2D) {    
         //the units for angle is in degrees now
-        double angle = MathUtil.inputModulus(rotation2D.getDegrees(), -180, 180);
+        double angle = MathUtil.inputModulus(rotation2D.getDegrees(), 0, 360);
         //We should clamp the PID output to between -1 and 1
         turnMotor.set(MathUtil.clamp(angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
     }
