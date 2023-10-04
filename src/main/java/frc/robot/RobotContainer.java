@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -44,7 +47,9 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new WaitCommand(5);
+    PathPlannerTrajectory trajectory = PathPlanner.loadPath("cool path",4.0,3.0);
+    return driveBase.followTrajectoryCommand(trajectory, true, driveBase);
+    // return new WaitCommand(5);
   }
 
   public void setDefaultCommands() {
