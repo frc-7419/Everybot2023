@@ -38,7 +38,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     //TODO: we need the gyro and the module pos for odometry
     this.gyroSubsystem = gyroSubsystem;
     // m_odometry = new SwerveDriveOdometry(m_kinematics, new Rotation2d(gyroSubsystem.getAngle()), positions, new Pose2d(0, 0, new Rotation2d(0)));
-    // m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
+    m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
   }
 
   public SwerveModule getSwerveModule(int index) {

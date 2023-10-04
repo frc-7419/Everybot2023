@@ -112,7 +112,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    zero();
+    // zero();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -120,13 +120,13 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public void execute() {
     setModuleStatesFromJoystick(joystick);
 
-    //AUTO ALIGN PREVIEW
-    if (joystick.getLeftBumper() ) {
-      alignWithAllianceWall();
-    }
-    else if (joystick.getRightBumper() ) {
-      alignWithOpposingWall();
-    }
+    // //AUTO ALIGN PREVIEW
+    // if (joystick.getLeftBumper() ) {
+    //   alignWithAllianceWall();
+    // }
+    // else if (joystick.getRightBumper() ) {
+    //   alignWithOpposingWall();
+    // }
   }
   // Called once the command ends or is interrupted.
   @Override

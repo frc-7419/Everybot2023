@@ -53,7 +53,7 @@ public class SwerveModule {
     }
 
     public void config() {
-        turnEncoder.configFactoryDefault();
+        // turnEncoder.configFactoryDefault();
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
         turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
         turnEncoder.configMagnetOffset(cancoderOffset);
@@ -86,7 +86,7 @@ public class SwerveModule {
         //the units for angle is in degrees now
         double angle = MathUtil.inputModulus(rotation2D.getDegrees(), 0, 360);
         //We should clamp the PID output to between -1 and 1
-        turnMotor.set(MathUtil.clamp(angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
+        // turnMotor.set(MathUtil.clamp(angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
     }
 
     /**

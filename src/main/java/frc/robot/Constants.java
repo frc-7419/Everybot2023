@@ -22,9 +22,7 @@ public final class Constants {
 
   public static enum CanIds {
     
-    leftFalcon1(62),
-    intakeLeft(8),
-    intakeRight(12);
+    leftFalcon1(62);
 
     
     
@@ -36,9 +34,7 @@ public final class Constants {
     
   }
 
-  public static final int leftFalcon1 = CanIds.leftFalcon1.id;
-  public static final int intakeLeft = CanIds.intakeLeft.id;
-  
+  public static final int leftFalcon1 = CanIds.leftFalcon1.id;  
   public static class RobotConstants {
       public static final double TalonFXTicksPerRotation = 2048;
 
@@ -72,9 +68,9 @@ public final class Constants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
 
-    public static double maxTranslationalSpeed = Units.feetToMeters(15);
+    public static double maxTranslationalSpeed = Units.feetToMeters(2);
     //arbitrary value in radians, let's say one pi/second
-    public static double maxRotationalSpeed = Math.PI;
+    public static double maxRotationalSpeed = Math.PI/6;
 
     /*
     * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
@@ -97,7 +93,7 @@ public final class Constants {
     public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
-    public static final double anglekP = 0.6;
+    public static final double anglekP = 0.05;
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
