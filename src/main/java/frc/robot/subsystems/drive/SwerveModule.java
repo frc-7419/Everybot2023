@@ -84,9 +84,9 @@ public class SwerveModule {
     */
     public void setAnglePID(Rotation2d rotation2D) {    
         //the units for angle is in degrees now
-        double angle = MathUtil.inputModulus(rotation2D.getDegrees(), 0, 360);
+        double angle = rotation2D.getDegrees() + 180;
         //We should clamp the PID output to between -1 and 1
-        // turnMotor.set(MathUtil.clamp(angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
+        turnMotor.set(MathUtil.clamp(angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
     }
 
     /**

@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.ArmToPosition;
-import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.gyro.GyroSubsystem;
@@ -31,12 +28,6 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // new JoystickButton(driver, XboxController.Button.kA.value)
-    //   .whileTrue(new AutoDockBangBang(gyroSubsystem, driveBaseSubsystem));
-
-    // new JoystickButton(driver, XboxController.Button.kB.value)
-    //   .whileTrue(new ArmToPosition(armSubsystem, 5000));
-    
   
   }
 

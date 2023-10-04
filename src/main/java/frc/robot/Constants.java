@@ -20,21 +20,20 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-  public static enum CanIds {
+  // public static enum CanIds {
     
-    leftFalcon1(62);
+  //   leftFalcon1(62);
 
     
     
-      public final int id;
+  //     public final int id;
 
-    private CanIds(int id) {
-        this.id = id;
-    }
+  //   private CanIds(int id) {
+  //       this.id = id;
+  //   }
     
-  }
+  // }
 
-  public static final int leftFalcon1 = CanIds.leftFalcon1.id;  
   public static class RobotConstants {
       public static final double TalonFXTicksPerRotation = 2048;
 
@@ -45,12 +44,12 @@ public final class Constants {
   public static class GearConstants {
   }
 
-  public static class ArmConstants {
-      public static final double kP = 0.0001;
-      public static final double kI = 0;
-      public static final double kD = 0;
-      public static final double kTolerance = 100;
-  }
+  // public static class ArmConstants {
+  //     public static final double kP = 0.0001;
+  //     public static final double kI = 0;
+  //     public static final double kD = 0;
+  //     public static final double kTolerance = 100;
+  // }
 
   public static class PowerConstants {
       public static final double groundIntakePower = 0.2; //arbitrary for now
@@ -68,7 +67,7 @@ public final class Constants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
 
-    public static double maxTranslationalSpeed = Units.feetToMeters(2);
+    public static double maxTranslationalSpeed = Units.feetToMeters(10);
     //arbitrary value in radians, let's say one pi/second
     public static double maxRotationalSpeed = Math.PI/6;
 
