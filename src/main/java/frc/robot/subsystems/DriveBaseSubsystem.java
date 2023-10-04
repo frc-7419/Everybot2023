@@ -5,10 +5,15 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,6 +21,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
@@ -23,6 +31,7 @@ import frc.robot.Constants.SwerveConstants;
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem. */
   private SwerveDriveOdometry m_odometry;
+  private SwerveDriveKinematics m_kinematics = Constants.SwerveConstants.swerveDriveKinematics;
   private AHRS gyro;
   private final SwerveModule frontLeft = new SwerveModule(Constants.SwerveConstants.frontLeft.driveMotorID,
                                                           Constants.SwerveConstants.frontLeft.turnMotorID,
@@ -53,7 +62,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
     }
-    m_odometry = new SwerveDriveOdometry(Constants.SwerveConstants.swerveDriveKinematics, getGryoRotation2d(), getSwerveModulePositions());
+    m_odometry = new SwerveDriveOdometry(m_kinematics, getGryoRotation2d(), getSwerveModulePositions());
   }
   public double getAngle(){
     return gyro.getAngle();
@@ -98,13 +107,40 @@ public class DriveBaseSubsystem extends SubsystemBase {
     return speeds;
   }
   public SwerveModuleState[] ChassisSpeedstoModuleSpeeds(ChassisSpeeds chassisSpeeds) {
-    return Constants.SwerveConstants.swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    return m_kinematics.toSwerveModuleStates(chassisSpeeds);
   }
   public void setModuleStatesFromChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setModuleStates(ChassisSpeedstoModuleSpeeds(chassisSpeeds));
   }
   public void setModuleStatesFromJoystick(XboxController joystick) {
     setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
+  }
+  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath, DriveBaseSubsystem driveBaseSubsystem) {
+    return new SequentialCommandGroup(
+        new InstantCommand(() -> {
+            // Reset odometry for the first path you run during auto
+            if(isFirstPath){
+                this.resetOdometry(traj.getInitialPose());
+            }
+        }),
+        new PPSwerveControllerCommand(
+            traj,
+            this::getPose, // Pose supplier
+            this.m_kinematics, // SwerveDriveKinematics
+            new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+            new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
+            new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
+            this::setModuleStates, // Module states consumer
+            true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+            this // Requires this drive subsystem
+        )
+    );
+  }
+  public void resetOdometry(Pose2d initialPose) {
+    m_odometry.resetPosition(getGryoRotation2d(), getSwerveModulePositions(), initialPose);
+  }
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
   }
   @Override
   public void periodic() {
