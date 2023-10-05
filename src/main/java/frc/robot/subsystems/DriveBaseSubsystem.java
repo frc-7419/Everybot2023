@@ -115,7 +115,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public void setModuleStatesFromJoystick(XboxController joystick) {
     setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
   }
-  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath, DriveBaseSubsystem driveBaseSubsystem) {
     return new SequentialCommandGroup(
         new InstantCommand(() -> {
             // Reset odometry for the first path you run during auto

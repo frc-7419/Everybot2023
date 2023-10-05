@@ -27,7 +27,7 @@ public class FollowTrajectory extends CommandBase {
     public void execute() {
         // fix PathConstraints with the actual constraints that we want to use with the robot
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(this.path, new PathConstraints(4, 3));
-        driveBase.followTrajectoryCommand(examplePath, false);
+        driveBase.followTrajectoryCommand(examplePath, false, driveBase);
     }
 
     // Called once the command ends or is interrupted.

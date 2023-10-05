@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.arm.RunArmWithJoystick;
+import frc.robot.commands.drive.FollowTrajectory;
 import frc.robot.commands.drive.SwerveDriveFieldCentric;
 import frc.robot.commands.intake.RunGroundIntake;
 import frc.robot.commands.intake.RunGroundIntakeUntilHolding;
@@ -37,7 +38,9 @@ public class RobotContainer {
   private final WristToPosition wristToPosition = new WristToPosition(wristSubsystem, 5);
   private final RunGroundIntakeUntilHolding  runGroundIntakeUntilHolding = new RunGroundIntakeUntilHolding(groundIntakeSubsystem);
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+  private String path;
   public RobotContainer() {
+    setDefaultCommands();
     configureButtonBindings();
   }
 
@@ -56,5 +59,6 @@ public class RobotContainer {
     driveBase.setDefaultCommand(new SwerveDriveFieldCentric(driver, driveBase));
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    driveBase.setDefaultCommand(new FollowTrajectory(driveBase, path));
   }
 }
