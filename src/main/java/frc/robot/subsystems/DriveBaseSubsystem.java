@@ -115,7 +115,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public void setModuleStatesFromJoystick(XboxController joystick) {
     setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
   }
-  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath, DriveBaseSubsystem driveBaseSubsystem) {
+  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
     return new SequentialCommandGroup(
         new InstantCommand(() -> {
             // Reset odometry for the first path you run during auto
@@ -136,6 +136,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         )
     );
   }
+
+
   public void resetOdometry(Pose2d initialPose) {
     m_odometry.resetPosition(getGryoRotation2d(), getSwerveModulePositions(), initialPose);
   }
