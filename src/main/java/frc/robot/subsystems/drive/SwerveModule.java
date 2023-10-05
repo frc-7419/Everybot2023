@@ -18,6 +18,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 // The SwerveModule file contains the the logic of the entire Swerve Drive functionality of EveryBot
@@ -30,6 +31,9 @@ public class SwerveModule {
     private RelativeEncoder driveEncoder;
     private PIDController angleController;
     private double cancoderOffset;
+    private int rID;
+    private int sID;
+    private int eID;
 
     /**
      * Contains the main SwerveModule logic of the bot
@@ -39,23 +43,29 @@ public class SwerveModule {
      * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
      */
     public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero) {
+        this.rID = rID;
+        this.eID = eID;
+        this.sID = sID;
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
         cancoderOffset = -absolutePositionAtRobotZero;
         driveEncoder = speedMotor.getEncoder();
   
-        config();
+
 
         angleController = new PIDController(SwerveConstants.anglekP, 0, 0); //never changes after initialization anyways
-        angleController.setTolerance(1); //degrees for now...
-        angleController.enableContinuousInput(0, 360); //[-180,180] instead of [0,360) seems to be how most vendor classes implement angle return output in degrees
+        angleController.setTolerance(10); //degrees for now...
+        angleController.enableContinuousInput(-180, 180); //[-180,180] instead of [0,360) seems to be how most vendor classes implement angle return output in degrees
+
+        config();
     }
 
     public void config() {
         // turnEncoder.configFactoryDefault();
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
+        // turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
+        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         turnEncoder.configMagnetOffset(cancoderOffset);
     }
 
@@ -66,7 +76,7 @@ public class SwerveModule {
     */
     public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
       setSpeed(speed);
-    //   setAnglePID(rotation2D); 
+      setAnglePID(rotation2D); 
     }
     
     /**
@@ -84,12 +94,18 @@ public class SwerveModule {
     */
     public void setAnglePID(Rotation2d rotation2D) {    
         //the units for angle is in degrees now
-        double angle = rotation2D.getDegrees() + 180;
+        double angle = rotation2D.getDegrees();
+        SmartDashboard.putNumber(   "angle setpoint" + ((Integer)sID/2), angle);
         //We should clamp the PID output to between -1 and 1
-        turnMotor.set(MathUtil.clamp(angleController.calculate(getAngle(), angle) , -1.0 , 1.0) );
+        double PIDVAL = angleController.calculate(getAngle(), angle);
+        double PIDVALCLAMP = MathUtil.clamp(angleController.calculate(getAngle(), angle) , -0.5 , 0.5);
+        turnMotor.set(PIDVAL); //gleController.calculate(getAngle(), angle)
+        SmartDashboard.putNumber(   "PIDVAL" + ((Integer)sID/2), PIDVAL);
+        SmartDashboard.putNumber(   "PIDVALCLAMP" + ((Integer)sID/2), PIDVALCLAMP);
     }
 
     /**
+     * 
      * @return angular velocity of individual swerve module in degrees per second
      */
     public double getAnglularVelocity() {
@@ -102,7 +118,7 @@ public class SwerveModule {
      * @return the angle of the bot from the original starting angle
      */
     public double getAngle() {
-        return turnEncoder.getPosition(); //make sure this is degrees
+        return turnEncoder.getAbsolutePosition(); //make sure this is degrees
     }
     
     /**

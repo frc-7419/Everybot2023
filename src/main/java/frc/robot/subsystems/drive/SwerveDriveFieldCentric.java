@@ -6,6 +6,7 @@ package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -47,7 +48,10 @@ public class SwerveDriveFieldCentric extends CommandBase {
     double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.02)*SwerveConstants.maxTranslationalSpeed * -1;
     double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.02)*SwerveConstants.maxRotationalSpeed;
 
-    //WPILIB does the Field-Relative Conversions for you, easy peasy
+    SmartDashboard.putNumber("LeftX", joystick.getLeftX());
+    SmartDashboard.putNumber("LeftY", joystick.getLeftY());
+    SmartDashboard.putNumber("RightX", joystick.getRightX());
+    //WPILIB does the Field-Relative Conversions for you, easy peas y
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyroSubsystem.getRotation2d());
     return speeds;
   }
@@ -119,6 +123,9 @@ public class SwerveDriveFieldCentric extends CommandBase {
   @Override
   public void execute() {
     setModuleStatesFromJoystick(joystick);
+    if (joystick.getAButton()) {
+      zero();
+    }
 
     // //AUTO ALIGN PREVIEW
     // if (joystick.getLeftBumper() ) {

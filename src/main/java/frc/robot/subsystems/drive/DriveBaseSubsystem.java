@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.gyro.GyroSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
@@ -60,5 +61,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     // positions[2] = getSwerveModule(2).getPosition();
     // positions[3] = getSwerveModule(3).getPosition();
     // m_odometry.update(new Rotation2d(gyroSubsystem.getAngle()), positions);
+    for (Integer i=0; i<4; ++i) {
+      SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getAngle());
+      // SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getSpeed());
+    }
+    
   }
 }
