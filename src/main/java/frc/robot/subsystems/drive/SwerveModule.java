@@ -35,6 +35,7 @@ public class SwerveModule {
     private int rID;
     private int sID;
     private int eID;
+    private double offset;
     private int module;
 
     /**
@@ -45,11 +46,12 @@ public class SwerveModule {
      * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
      * @param module for numbering modules during comprehensive shuffleboard outputs
      */
-    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, int module) {
+    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module) {
         this.rID = rID;
         this.eID = eID;
         this.sID = sID;
         this.module = module;
+        this.offset = offset;
         cancoderOffset = -absolutePositionAtRobotZero;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
@@ -100,13 +102,16 @@ public class SwerveModule {
     * Rotates the bot to the specified angle with precision
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
     */
-    public void setAnglePID(Rotation2d rotation2D) {    
+    public void setAnglePID(Rotation2d rotation2D) {   
         double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
         angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
         SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
         SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
         SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
 
+        if (angleController.atSetpoint()) {
+            return;
+        }
         //We should clamp the PID output to between -1 and 1
         double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
         double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.02 , 0.02);
@@ -121,7 +126,7 @@ public class SwerveModule {
      * @return the angle of the bot from the original starting angle
      */
     public double getAngle() {
-        return turnEncoder.getAbsolutePosition(); //make sure this is degrees
+        return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
     }
     
   }
