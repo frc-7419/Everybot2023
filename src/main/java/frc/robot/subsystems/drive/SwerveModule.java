@@ -127,7 +127,7 @@ public class SwerveModule {
      */
     public double getAngle() {
         // return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
-        return (turnEncoder.getPosition() - offset + 360) % 360 - 180; //make sure this is degrees
+        return (turnEncoder.getAbsolutePosition() - offset + 360) % 360 - 180; //make sure this is degrees
     }
     
   }
