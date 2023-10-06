@@ -1,5 +1,9 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
@@ -51,6 +55,12 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath("cool path",4.0,3.0);
+    // This will load the file "Example Path Group.path" and generate it with different path constraints for each segment
+    // List<PathPlannerTrajectory> pathGroup2 = PathPlanner.loadPathGroup(
+    //   "CoolPath", 
+    //   new PathConstraints(4, 3), 
+    //   new PathConstraints(2, 2), 
+    //   new PathConstraints(3, 3));
     return driveBase.followTrajectoryCommand(trajectory, true, driveBase);
     // return new WaitCommand(5);
   }
