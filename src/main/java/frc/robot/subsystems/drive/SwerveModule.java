@@ -9,6 +9,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -61,12 +62,17 @@ public class SwerveModule {
     }
 
     public void config() {
-        angleController.setTolerance(7); //degrees for now...
-        // angleController.enableContinuousInput(0, 360); //in accordance to rotation2D default degrees format
+        turnMotor.setIdleMode(IdleMode.kCoast);
+        speedMotor.setIdleMode(IdleMode.kCoast);
 
+        angleController.setTolerance(7); //degrees for now...
+        angleController.enableContinuousInput(0, 360); //in accordance to rotation2D default degrees format
+
+        turnEncoder.configFactoryDefault();
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
         turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
         turnEncoder.configMagnetOffset(cancoderOffset);
+        turnEncoder.configSensorDirection(false);
     }
 
     /**
@@ -104,8 +110,8 @@ public class SwerveModule {
         //We should clamp the PID output to between -1 and 1
         double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
         double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.02 , 0.02);
-        // SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
-        SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
+        SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
+        // SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
 
         turnMotor.set(PIDVALCLAMP);
     }
