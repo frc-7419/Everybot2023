@@ -31,7 +31,7 @@ public class GyroSubsystem extends SubsystemBase {
        */
       ahrs = new AHRS(SerialPort.Port.kMXP);
       SmartDashboard.putString("subsystem", "init gyro sub");
-      ahrs.reset(); //field centric, we need yaw to be zero
+      ahrs.zeroYaw(); //field centric, we need yaw to be zero
   } catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
   }
@@ -55,9 +55,13 @@ public class GyroSubsystem extends SubsystemBase {
   public double getPitch() {
     return ahrs.getPitch();
   }
-
   public double getRoll() {
     return ahrs.getRoll();
+  }
+
+  public void resetYaw() {
+    ahrs.reset();
+    ahrs.zeroYaw();
   }
 
   public Rotation2d getRotation2d() {
