@@ -86,25 +86,25 @@ public final class Constants {
       * shaft as the 24T Pulley
       */
     public static double gearRatioSpeedMotor = (double) 12.0/24.0* 24.0/22.0 * 15.0/45.0;
-    /*
-      * So Number of Rotations of this CANCOder sensor measured means this amount of rotations in actual SPEED wheel
-      */
-    public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
+    // /* THIS IS WRONG
+    //   * So Number of Rotations of this CANCOder sensor measured means this amount of rotations in actual SPEED wheel
+    //   */
+    // public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static double maxSpeed = 4.5;
-    public static final double anglekP = 0.05;
+    public static final double anglekP = 0.005;
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
     public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
-      2, 1, 9, 0, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
+      2, 1, 9, 73.402, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
     public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(
-      4, 3, 10, 0,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+      4, 3, 10, 30.23,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
-      6, 5,11,0,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+      6, 5,11, 116.01,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
-      8, 7, 12, 0 , new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
+      8, 7, 12, 96.2 , new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
   }
 
   public static class SwerveModuleConstants {

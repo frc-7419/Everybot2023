@@ -16,24 +16,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.gyro.GyroSubsystem;
 
 public class SwerveDriveFieldCentric extends CommandBase {
   private XboxController joystick;
   private DriveBaseSubsystem driveBaseSubsystem;
-  private GyroSubsystem gyroSubsystem;
 
-    /*
-  * How will Swerve Work?
-  * Joysticks need to output a x/y speed and a rotation theta speed
-  * Always REMEMBER this is FIELD-ORIENTED DRIVE
-  */
-  public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem, GyroSubsystem gyroSubsystem) {
+  public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem) {
     this.joystick = joystick;
     this.driveBaseSubsystem = driveBaseSubsystem;
-    this.gyroSubsystem = gyroSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveBaseSubsystem, gyroSubsystem);
+    addRequirements(driveBaseSubsystem);
   }
   
   /**
@@ -43,16 +34,25 @@ public class SwerveDriveFieldCentric extends CommandBase {
    */
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
-    //Make sure there is no joystick drift, YOU CAN REMOVE Deadband if it's not necessary
-    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.0)*SwerveConstants.maxTranslationalSpeed;
-    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.0)*SwerveConstants.maxTranslationalSpeed * -1;
-    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.0)*SwerveConstants.maxRotationalSpeed;
+    //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
+    double vx = joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed * -1;
+    double vy = joystick.getLeftY()*SwerveConstants.maxTranslationalSpeed * -1;
+    double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
 
-    SmartDashboard.putNumber("LeftX", joystick.getLeftX());
-    SmartDashboard.putNumber("LeftY", joystick.getLeftY());
-    SmartDashboard.putNumber("RightX", joystick.getRightX());
+    // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
+    // SmartDashboard.putNumber("LeftY", joystick.getLeftY());
+    // SmartDashboard.putNumber("RightX", joystick.getRightX());
+
+    // SmartDashboard.putNumber("vx", vx);
+    // SmartDashboard.putNumber("vy", vy);
+    // SmartDashboard.putNumber("omega", rx);
+
     //WPILIB does the Field-Relative Conversions for you, easy peas y
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyroSubsystem.getRotation2d());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
+
+    SmartDashboard.putNumber("Robot vx", speeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("Robot vy", speeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
     return speeds;
   }
 
@@ -71,6 +71,8 @@ public class SwerveDriveFieldCentric extends CommandBase {
    */
   public void setModuleStates(SwerveModuleState[] moduleStates) {
     for (int i=0; i<4; ++i) {
+      // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
+      // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
       driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
     }
   }
@@ -93,24 +95,12 @@ public class SwerveDriveFieldCentric extends CommandBase {
   }
 
   /**
-   * This should rotate the robot immediately to alliance wall (with no translation speed)
-   */
-  public void alignWithAllianceWall() {
-    setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, 0, Rotation2d.fromDegrees(0)));
-  }
-
-  /**
-   * This should rotate the robot immediately to opposing wall (with no translation speed)
-   */
-  public void alignWithOpposingWall() {
-    setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, 0, Rotation2d.fromDegrees(180)));
-  }
-
-  /**
    * Set swerve modules to its zero state. Note that the CANCoders must be zeroed to their correct position first...
    */
   public void zero() {
-    setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, 0, Rotation2d.fromDegrees(0)));
+    for (int i=0; i<4; ++i) {
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(0, new Rotation2d());
+    }
   }
 
   // Called when the command is initially scheduled.
@@ -123,16 +113,8 @@ public class SwerveDriveFieldCentric extends CommandBase {
   @Override
   public void execute() {
     setModuleStatesFromJoystick(joystick);
-    if (joystick.getAButton()) {
-      zero();
-    }
-
-    // //AUTO ALIGN PREVIEW
-    // if (joystick.getLeftBumper() ) {
-    //   alignWithAllianceWall();
-    // }
-    // else if (joystick.getRightBumper() ) {
-    //   alignWithOpposingWall();
+    // if (joystick.getAButton()) {
+    //   zero();
     // }
   }
   // Called once the command ends or is interrupted.

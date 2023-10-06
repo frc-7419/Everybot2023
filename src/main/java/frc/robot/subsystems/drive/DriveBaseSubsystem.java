@@ -4,14 +4,16 @@
 
 package frc.robot.subsystems.drive;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.gyro.GyroSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBaseSubsystem extends SubsystemBase {
@@ -19,26 +21,20 @@ public class DriveBaseSubsystem extends SubsystemBase {
   private SwerveModule[] swerveModules;
   private SwerveDriveKinematics m_kinematics;
   private SwerveDriveOdometry m_odometry;
-  private GyroSubsystem gyroSubsystem;
   private SwerveModulePosition[] positions;
-  
+  private AHRS ahrs;
 
-  public DriveBaseSubsystem(GyroSubsystem gyroSubsystem) {
+  public DriveBaseSubsystem() {
     //remember when setting up, swerve0-3 has to be in this orientation: m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation respectively 
     swerveModules = new SwerveModule[] {
-      new SwerveModule(SwerveConstants.frontLeft.turnMotorID, SwerveConstants.frontLeft.speedMotorID, SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero),
-      new SwerveModule(SwerveConstants.frontRight.turnMotorID, SwerveConstants.frontRight.speedMotorID, SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero),
-      new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID, SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero),
-      new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID, SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero),
+      new SwerveModule(SwerveConstants.frontLeft.turnMotorID, SwerveConstants.frontLeft.speedMotorID, SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero, 0),
+      new SwerveModule(SwerveConstants.frontRight.turnMotorID, SwerveConstants.frontRight.speedMotorID, SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero, 1),
+      new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID, SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 2),
+      new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID, SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 3),
     };
-    // positions[0] = getSwerveModule(0).getPosition();
-    // positions[1] = getSwerveModule(1).getPosition();
-    // positions[2] = getSwerveModule(2).getPosition();
-    // positions[3] = getSwerveModule(3).getPosition();
+    ahrs = new AHRS(SerialPort.Port.kMXP);
+    ahrs.zeroYaw(); //field centric, we need yaw to be zero
 
-    //TODO: we need the gyro and the module pos for odometry
-    this.gyroSubsystem = gyroSubsystem;
-    // m_odometry = new SwerveDriveOdometry(m_kinematics, new Rotation2d(gyroSubsystem.getAngle()), positions, new Pose2d(0, 0, new Rotation2d(0)));
     m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
   }
 
@@ -52,17 +48,31 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public SwerveModule[] getSwerveModules() {
     return swerveModules;
   }
+
+  public double getYaw() { //CW IS POSITIVE BY DEFAULT
+    return -ahrs.getYaw();
+  }
+
+  public double getPitch() {
+    return ahrs.getPitch();
+  }
+
+  public double getRoll() {
+    return ahrs.getRoll();
+  }
+
+  public Rotation2d getRotation2d() {
+    return Rotation2d.fromDegrees(ahrs.getYaw()+180);
+    /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
+    may cause the internal conversion that Rotation2d does to be wrong 
+    */
+  }
   
-  //call odometry update in this periodic
   @Override
   public void periodic() {
-    // positions[0] = getSwerveModule(0).getPosition();
-    // positions[1] = getSwerveModule(1).getPosition();
-    // positions[2] = getSwerveModule(2).getPosition();
-    // positions[3] = getSwerveModule(3).getPosition();
-    // m_odometry.update(new Rotation2d(gyroSubsystem.getAngle()), positions);
+    SmartDashboard.putNumber(   "Yaw", getYaw());
     for (Integer i=0; i<4; ++i) {
-      SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getAngle());
+      SmartDashboard.putNumber("Swerve" + i.toString() + "angle", swerveModules[i].getAngle());
       // SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getSpeed());
     }
     

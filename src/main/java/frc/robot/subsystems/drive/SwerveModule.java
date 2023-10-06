@@ -34,6 +34,7 @@ public class SwerveModule {
     private int rID;
     private int sID;
     private int eID;
+    private int module;
 
     /**
      * Contains the main SwerveModule logic of the bot
@@ -41,31 +42,30 @@ public class SwerveModule {
      * @param sID is a CAN ID parameter(int)
      * @param eID is a CAN ID parameter(int)
      * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
+     * @param module for numbering modules during comprehensive shuffleboard outputs
      */
-    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero) {
+    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, int module) {
         this.rID = rID;
         this.eID = eID;
         this.sID = sID;
+        this.module = module;
+        cancoderOffset = -absolutePositionAtRobotZero;
+
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
-        cancoderOffset = -absolutePositionAtRobotZero;
         driveEncoder = speedMotor.getEncoder();
-  
-
-
-        angleController = new PIDController(SwerveConstants.anglekP, 0, 0); //never changes after initialization anyways
-        angleController.setTolerance(10); //degrees for now...
-        angleController.enableContinuousInput(-180, 180); //[-180,180] instead of [0,360) seems to be how most vendor classes implement angle return output in degrees
+        angleController = new PIDController(0.0005, 0, 0); //never changes after initialization anyways
 
         config();
     }
 
     public void config() {
-        // turnEncoder.configFactoryDefault();
+        angleController.setTolerance(7); //degrees for now...
+        // angleController.enableContinuousInput(0, 360); //in accordance to rotation2D default degrees format
+
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        // turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
-        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
         turnEncoder.configMagnetOffset(cancoderOffset);
     }
 
@@ -85,7 +85,9 @@ public class SwerveModule {
      */
     public void setSpeed(double speed) {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
-        speedMotor.set(speed/ Constants.SwerveConstants.maxTranslationalSpeed);
+        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
+        SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        // speedMotor.set(motorInput);
     }
 
     /**
@@ -93,25 +95,20 @@ public class SwerveModule {
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
     */
     public void setAnglePID(Rotation2d rotation2D) {    
-        //the units for angle is in degrees now
-        double angle = rotation2D.getDegrees();
-        SmartDashboard.putNumber(   "angle setpoint" + ((Integer)sID/2), angle);
+        double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
+        angleSetpoint = MathUtil.inputModulus(angleSetpoint, 0, 360);
+        SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
+        SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
+        SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
+
         //We should clamp the PID output to between -1 and 1
-        double PIDVAL = angleController.calculate(getAngle(), angle);
-        double PIDVALCLAMP = MathUtil.clamp(angleController.calculate(getAngle(), angle) , -0.5 , 0.5);
-        turnMotor.set(PIDVAL); //gleController.calculate(getAngle(), angle)
-        SmartDashboard.putNumber(   "PIDVAL" + ((Integer)sID/2), PIDVAL);
-        SmartDashboard.putNumber(   "PIDVALCLAMP" + ((Integer)sID/2), PIDVALCLAMP);
-    }
+        double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
+        double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.02 , 0.02);
+        // SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
+        SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
 
-    /**
-     * 
-     * @return angular velocity of individual swerve module in degrees per second
-     */
-    public double getAnglularVelocity() {
-        return turnEncoder.getVelocity();
+        turnMotor.set(PIDVALCLAMP);
     }
-
     
     /**
      * Gets the absolute position of the cancoder, it tells you the angle of rotation of CANCoder. 
@@ -121,38 +118,5 @@ public class SwerveModule {
         return turnEncoder.getAbsolutePosition(); //make sure this is degrees
     }
     
-    /**
-     * This function returns the rotation of the degrees from the CANCoder
-     * @return the degrees from the CANCoder
-    //  */
-    public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getAngle());
-    }
-
-    //needs to be updated
-    public double getSpeed() {
-        return Units.degreesToRotations(speedMotor.getEncoder().getVelocity() * SwerveConstants.gearRatioCANCoder) * SwerveConstants.wheelDiameter;
-    }
-
-    public double getDrivePosition() {
-        return driveEncoder.getPosition();
-    }
-
-    /**
-     * This function returns the displacement of the bot from the origin
-     * @return the displacement of the bot from the origin
-     */
-    public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDrivePosition(), getRotation2d());
-    }
-
-    /**
-     * Potential use for debugging
-     * Puts the data on the SmartDashboard
-     */
-    public void getSwerveModuleState() {
-    
-    }
-
   }
   
