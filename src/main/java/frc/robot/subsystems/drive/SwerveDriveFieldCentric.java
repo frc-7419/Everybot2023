@@ -43,9 +43,9 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //Make sure there is no joystick drift, YOU CAN REMOVE Deadband if it's not necessary
-    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.02)*SwerveConstants.maxTranslationalSpeed;
-    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.02)*SwerveConstants.maxTranslationalSpeed * -1;
-    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.02)*SwerveConstants.maxRotationalSpeed;
+    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.0)*SwerveConstants.maxTranslationalSpeed;
+    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.0)*SwerveConstants.maxTranslationalSpeed * -1;
+    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.0)*SwerveConstants.maxRotationalSpeed;
 
     //WPILIB does the Field-Relative Conversions for you, easy peasy
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyroSubsystem.getRotation2d());

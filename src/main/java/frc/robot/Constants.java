@@ -92,6 +92,7 @@ public final class Constants {
     public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
+    public static double maxSpeed = 4.5;
     public static final double anglekP = 0.05;
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
@@ -112,12 +113,14 @@ public final class Constants {
     public int turnEncoderID;
     public double absolutePositionAtRobotZero;
     public Translation2d location;
+    
     public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, double absolutePositionAtRobotZero, Translation2d location) {
       this.speedMotorID = speedMotorID;
       this.turnMotorID = turnMotorID;
       this.turnEncoderID = turnEncoderID;
       this.absolutePositionAtRobotZero = absolutePositionAtRobotZero;
       this.location = location;
+      
     }
   }
 
