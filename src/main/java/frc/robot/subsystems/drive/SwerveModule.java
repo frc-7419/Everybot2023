@@ -82,7 +82,7 @@ public class SwerveModule {
     */
     public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
       setSpeed(speed);
-      setAnglePID(rotation2D); 
+       setAnglePID(rotation2D); 
     }
     
     /**
@@ -93,7 +93,7 @@ public class SwerveModule {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
         double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
         SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
-        // speedMotor.set(motorInput);
+        speedMotor.set(motorInput);
     }
 
     /**
@@ -102,7 +102,7 @@ public class SwerveModule {
     */
     public void setAnglePID(Rotation2d rotation2D) {    
         double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
-        angleSetpoint = MathUtil.inputModulus(angleSetpoint, 0, 360);
+        angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
         SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
         SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
         SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
