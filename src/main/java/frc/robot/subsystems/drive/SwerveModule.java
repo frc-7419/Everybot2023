@@ -84,7 +84,7 @@ public class SwerveModule {
     */
     public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
       setSpeed(speed);
-       setAnglePID(rotation2D); 
+      setAnglePID(rotation2D); 
     }
     
     /**
@@ -114,7 +114,7 @@ public class SwerveModule {
         }
         //We should clamp the PID output to between -1 and 1
         double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
-        double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.02 , 0.02);
+        double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
         SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
         // SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
 
@@ -126,7 +126,8 @@ public class SwerveModule {
      * @return the angle of the bot from the original starting angle
      */
     public double getAngle() {
-        return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
+        // return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
+        return (turnEncoder.getPosition() - offset + 360) % 360 - 180; //make sure this is degrees
     }
     
   }
