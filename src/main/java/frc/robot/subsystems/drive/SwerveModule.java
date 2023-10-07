@@ -60,7 +60,7 @@ public class SwerveModule {
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
         driveEncoder = speedMotor.getEncoder();
-        angleController = new PIDController(0.0005, 0, 0); //never changes after initialization anyways
+        angleController = new PIDController(1, 0, 1); //never changes after initialization anyways
 
         config();
     }

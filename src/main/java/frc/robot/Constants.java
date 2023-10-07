@@ -114,8 +114,9 @@ public final class Constants {
     public double absolutePositionAtRobotZero;
     public Translation2d location;
 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
-    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 0.5;
+    // pi/6
+    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 0.5;
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;

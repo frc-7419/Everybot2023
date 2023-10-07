@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.drive.SwerveJoystickCommand;
+import frc.robot.subsystems.drive.SwerveModule;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver

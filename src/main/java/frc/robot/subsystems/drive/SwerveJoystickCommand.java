@@ -64,7 +64,8 @@ public class SwerveJoystickCommand extends CommandBase {
         ChassisSpeeds chassisSpeeds;
         
             // Relative to robot
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+            chassisSpeeds = new ChassisSpeeds(//xSpeed, 
+             xSpeed,ySpeed, turningSpeed);
         
 
         // 5. Convert chassis speeds to individual module states
