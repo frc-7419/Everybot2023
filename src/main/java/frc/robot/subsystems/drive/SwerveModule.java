@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.MathUtil;
@@ -37,22 +38,23 @@ public class SwerveModule {
     private int eID;
     private double offset;
     private int module;
+    DriveBaseSubsystem driveBaseSubsystem;
 
     /**
      * Contains the main SwerveModule logic of the bot
      * @param rID is a CAN ID parameter(int)
      * @param sID is a CAN ID parameter(int)
      * @param eID is a CAN ID parameter(int)
-     * @param encoderOffset is the encoder offset (double)
+     * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
      * @param module for numbering modules during comprehensive shuffleboard outputs
      */
-    public SwerveModule(int rID, int sID, int eID, double encoderOffset, double offset,int module) {
+    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module) {
         this.rID = rID;
         this.eID = eID;
         this.sID = sID;
         this.module = module;
         this.offset = offset;
-        cancoderOffset = -encoderOffset;
+        cancoderOffset = -absolutePositionAtRobotZero;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
@@ -76,15 +78,38 @@ public class SwerveModule {
         turnEncoder.configMagnetOffset(cancoderOffset);
         turnEncoder.configSensorDirection(false);
     }
+    public double getDrivePosition() {
+        return driveEncoder.getPosition();
+    }
+
+    public double getTurningPosition() {
+        return turnEncoder.getPosition();
+    }
+
+    public double getDriveVelocity() {
+        return driveEncoder.getVelocity();
+    }
+
+    public double getTurningVelocity() {
+        return turnEncoder.getVelocity();
+    }
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+    }
 
     /**
     * Without worrying about factors such as  field-centric drive, chassis conversion, etc, this is the most fundamental method of controlling each swerve module
     * @param speed in m/s (to match with wpilib's format) which is later converted
     * @param rotation2D angle in wpilib's Rotation2D object format
     */
-    public void setSwerveModuleState(double speed, Rotation2d rotation2D) {
-      setSpeed(speed);
-      setAnglePID(rotation2D); 
+    public void setSwerveModuleState(SwerveModuleState state) {
+        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+            stop();
+            return;
+        }
+        state = SwerveModuleState.optimize(state, getState().angle);
+        speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
     }
     
     /**
@@ -97,7 +122,10 @@ public class SwerveModule {
         SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
         speedMotor.set(motorInput);
     }
-
+    public void stop() {
+        speedMotor.set(0);
+        turnMotor.set(0);
+      }
     /**
     * Rotates the bot to the specified angle with precision
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
@@ -127,7 +155,7 @@ public class SwerveModule {
      */
     public double getAngle() {
         // return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
-        return ((turnEncoder.getAbsolutePosition()*(360.0/4096.0))-offset)%360; //make sure this is degrees
+        return (turnEncoder.getAbsolutePosition() - offset + 360) % 360 - 180; //make sure this is degrees
     }
     
   }

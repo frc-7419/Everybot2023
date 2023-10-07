@@ -15,6 +15,7 @@ import frc.robot.subsystems.drive.SwerveModule;
 public class SwerveJoystickCommand extends CommandBase {
 
     private final DriveBaseSubsystem driveBaseSubsystem;
+    SwerveModule swerveModule;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private XboxController joystick;
     public SwerveJoystickCommand(DriveBaseSubsystem driveBaseSubsystem, XboxController joystick) {
@@ -28,11 +29,7 @@ public class SwerveJoystickCommand extends CommandBase {
         this.turningLimiter = new SlewRateLimiter(Constants.SwerveModuleConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(driveBaseSubsystem);
     }
-    public void zero() {
-      for (int i=0; i<4; ++i) {
-        driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(0, new Rotation2d());
-      }
-    }
+
 
     @Override
     public void initialize() {
@@ -41,7 +38,7 @@ public class SwerveJoystickCommand extends CommandBase {
       for (int i=0; i<4; ++i) {
         // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
         // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-        driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
+        driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
       }
     }
     
@@ -79,7 +76,7 @@ public class SwerveJoystickCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        zero();
+        swerveModule.stop();
     }
 
     @Override

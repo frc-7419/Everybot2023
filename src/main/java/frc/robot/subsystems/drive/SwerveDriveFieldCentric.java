@@ -73,7 +73,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     for (int i=0; i<4; ++i) {
       // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
       // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
     }
   }
 
@@ -97,11 +97,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   /**
    * Set swerve modules to its zero state. Note that the CANCoders must be zeroed to their correct position first...
    */
-  public void zero() {
-    for (int i=0; i<4; ++i) {
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(0, new Rotation2d());
-    }
-  }
+  
 
   // Called when the command is initially scheduled.
   @Override

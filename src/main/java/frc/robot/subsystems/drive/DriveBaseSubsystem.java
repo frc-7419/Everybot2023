@@ -67,6 +67,11 @@ public class DriveBaseSubsystem extends SubsystemBase {
     may cause the internal conversion that Rotation2d does to be wrong 
     */
   }
+  public void stop() {
+    speedMotor.set(0);
+    turnMotor.set(0);
+  }
+  
   
   @Override
   public void periodic() {

@@ -92,6 +92,7 @@ public final class Constants {
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static double maxSpeed = 4.5;
+    public static double kPhysicalMaxSpeedMetersPerSecond = 5;
     public static final double anglekP = 0.005;
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
