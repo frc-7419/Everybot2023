@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
+import frc.robot.subsystems.drive.SwerveJoystickCommand;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -18,6 +19,7 @@ public class RobotContainer {
 
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
+  private final SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(driveBaseSubsystem, driver);
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
@@ -34,7 +36,8 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
+    driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
+    // driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     // armSubsystem.setDefaultCommand(runArmWithJoystick);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }

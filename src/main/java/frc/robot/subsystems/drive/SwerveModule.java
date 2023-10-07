@@ -43,16 +43,16 @@ public class SwerveModule {
      * @param rID is a CAN ID parameter(int)
      * @param sID is a CAN ID parameter(int)
      * @param eID is a CAN ID parameter(int)
-     * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
+     * @param encoderOffset is the encoder offset (double)
      * @param module for numbering modules during comprehensive shuffleboard outputs
      */
-    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module) {
+    public SwerveModule(int rID, int sID, int eID, double encoderOffset, double offset,int module) {
         this.rID = rID;
         this.eID = eID;
         this.sID = sID;
         this.module = module;
         this.offset = offset;
-        cancoderOffset = -absolutePositionAtRobotZero;
+        cancoderOffset = -encoderOffset;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
@@ -127,7 +127,7 @@ public class SwerveModule {
      */
     public double getAngle() {
         // return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
-        return (turnEncoder.getAbsolutePosition() - offset + 360) % 360 - 180; //make sure this is degrees
+        return ((turnEncoder.getAbsolutePosition()*(360.0/4096.0))-offset)%360; //make sure this is degrees
     }
     
   }
