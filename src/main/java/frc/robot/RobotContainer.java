@@ -36,8 +36,8 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
-    // driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
+    // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
+    driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     // armSubsystem.setDefaultCommand(runArmWithJoystick);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }

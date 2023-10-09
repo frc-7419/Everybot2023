@@ -111,6 +111,9 @@ public class SwerveModule {
         speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
     }
+    public void testTurn(){
+        turnMotor.set(0.1);
+    }
     
     /**
      * This function sets the speed of the motors
@@ -126,6 +129,8 @@ public class SwerveModule {
         speedMotor.set(0);
         turnMotor.set(0);
       }
+    
+
     /**
     * Rotates the bot to the specified angle with precision
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot

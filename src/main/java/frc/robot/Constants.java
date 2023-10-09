@@ -115,7 +115,8 @@ public final class Constants {
     public Translation2d location;
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 1;
-    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =  Math.PI*2;
+    // Supposed to be math.pi *6/4/2
+    public static final double kPhysicalMaxAngularSpeedRadiansPerSecond =  Math.PI*4;
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
