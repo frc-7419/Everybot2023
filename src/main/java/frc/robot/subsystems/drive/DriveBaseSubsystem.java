@@ -51,6 +51,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
   public double getYaw() { //CW IS POSITIVE BY DEFAULT
     return -ahrs.getYaw();
+    // ahrs.getRotation2d();
   }
 
   public double getPitch() {
@@ -62,7 +63,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(ahrs.getYaw());
+    return ahrs.getRotation2d();
     /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
     may cause the internal conversion that Rotation2d does to be wrong 
     */

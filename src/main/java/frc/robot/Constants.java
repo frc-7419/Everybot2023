@@ -100,7 +100,7 @@ public final class Constants {
     public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
       2, 1, 9, 73.402, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
     public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(
-      4, 3, 10, 30.23,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+      4, 3, 10, 325.0,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
       6, 5,11, 116.01,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(

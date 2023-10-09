@@ -60,7 +60,7 @@ public class SwerveModule {
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
         driveEncoder = speedMotor.getEncoder();
-        angleController = new PIDController(0.00001, 0, 0.00001); //never changes after initialization anyways
+        angleController = new PIDController(0.003, 0, 0.00000); //never changes after initialization anyways
 
         config();
     }
@@ -69,7 +69,7 @@ public class SwerveModule {
         turnMotor.setIdleMode(IdleMode.kCoast);
         speedMotor.setIdleMode(IdleMode.kCoast);
 
-        angleController.setTolerance(7); //degrees for now...
+        angleController.setTolerance(0.5); //degrees for now...
         angleController.enableContinuousInput(0, 360); //in accordance to rotation2D default degrees format
 
         turnEncoder.configFactoryDefault();
@@ -96,6 +96,7 @@ public class SwerveModule {
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
     }
+  
 
     /**
     * Without worrying about factors such as  field-centric drive, chassis conversion, etc, this is the most fundamental method of controlling each swerve module
@@ -111,6 +112,12 @@ public class SwerveModule {
         speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
     }
+
+    public void setSwerveModuleState2(SwerveModuleState state) {
+        setSpeed(state.speedMetersPerSecond);
+        setAnglePID(state.angle);
+    }
+
     public void testTurn(){
         turnMotor.set(0.1);
     }
@@ -137,21 +144,21 @@ public class SwerveModule {
     */
     public void setAnglePID(Rotation2d rotation2D) {   
         double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
-        angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
+        // angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
         SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
         SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
         SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
 
-        if (angleController.atSetpoint()) {
-            return;
-        }
+        // if (angleController.atSetpoint()) {
+        //     return;
+        // }
         //We should clamp the PID output to between -1 and 1
         double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
         double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
         SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
-        // SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
+        SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
 
-        turnMotor.set(PIDVALCLAMP);
+        turnMotor.set(-PIDVALCLAMP);
     }
     
     /**
@@ -160,7 +167,7 @@ public class SwerveModule {
      */
     public double getAngle() {
         // return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
-        return (turnEncoder.getAbsolutePosition() - offset + 360) % 360 - 180; //make sure this is degrees
+        return (turnEncoder.getAbsolutePosition()); //make sure this is degrees
     }
     
   }

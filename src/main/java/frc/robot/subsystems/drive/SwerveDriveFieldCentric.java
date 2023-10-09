@@ -35,8 +35,8 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
-    double vx = joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed;
-    double vy = joystick.getLeftY()*SwerveConstants.maxTranslationalSpeed;
+    double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) *SwerveConstants.maxTranslationalSpeed;
+    double vy = -(Math.abs(joystick.getLeftX()) > 0.05 ? joystick.getLeftX() : 0.0)*SwerveConstants.maxTranslationalSpeed ;
     double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
 
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
@@ -73,7 +73,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     for (int i=0; i<4; ++i) {
       // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
       // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i]);
     }
   }
 
