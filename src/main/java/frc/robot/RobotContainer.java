@@ -54,15 +54,23 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    PathPlannerTrajectory trajectory = PathPlanner.loadPath("cool path",4.0,3.0);
+    ArrayList<PathPlannerTrajectory> trajectory = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("Example Path Group", new PathConstraints(4, 3), 
+    new PathConstraints(2, 2), 
+    new PathConstraints(3, 3));
     // This will load the file "Example Path Group.path" and generate it with different path constraints for each segment
     // List<PathPlannerTrajectory> pathGroup2 = PathPlanner.loadPathGroup(
     //   "CoolPath", 
     //   new PathConstraints(4, 3), 
     //   new PathConstraints(2, 2), 
     //   new PathConstraints(3, 3));
-    return driveBase.followTrajectoryCommand(trajectory, true, driveBase);
-    // return new WaitCommand(5);
+
+    int length = trajectory.size();
+    // TODO: I am not sure why i++ is dead code. Basically the point of this loop is to run each command in the path group
+    for(int i = 0; i < length; i++) {
+      driveBase.followTrajectoryCommand(trajectory.get(i), true, driveBase);
+    }
+    // FIXME: idk why this here but ok someone plez fix this
+    return new WaitCommand(5);
   }
 
   public void setDefaultCommands() {
