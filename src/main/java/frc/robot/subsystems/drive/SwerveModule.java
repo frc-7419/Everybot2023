@@ -78,6 +78,11 @@ public class SwerveModule {
         turnEncoder.configMagnetOffset(cancoderOffset);
         turnEncoder.configSensorDirection(false);
     }
+
+    public void SwerveCoast() {
+        turnMotor.setIdleMode(IdleMode.kCoast);
+        speedMotor.setIdleMode(IdleMode.kCoast);
+    }
     public double getDrivePosition() {
         return driveEncoder.getPosition();
     }
