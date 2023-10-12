@@ -55,7 +55,18 @@ public final class Constants {
       public static final double ArmPower = 0.2;//arbitrary for now
   }
 
-
+  public static class PIDConstants {
+    public static final double BalanceAngleKi = 0;
+    public static final double BalanceAngleKd = 0; 
+    public static final double BalanceAngleKp = 0;
+    public static final double BalanceSpeedKi = 0;
+    public static final double BalanceAngleKTolerance = 0;
+    public static final double BalanceSpeedKp = 0;
+    public static final double BalanceSpeedKd = 0;
+    public static final double BalanceSpeedKTolerance = 0;
+    public static final double BalanceSpeed = 0;
+    public static final double BalanceSpeedkF = 0;
+  }
   public static final Port SerialPortAHRS = null;
   
   /**

@@ -37,7 +37,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
     m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
   }
-
+  
   public SwerveModule getSwerveModule(int index) {
     return swerveModules[index];
   }
@@ -80,4 +80,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     }
     
   }
+
+  public void brake() {
+  }
+
+public void coast() {
+}
 }
