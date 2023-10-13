@@ -5,14 +5,24 @@
 package frc.robot.subsystems.drive;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.PIDConstants;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drive.SwerveModule;
@@ -39,7 +49,36 @@ public class DriveBaseSubsystem extends SubsystemBase {
     ahrs.zeroYaw(); //field centric, we need yaw to be zero
 
     m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
+    AutoBuilder.configureHolonomic(
+        this::getPose, // Robot pose supplier
+        this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+            4.5, // Max module speed, in m/s
+            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            new ReplanningConfig() // Default path replanning config. See the API for the options here
+        ),
+        this // Reference to this subsystem to set requirements
+    );
+
+    var controller = new HolonomicDriveController(
+      new PIDController(1, 0, 0), new PIDController(1, 0, 0),
+      new ProfiledPIDController(1, 0, 0,
+      new TrapezoidProfile.Constraints(6.28, 3.14)));
+
   }
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+  public void resetPose(Pose2d pose) {
+
+  };
+  public ChassisSpeeds getRobotRelativeSpeeds() {return getSwerveDriveKinematics().toChassisSpeeds(getSwerveModuleStates());}
+  public void driveRobotRelative(ChassisSpeeds speeds) {
+    
+  };
+  
   
   public SwerveModule getSwerveModule(int index) {
     return swerveModules[index];
@@ -50,6 +89,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
   public SwerveModule[] getSwerveModules() {
     return swerveModules;
+  }
+  public SwerveModuleState[] getSwerveModuleStates() {
+    return m_kinematics.toSwerveModuleStates(getRobotRelativeSpeeds());
   }
 
   public double getYaw() { //CW IS POSITIVE BY DEFAULT
@@ -74,13 +116,14 @@ public class DriveBaseSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(   "Yaw", getYaw());
+    SmartDashboard.putNumber("Yaw", getYaw());
     for (Integer i=0; i<4; ++i) {
       SmartDashboard.putNumber("Swerve" + i.toString() + "angle", swerveModules[i].getAngle());
       // SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getSpeed());
     }
     
   }
+  
 
   public void brake() {
     for (int i = 0; i < swerveModules.length; i++) {
