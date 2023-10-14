@@ -6,6 +6,7 @@ package frc.robot.subsystems.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -20,7 +21,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PIDConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -68,6 +71,26 @@ public class DriveBaseSubsystem extends SubsystemBase {
       new TrapezoidProfile.Constraints(6.28, 3.14)));
 
   }
+
+  public void createPathFinder() {
+    // Since we are using a holonomic drivetrain, the rotation component of this pose
+    // represents the goal holonomic rotation
+    Pose2d targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+
+    // Create the constraints to use while pathfinding
+    PathConstraints constraints = new PathConstraints(
+        3.0, 4.0, 
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+    // Since AutoBuilder is configured, we can use it to build pathfinding commands
+    Command pathfindingCommand = AutoBuilder.pathfindToPose(
+        targetPose,
+        constraints,
+        0.0, // Goal end velocity in meters/sec
+        0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+    );
+  }
+
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
@@ -76,9 +99,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
   };
   public ChassisSpeeds getRobotRelativeSpeeds() {return getSwerveDriveKinematics().toChassisSpeeds(getSwerveModuleStates());}
   public void driveRobotRelative(ChassisSpeeds speeds) {
-    
+    // this is definitely done btw definitely dont work on this later and definitely never come back to this file again fsfr ong
   };
-  
   
   public SwerveModule getSwerveModule(int index) {
     return swerveModules[index];
