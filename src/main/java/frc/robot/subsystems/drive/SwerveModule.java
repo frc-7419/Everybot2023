@@ -82,7 +82,8 @@ public class SwerveModule {
     private void resetToAbsolute() {
         double absolutePosition = getTurningPosition() - cancoderOffset;
         turnEncoder.setPosition(absolutePosition);
-        driveEncoder.setPosition(absolutePosition);
+        // driveEncoder.setPosition(absolutePosition);
+
       }
 
     public void SwerveCoast() {
@@ -116,6 +117,7 @@ public class SwerveModule {
     */
     public void setSwerveModuleState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+            resetToAbsolute();
             stop();
             return;
         }
@@ -144,6 +146,7 @@ public class SwerveModule {
         speedMotor.set(motorInput);
     }
     public void stop() {
+        resetToAbsolute();
         speedMotor.set(0);
         turnMotor.set(0);
       }

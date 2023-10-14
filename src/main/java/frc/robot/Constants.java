@@ -110,8 +110,7 @@ public final class Constants {
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
     public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
       2, 1, 9, 79.402, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
-    public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(
-      4, 3, 10, 315.0,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(4, 3, 10, 180,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
       6, 5,11, 116.01,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(

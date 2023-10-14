@@ -76,6 +76,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber(   "Yaw", getYaw());
     for (Integer i=0; i<4; ++i) {
+      
       SmartDashboard.putNumber("Swerve" + i.toString() + "angle", swerveModules[i].getAngle());
       // SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getSpeed());
     }
