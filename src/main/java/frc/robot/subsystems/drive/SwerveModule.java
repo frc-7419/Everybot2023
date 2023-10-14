@@ -77,7 +77,12 @@ public class SwerveModule {
         turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
         turnEncoder.configMagnetOffset(cancoderOffset);
         turnEncoder.configSensorDirection(false);
+        resetToAbsolute();
     }
+    private void resetToAbsolute() {
+        double absolutePosition = getTurningPosition() - cancoderOffset;
+        turnEncoder.setPosition(absolutePosition);
+      }
 
     public void SwerveCoast() {
         turnMotor.setIdleMode(IdleMode.kCoast);
