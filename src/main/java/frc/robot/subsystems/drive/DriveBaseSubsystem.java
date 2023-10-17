@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PIDConstants;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.drive.SwerveModule;
+import frc.robot.Constants.SwerveModuleConstants;
 
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
@@ -51,6 +51,21 @@ public class DriveBaseSubsystem extends SubsystemBase {
     ahrs = new AHRS(SerialPort.Port.kMXP);
     ahrs.zeroYaw(); //field centric, we need yaw to be zero
 
+    //Trying to find the distance from robot center to furthest module:
+    double furthest = 0;
+    if (SwerveConstants.backLeft.absolutePositionAtRobotZero > furthest) {
+      furthest = SwerveConstants.backLeft.absolutePositionAtRobotZero;
+    }
+    if (SwerveConstants.backRight.absolutePositionAtRobotZero > furthest) {
+      furthest = SwerveConstants.backRight.absolutePositionAtRobotZero;
+    }
+    if (SwerveConstants.frontLeft.absolutePositionAtRobotZero > furthest) {
+      furthest = SwerveConstants.frontLeft.absolutePositionAtRobotZero;
+    }
+    if (SwerveConstants.frontRight.absolutePositionAtRobotZero > furthest) {
+      furthest = SwerveConstants.frontRight.absolutePositionAtRobotZero;
+    }
+
     m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -58,8 +73,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-            4.5, // Max module speed, in m/s
-            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            SwerveModuleConstants.kPhysicalMaxSpeedMetersPerSecond, // Max module speed, in m/s
+            furthest, // Drive base radius in meters. Distance from robot center to furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         this // Reference to this subsystem to set requirements
@@ -72,15 +87,15 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
   }
 
-  public void createPathFinder() {
+  public Command createPathFinder(double posx, double posy) {
     // Since we are using a holonomic drivetrain, the rotation component of this pose
     // represents the goal holonomic rotation
-    Pose2d targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+    Pose2d targetPose = new Pose2d(posx, posy, Rotation2d.fromDegrees(180));
 
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        3.0, 4.0, 
-        Units.degreesToRadians(540), Units.degreesToRadians(720));
+        SwerveModuleConstants.kTeleDriveMaxSpeedMetersPerSecond, SwerveModuleConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond, 
+        SwerveModuleConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond, SwerveModuleConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
 
     // Since AutoBuilder is configured, we can use it to build pathfinding commands
     Command pathfindingCommand = AutoBuilder.pathfindToPose(
@@ -89,6 +104,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         0.0, // Goal end velocity in meters/sec
         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
     );
+
+    return pathfindingCommand;
   }
 
   public Pose2d getPose() {
