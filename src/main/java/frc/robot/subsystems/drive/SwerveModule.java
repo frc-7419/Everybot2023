@@ -20,6 +20,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Inputs: Motor IDs(CanSparks for now, but change when new motors arrive)
 // Outputs: The Swerve Drive functionality for EveryBot
 public class SwerveModule {
+    private XboxController joystick; 
     private CANSparkMax turnMotor;
     private CANSparkMax speedMotor;
     private CANCoder turnEncoder;
@@ -39,6 +41,7 @@ public class SwerveModule {
     private double offset;
     private int module;
     DriveBaseSubsystem driveBaseSubsystem;
+    
 
     /**
      * Contains the main SwerveModule logic of the bot
@@ -48,12 +51,13 @@ public class SwerveModule {
      * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
      * @param module for numbering modules during comprehensive shuffleboard outputs
      */
-    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module) {
+    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module, XboxController joystick) {
         this.rID = rID;
         this.eID = eID;
         this.sID = sID;
         this.module = module;
         this.offset = offset;
+        this.joystick = joystick;
         cancoderOffset = -absolutePositionAtRobotZero;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
@@ -127,8 +131,11 @@ public class SwerveModule {
     }
 
     public void setSwerveModuleState2(SwerveModuleState state) {
+        if (joystick.getLeftY() == 0) {
+            setAnglePID(state.angle);
+        }
         setSpeed(state.speedMetersPerSecond);
-        setAnglePID(state.angle);
+        
     }
 
     public void testTurn(){
