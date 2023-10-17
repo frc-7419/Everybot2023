@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
@@ -50,10 +52,16 @@ public class SwerveDriveFieldCentric extends CommandBase {
     //WPILIB does the Field-Relative Conversions for you, easy peas y
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
 
+    // discretizing for second-order kinematics
+    Pose2d deltaPose = new Pose2d(vx * Constants.RobotConstants.loopDt, vy * Constants.RobotConstants.loopDt, new Rotation2d(rx * Constants.RobotConstants.loopDt));
+    Twist2d twist = new Pose2d().log(deltaPose);
+    SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
+    return new ChassisSpeeds(twist.dx / Constants.RobotConstants.loopDt, twist.dy / Constants.RobotConstants.loopDt, twist.dtheta / Constants.RobotConstants.loopDt);
+
+
     // SmartDashboard.putNumber("Robot vx", speeds.vxMetersPerSecond);
     // SmartDashboard.putNumber("Robot vy", speeds.vyMetersPerSecond);
-    SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
-    return speeds;
+    
   }
 
   /**

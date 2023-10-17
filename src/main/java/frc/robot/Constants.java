@@ -38,6 +38,8 @@ public final class Constants {
 
       public static final double LENGTH = Units.inchesToMeters(26.5);
       public static final double HALF_LENGTH = LENGTH/2.0;
+
+      public static final double loopDt = 0.02;
   }
   
   public static class GearConstants {
@@ -104,7 +106,9 @@ public final class Constants {
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static double maxSpeed = 4.5;
     public static double kPhysicalMaxSpeedMetersPerSecond = 5;
-    public static final double anglekP = 0.005;
+    public static final double anglekP = 0.002;
+    public static final double anglekD = 0.001;
+
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
