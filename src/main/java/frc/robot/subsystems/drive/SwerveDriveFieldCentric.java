@@ -37,14 +37,31 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT 
-    if(joystick.getLeftY()<-0.05){
-      SwerveConstants.maxTranslationalSpeedX = SwerveConstants.maxTranslationalSpeedX*-1;
-    }
-    double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) *SwerveConstants.maxTranslationalSpeedX;
+    // if(joystick.getLeftY()<-0.05){
+    //   SwerveConstants.maxTranslationalSpeedX = SwerveConstants.maxTranslationalSpeedX*-1;
+    // }
+    // double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) *SwerveConstants.maxTranslationalSpeedX;
     
-    double vy = -(Math.abs(joystick.getLeftX()) > 0.05 ? joystick.getLeftX() : 0.0)*SwerveConstants.maxTranslationalSpeed ;
-    double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
+    // double vy = -(Math.abs(joystick.getLeftX()) > 0.05 ? joystick.getLeftX() : 0.0)*SwerveConstants.maxTranslationalSpeed ;
+    // double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
+    double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) * SwerveConstants.maxTranslationalSpeedX;
 
+    // Check for joystick input on the left joystick X-axis (back and forth)
+    double vy;
+    if (Math.abs(joystick.getLeftX()) > 0.1) {
+        // Rotate the swerve modules when there's significant input
+        vy = 0.0;
+    } else {
+        // Move forward or backward when joystick input is minimal
+        vy = -vx;
+    }
+
+    double rx = joystick.getRightX() * SwerveConstants.maxRotationalSpeed;
+
+    // Rest of the code remains the same
+    // ...
+
+    
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
     // SmartDashboard.putNumber("LeftY", joystick.getLeftY());
     // SmartDashboard.putNumber("RightX", joystick.getRightX());
@@ -55,7 +72,6 @@ public class SwerveDriveFieldCentric extends CommandBase {
 
     //WPILIB does the Field-Relative Conversions for you, easy peas y
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
-
     // discretizing for second-order kinematics
     Pose2d deltaPose = new Pose2d(vx * Constants.RobotConstants.loopDt, vy * Constants.RobotConstants.loopDt, new Rotation2d(rx * Constants.RobotConstants.loopDt));
     Twist2d twist = new Pose2d().log(deltaPose);
