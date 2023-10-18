@@ -58,7 +58,6 @@ public class SwerveModule {
         this.module = module;
         this.offset = offset;
         this.joystick = joystick;
-        this.driveBaseSubsystem = driveBaseSubsystem;
         cancoderOffset = -absolutePositionAtRobotZero;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
