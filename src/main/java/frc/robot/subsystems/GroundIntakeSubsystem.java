@@ -5,76 +5,62 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GroundIntakeSubsystem extends SubsystemBase {
   /** Creates a new groundIntakeSubsystem. */
 
-  private CANSparkMax left;
-  private CANSparkMax right;
+  private TalonSRX left;
+  private TalonSRX right;
   
   public GroundIntakeSubsystem() {
     //replace with constants later
-    left = new CANSparkMax(Constants.GroundIntakeConstants.leftIntakeID, MotorType.kBrushless);
-    right = new CANSparkMax(Constants.GroundIntakeConstants.leftIntakeID, MotorType.kBrushless);
+    left = new TalonSRX(Constants.GroundIntakeConstants.leftIntakeCanID);
+    right = new TalonSRX(Constants.GroundIntakeConstants.rightIntakeCanID);
 
-
-    // left.setInverted(false);
-    // right.setInverted(true);
+    left.configFactoryDefault();
+    right.configFactoryDefault();
+    left.setInverted(true);
+    right.setInverted(false);
   }
-
-  public void setRightVoltage(double power){
-    right.setVoltage(power);
-  }
-  public void setLeftVoltage(double power){
-    //left.setVoltage(power);
-  }
-
-  public void setAllVoltage(double power) {
-    setRightVoltage(power);
-    //setLeftVoltage(power);
-  }
-
-  public void setRightPower(double power){
-    right.set(power);
-  }
-  public void setLeftPower(double power){
-    left.set(power);
-  }
-  public void setAllPower(double power){
-    setRightPower(power);
-    setLeftPower(power);
-    
-  }
-  public void coast(){
-    left.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    right.setIdleMode(CANSparkMax.IdleMode.kCoast);
-  }
-  public void brake(){
-    left.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    right.setIdleMode(CANSparkMax.IdleMode.kBrake);
-  }
-
-  public void runIntake(double power) {
-    coast();
-    setAllPower(power);
-}
-  public double getLeftVelocity(){
-    return left.getEncoder().getVelocity();
-  }
-  public double getRightVelocity(){
-    return right.getEncoder().getVelocity();
-  }
-
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public void stop(){
-    setAllVoltage(0);
+
+  public void setRightPower(double power){
+    right.set(ControlMode.PercentOutput, power);
+  }
+  public void setLeftPower(double power){
+    left.set(ControlMode.PercentOutput, power);
+  }
+  public void setAllPower(double power){
+    setRightPower(power);
+    setLeftPower(power);
+  }
+  public double getLeftVelocity(){
+    return left.getSelectedSensorVelocity();
+  }
+  public double getRightVelocity(){
+    return right.getSelectedSensorVelocity();
+  }
+  public void coast(){
+    left.setNeutralMode(NeutralMode.Coast);
+    right.setNeutralMode(NeutralMode.Coast);
+  }
+  public void brake(){
+    left.setNeutralMode(NeutralMode.Brake);
+    right.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void runGroundIntake(double power) {
+    coast();
+    setAllPower(power);
   }
 }

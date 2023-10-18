@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,10 +17,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class WristSubsystem extends SubsystemBase {
-  private CANSparkMax wrist;
+  private TalonFX wrist;
   
   public WristSubsystem() {
-    wrist = new CANSparkMax(Constants.WristConstants.wristCanID, MotorType.kBrushless);
+    wrist = new TalonFX(Constants.WristConstants.wristCanID);
   }
 
   @Override
@@ -26,23 +29,19 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void setPower(double power) {
-    wrist.set(power);
+    wrist.set(ControlMode.PercentOutput, power);
   }
 
   public void brake() {
-    wrist.setIdleMode(IdleMode.kBrake);
+    wrist.setNeutralMode(NeutralMode.Brake);
   }
 
   public void coast() {
-    wrist.setIdleMode(IdleMode.kCoast);
-  }
-
-  public double getPower() {
-    return wrist.get();
+    wrist.setNeutralMode(NeutralMode.Coast);
   }
 
   public double getPosition() {
-    return wrist.getEncoder().getPosition() * 2 * Math.PI;
+    return wrist.getSelectedSensorPosition() * 2 * Math.PI;
   }
 
   public void stop() {
