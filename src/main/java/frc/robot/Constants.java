@@ -74,9 +74,9 @@ public final class Constants {
     public static class GroundIntakeConstants {
         public static final double stallVelocityThreshold = 500;
         public static final double groundIntakeDelaySeconds = 0.5;
-        //TODO: fix can IDs
-        public static final int leftIntakeID = 0;
-        public static final int rightIntakeID = 0;
+        //TODO: replace CAN IDs
+        public static final int leftIntakeCanID = 0;
+        public static final int rightIntakeCanID = 0;
     }
     
     public static class RobotConstants {
@@ -103,9 +103,9 @@ public final class Constants {
         public static final double autoDockPower = 0.2;
         public static final double DriveBaseStraight = .55;
         public static final double DriveBaseTurn = .35;
-        public static final double groundIntakePower = 0.5; //arbitrary for now
+        public static final double groundIntakePower = 0.05; //arbitrary for now
         public static final double ArmPower = 0.2;//arbitrary for now
-        public static double WristPower = 0.5; //random # for now
+        public static final double WristPower = 0.5; //random # for now
     }
     public static class WristConstants {
         //TODO: placeholders replace with actual values
