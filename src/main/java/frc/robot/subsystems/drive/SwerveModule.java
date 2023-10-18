@@ -58,6 +58,7 @@ public class SwerveModule {
         this.module = module;
         this.offset = offset;
         this.joystick = joystick;
+        this.driveBaseSubsystem = driveBaseSubsystem;
         cancoderOffset = -absolutePositionAtRobotZero;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
@@ -132,9 +133,11 @@ public class SwerveModule {
 
     public void setSwerveModuleState2(SwerveModuleState state) {
         if (joystick.getLeftY() == 0) {
-            setAnglePID(state.angle);
+        setAnglePID(driveBaseSubsystem.getRotation2d());
         }
         setSpeed(state.speedMetersPerSecond);
+        setAnglePID(state.angle);
+        
         
     }
 
