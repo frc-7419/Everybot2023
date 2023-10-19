@@ -79,7 +79,6 @@ public final class Constants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
 
-  public static double maxTranslationalSpeedX = Units.feetToMeters(2);
     public static double maxTranslationalSpeed = Units.feetToMeters(2);
     //arbitrary value in radians, let's say one pi/second
     public static double maxRotationalSpeed = Math.PI/6;
