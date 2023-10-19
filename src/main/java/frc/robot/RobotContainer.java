@@ -1,5 +1,11 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -34,6 +40,11 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    int coords[][] = {{0,0}, {0, 10}, {10, 10}, {10, 0}};
+    // TODO: I am not sure why i++ is dead code. Basically the point of this loop is to run each command in the path group
+    for(int i = 0; i < coords.length; i++) {
+      driveBaseSubsystem.createPathFinder(coords[i][0], coords[i][1]);
+    }
     return new WaitCommand(5);
   }
 

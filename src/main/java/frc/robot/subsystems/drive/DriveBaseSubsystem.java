@@ -38,6 +38,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
   private SwerveModulePosition[] positions;
   private AHRS ahrs;
   private SwerveModule coaster;
+  public HolonomicDriveController holonomicDriveController;
 
   public DriveBaseSubsystem() {
     //remember when setting up, swerve0-3 has to be in this orientation: m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation respectively 
@@ -84,7 +85,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
       new PIDController(1, 0, 0), new PIDController(1, 0, 0),
       new ProfiledPIDController(1, 0, 0,
       new TrapezoidProfile.Constraints(6.28, 3.14)));
-
+    this.holonomicDriveController = controller;
   }
 
   public Command createPathFinder(double posx, double posy) {
