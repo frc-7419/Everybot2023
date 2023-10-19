@@ -92,7 +92,7 @@ public class SwerveModule {
     public double getAnglularVelocity() {
         return turnEncoder.getVelocity();
     }
-
+    
     
     /**
      * Gets the absolute position of the canCoder, although it will not tell you wheel rotation, instead speed. 
@@ -101,7 +101,6 @@ public class SwerveModule {
     public double getAngle() { //from what I've seen the CANCODER does not tell you anything about wheel rotation but rather speed
         return turnEncoder.getPosition();
     }
-    
     
     /**
      * This function returns the rotation of the degrees from the CANCoder
