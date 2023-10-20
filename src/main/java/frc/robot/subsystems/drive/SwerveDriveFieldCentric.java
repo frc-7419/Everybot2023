@@ -21,7 +21,8 @@ import frc.robot.Constants.SwerveConstants;
 
 public class SwerveDriveFieldCentric extends CommandBase {
   private XboxController joystick;
-  private DriveBaseSubsystem driveBaseSubsystem;
+  private static DriveBaseSubsystem driveBaseSubsystem;
+  public double recordedAngle;
 
   public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem) {
     this.joystick = joystick;
@@ -110,7 +111,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    recordedAngle =driveBaseSubsystem.getPitch();
     // zero();
   }
 

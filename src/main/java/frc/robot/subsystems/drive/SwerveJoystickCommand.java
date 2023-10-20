@@ -15,8 +15,8 @@ import frc.robot.subsystems.drive.SwerveModule;
 public class SwerveJoystickCommand extends CommandBase {
 
     private final DriveBaseSubsystem driveBaseSubsystem;
-    SwerveModule swerveModule;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private SwerveModule swerveModule;
     private XboxController joystick;
     public SwerveJoystickCommand(DriveBaseSubsystem driveBaseSubsystem, XboxController joystick) {
         this.driveBaseSubsystem = driveBaseSubsystem;
