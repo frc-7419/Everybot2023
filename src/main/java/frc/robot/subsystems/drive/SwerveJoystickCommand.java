@@ -46,9 +46,9 @@ public class SwerveJoystickCommand extends CommandBase {
     @Override
     public void execute() {
         // GET THE JOYSTICK INPUTS - i swear please dont get mad at me for not burying files, i dont like burying files because its good to see the code straight up for debugging
-        double xSpeed = joystick.getLeftX();
-        double ySpeed = joystick.getLeftY();
-        double turningSpeed = joystick.getRightX();
+        double xSpeed = joystick.getLeftX() * 0.8;
+        double ySpeed = joystick.getLeftY() * 0.8;
+        double turningSpeed = joystick.getRightX() * 0.8;
 
         // deadband
         xSpeed = Math.abs(xSpeed) > 0.05 ? xSpeed : 0.0;
