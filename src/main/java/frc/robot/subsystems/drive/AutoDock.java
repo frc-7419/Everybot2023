@@ -24,8 +24,7 @@ public class AutoDock extends CommandBase {
         this.swerveModule = swerveModule;
         addRequirements(driveBaseSubsystem);
     }
-    public ChassisSpeeds getChassisSpeeds(){
-        double vx = 1;
+    public ChassisSpeeds getChassisSpeeds(double vx){
         double vy = 1;
         double rx = Math.PI/6;
 
@@ -49,13 +48,8 @@ public class AutoDock extends CommandBase {
         double pitch = driveBaseSubsystem.getPitch();
         SmartDashboard.putNumber("pitch", pitch);
         double output = pitchController.calculate(pitch);
-        fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(getChassisSpeeds()));
-        
-        if (Math.abs(pitch) == recordedPitch) {
-            fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(endSpeed()));
-        } else {
-            
-        }
+            fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(getChassisSpeeds(output)));
+
     }
     @Override
     public void end(boolean interrupted) {} 
