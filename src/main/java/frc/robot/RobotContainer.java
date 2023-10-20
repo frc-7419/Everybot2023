@@ -1,10 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.arm.RunArmWithJoystick;
+import frc.robot.commands.auto.drive;
+import frc.robot.commands.auto.findDock;
 import frc.robot.commands.drive.SwerveDriveFieldCentric;
 import frc.robot.commands.intake.RunGroundIntake;
 import frc.robot.commands.intake.RunGroundIntakeUntilHolding;
@@ -34,6 +38,9 @@ public class RobotContainer {
   private final WristToPosition wristToPosition = new WristToPosition(wristSubsystem, 5);
   private final RunGroundIntakeUntilHolding  runGroundIntakeUntilHolding = new RunGroundIntakeUntilHolding(groundIntakeSubsystem);
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+
+  private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+
   public RobotContainer() {
     configureButtonBindings();
   }
@@ -43,9 +50,14 @@ public class RobotContainer {
   
   }
 
+  private void configureAutoSelector() {
+    autonomousChooser.setDefaultOption("Find Dock", new findDock(driveBase));
+    SmartDashboard.putData(autonomousChooser);
+  }
   public Command getAutonomousCommand() {
     // dock command
     // return new 
+    return autonomousChooser.getSelected();
   }
 
   public void setDefaultCommands() {

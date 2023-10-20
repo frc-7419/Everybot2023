@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -105,6 +106,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
   }
   public void setModuleStatesFromJoystick(XboxController joystick) {
     setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
+  }
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
   }
   @Override
   public void periodic() {
