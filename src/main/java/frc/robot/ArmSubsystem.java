@@ -40,6 +40,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Absolute Encoder Angle", getAngle());
     SmartDashboard.putBoolean("connected", encoder.isConnected());
-    System.out.println("Angle:" + getAngle());
+    //System.out.println("Angle:" + getAngle());
   }
 }

@@ -29,10 +29,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public DriveBaseSubsystem() {
     //remember when setting up, swerve0-3 has to be in this orientation: m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation respectively 
     swerveModules = new SwerveModule[] {
-      new SwerveModule(SwerveConstants.frontLeft.turnMotorID, SwerveConstants.frontLeft.speedMotorID, SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero, 94.219,0),
-      new SwerveModule(SwerveConstants.frontRight.turnMotorID, SwerveConstants.frontRight.speedMotorID, SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero, 28.125,1),
-      new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID, SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 266.572,2),
-      new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID, SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 267.803,3),
+      new SwerveModule(SwerveConstants.frontLeft.turnMotorID, SwerveConstants.frontLeft.speedMotorID, SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero, 94.219,0,this),
+      new SwerveModule(SwerveConstants.frontRight.turnMotorID, SwerveConstants.frontRight.speedMotorID, SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero, 28.125,1,this),
+      new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID, SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 266.572,2,this),
+      new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID, SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 267.803,3,this),
     };
     this.coaster = coaster;
     ahrs = new AHRS(SerialPort.Port.kMXP);
@@ -91,5 +91,24 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
   public void coast() {
     coaster.SwerveCoast();
+  }
+  public boolean withinRange(double range) {
+    double maxAng = -1,minAng = 361;
+    for (SwerveModule sm:swerveModules) {
+      if (sm.getAngle() > maxAng) {
+        maxAng = sm.getAngle();
+      }
+      if (sm.getAngle() < minAng) {
+        minAng = sm.getAngle();
+      }
+    }
+    return (maxAng-minAng) <= range;
+  }
+  public double avgWheelHeading() {
+    double sum = 0;
+    for (SwerveModule sm:swerveModules) {
+      sum += sm.getAngle();
+    }
+    return sum/4;
   }
 }

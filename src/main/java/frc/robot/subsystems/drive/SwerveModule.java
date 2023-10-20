@@ -48,12 +48,13 @@ public class SwerveModule {
      * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
      * @param module for numbering modules during comprehensive shuffleboard outputs
      */
-    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module) {
+    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module,DriveBaseSubsystem driveBaseSubsystem) {
         this.rID = rID;
         this.eID = eID;
         this.sID = sID;
         this.module = module;
         this.offset = offset;
+        this.driveBaseSubsystem = driveBaseSubsystem;
         cancoderOffset = -absolutePositionAtRobotZero;
 
         turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
@@ -126,6 +127,13 @@ public class SwerveModule {
     }
 
     public void setSwerveModuleState2(SwerveModuleState state) {
+        if (driveBaseSubsystem.withinRange(10)) {
+            if (Math.abs(state.angle.getDegrees() - driveBaseSubsystem.avgWheelHeading()) > 90) {
+                setSpeed(-state.speedMetersPerSecond);
+                setAnglePID(state.angle.plus(Rotation2d.fromDegrees(180)));
+                return;
+            }
+        }
         setSpeed(state.speedMetersPerSecond);
         setAnglePID(state.angle);
     }
