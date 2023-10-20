@@ -32,14 +32,13 @@ public class ArmSubsystem extends SubsystemBase {
     arm.setNeutralMode(NeutralMode.Brake);
   }
 
-  public double getAngle() {
+  public double getPosition() {
     return encoder.getAbsolutePosition();
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Absolute Encoder Angle", getAngle());
+    SmartDashboard.putNumber("Absolute Encoder Angle", getPosition());
     SmartDashboard.putBoolean("connected", encoder.isConnected());
-    System.out.println("Angle:" + getAngle());
   }
 }
