@@ -15,7 +15,7 @@ public class RobotContainer {
 
   //Subsystems
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
-  // private final ArmSubsystem armSubsystem = new ArmSubsystem();
+    private final ArmSubsystem armSubsystem = new ArmSubsystem();
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
 
   //Commands

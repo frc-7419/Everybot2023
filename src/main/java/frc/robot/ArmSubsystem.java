@@ -14,8 +14,10 @@ public class ArmSubsystem extends SubsystemBase {
   TalonFX arm;
   DutyCycleEncoder encoder;
   public ArmSubsystem() {
-    arm = new TalonFX(1000); //CAN?
-    encoder = new DutyCycleEncoder(0); // CAN?
+    // arm = new TalonFX(1000); //CAN?
+    encoder = new DutyCycleEncoder(1); // CAN?
+    encoder.reset();
+    // encoder.getSourceChannel(1);
   }
 
   public void setPower(double power) {
@@ -31,11 +33,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getAngle() {
-    return encoder.getPositionOffset();
+    return encoder.getAbsolutePosition();
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Absolute Encoder Angle", getAngle());
+    SmartDashboard.putBoolean("connected", encoder.isConnected());
+    System.out.println("Angle:" + getAngle());
   }
 }
