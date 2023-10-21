@@ -134,7 +134,7 @@ public class SwerveModule {
                 return;
             }
         }
-        setSpeed(state.speedMetersPerSecond);
+        setSpeed(Math.abs(state.speedMetersPerSecond));
         setAnglePID(state.angle);
     }
 
