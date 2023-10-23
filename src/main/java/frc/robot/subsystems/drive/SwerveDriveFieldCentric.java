@@ -90,7 +90,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     for (int i=0; i<4; ++i) {
       // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
       // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i]);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
     }
   }
 

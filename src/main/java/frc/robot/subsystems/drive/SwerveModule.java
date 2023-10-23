@@ -116,17 +116,6 @@ public class SwerveModule {
     * @param rotation2D angle in wpilib's Rotation2D object format
     */
     public void setSwerveModuleState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            resetToAbsolute();
-            stop();
-            return;
-        }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
-    }
-
-    public void setSwerveModuleState2(SwerveModuleState state) {
         if (driveBaseSubsystem.withinRange(10)) {
             if (Math.abs(state.angle.getDegrees() - driveBaseSubsystem.avgWheelHeading()) > 90) {
                 setSpeed(-state.speedMetersPerSecond);
