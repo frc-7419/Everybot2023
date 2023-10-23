@@ -11,13 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/encoders-software.html#encoders-software
 
 public class ArmSubsystem extends SubsystemBase {
-  TalonFX arm;
-  DutyCycleEncoder encoder;
+  private TalonFX arm;
+  private DutyCycleEncoder encoder;
   public ArmSubsystem() {
     // arm = new TalonFX(1000); //CAN?
     encoder = new DutyCycleEncoder(1); // CAN?
     encoder.reset();
-    // encoder.getSourceChannel(1);
   }
 
   public void setPower(double power) {

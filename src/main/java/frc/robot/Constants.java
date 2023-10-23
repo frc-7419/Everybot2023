@@ -68,6 +68,10 @@ public final class Constants {
     public static final double BalanceSpeedKTolerance = 0;
     public static final double BalanceSpeed = 0;
     public static final double BalanceSpeedkF = 0;
+
+    public static final double ArmAngleKp = 0.01;
+    public static final double ArmAngleKi = 0;
+    public static final double ArmAngleKd = 0;
   }
   public static final Port SerialPortAHRS = null;
   

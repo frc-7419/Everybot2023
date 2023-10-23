@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,6 +25,7 @@ public class RobotContainer {
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
   private final SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(driveBaseSubsystem, driver);
   private final TestIndividualSwerve testIndividualSwerve = new TestIndividualSwerve(driveBaseSubsystem, driver);
+  private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0);
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
@@ -32,7 +34,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-  
+    new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
   }
 
   public Command getAutonomousCommand() {

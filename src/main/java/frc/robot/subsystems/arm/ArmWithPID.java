@@ -8,6 +8,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
+import static frc.robot.Constants.PIDConstants.*;
+
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
@@ -17,19 +19,22 @@ public class ArmWithPID extends PIDCommand {
   public ArmWithPID(ArmSubsystem armSubsystem, double setpoint) {
     super(
       // The controller that the command will use
-      new PIDController(0.01, 0, 0),
+      new PIDController(ArmAngleKp, ArmAngleKi, ArmAngleKd),
+
       // This should return the measurement
       () -> armSubsystem.getPosition(),
+
       // This should return the setpoint (can also be a constant)
       () -> setpoint,
+
       // This uses the output
       output -> {
-        // Use the output here
         SmartDashboard.putNumber("Arm Output", output);
         // armSubsystem.setPower(output);
       });
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(armSubsystem);
+
       // Configure additional PID options by calling `getController` here.
       getController().setTolerance(tolerance);
   }
