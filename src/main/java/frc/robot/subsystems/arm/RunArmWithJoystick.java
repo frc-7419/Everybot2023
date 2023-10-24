@@ -7,6 +7,7 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.PowerConstants;
 
 public class RunArmWithJoystick extends CommandBase {
   private final XboxController joystick;
@@ -26,12 +27,14 @@ public class RunArmWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (joystick.getLeftY() != 0) {
+    if (Math.abs(joystick.getLeftY()) > 0.05) {
       armSubsystem.coast();
-      armSubsystem.setPower(joystick.getLeftY() * 0.1);
+      armSubsystem.setPower(joystick.getLeftY() * PowerConstants.maxArmPower);
+      
       SmartDashboard.putNumber("Arm Power", joystick.getLeftY());
     }
     else {
+      //TODO: Replace the 0 with some tested constant that keeps the arm stationary - PowerConstants.armStationaryPower
       armSubsystem.setPower(0);
       armSubsystem.brake();
     }

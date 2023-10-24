@@ -58,6 +58,7 @@ public final class Constants {
       public static final double groundIntakePower = 0.2; //arbitrary for now
       public static final double ArmPower = 0.2;//arbitrary for now
       public static final double ArmIntakeSpeed = 0.5; //arbitrary for now
+      public static double maxArmPower = 0.1;
   }
 
   public static class PIDConstants {
