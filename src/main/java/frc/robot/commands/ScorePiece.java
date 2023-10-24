@@ -4,16 +4,26 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.ArmWithPID;
+import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
+import frc.robot.subsystems.armIntake.RunArmOuttake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScorePieceHigh extends SequentialCommandGroup {
+public class ScorePiece extends SequentialCommandGroup {
   /** Creates a new ScorePieceHigh. */
-  public ScorePieceHigh() {
+  public ScorePiece(ArmSubsystem armSubsystem, ArmIntakeSubsystem armIntakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      new ArmWithPID(armSubsystem, 0),
+      new WaitCommand(1),
+      new RunArmOuttake(armIntakeSubsystem)
+    );
   }
 }
