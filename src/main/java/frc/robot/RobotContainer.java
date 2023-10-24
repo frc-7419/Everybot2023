@@ -11,6 +11,7 @@ import frc.robot.subsystems.drive.SwerveJoystickCommand;
 import frc.robot.subsystems.drive.TestIndividualSwerve;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmWithPID;
+import frc.robot.subsystems.arm.RunArmWithJoystick;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -25,6 +26,8 @@ public class RobotContainer {
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
   private final SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(driveBaseSubsystem, driver);
   private final TestIndividualSwerve testIndividualSwerve = new TestIndividualSwerve(driveBaseSubsystem, driver);
+
+  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0);
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
@@ -44,7 +47,7 @@ public class RobotContainer {
   public void setDefaultCommands() {
     // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
     driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
-    // armSubsystem.setDefaultCommand(runArmWithJoystick);
+    armSubsystem.setDefaultCommand(runArmWithJoystick);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }
 }

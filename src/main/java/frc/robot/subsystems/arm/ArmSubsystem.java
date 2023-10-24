@@ -14,13 +14,13 @@ public class ArmSubsystem extends SubsystemBase {
   private TalonFX arm;
   private DutyCycleEncoder encoder;
   public ArmSubsystem() {
-    // arm = new TalonFX(1000); //CAN?
+    arm = new TalonFX(50);
     encoder = new DutyCycleEncoder(1); // CAN?
     encoder.reset();
   }
 
   public void setPower(double power) {
-    arm.set(ControlMode.PercentOutput, power);
+    arm.set(ControlMode.PercentOutput, power); //make a constant
   }
 
   public void coast() {
