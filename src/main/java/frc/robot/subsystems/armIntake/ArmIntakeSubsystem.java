@@ -14,6 +14,7 @@ public class ArmIntakeSubsystem extends SubsystemBase {
   private CANSparkMax armMotor;
   public ArmIntakeSubsystem() {
     armMotor = new CANSparkMax(Constants.CanIds.armIntake.id, MotorType.kBrushless);
+    armMotor.setInverted(true);
   }
 
   public void setVoltage(double power) {
