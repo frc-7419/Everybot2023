@@ -23,9 +23,8 @@ public final class Constants {
 
   public static enum CanIds {
     
-    arm(168),
+    arm(50),
     armIntake(62);
-    //TODO: Find arm canID
 
     
     
@@ -46,6 +45,8 @@ public final class Constants {
       public static final double loopDt = 0.02;
 
     public static final DoubleSupplier armSetpoint = null;
+
+    public static final double armEncoderOffset = 0;
   }
   
   public static class GearConstants {

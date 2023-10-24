@@ -17,7 +17,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   public ArmSubsystem() {
     arm = new TalonFX(CanIds.arm.id);
-    encoder = new DutyCycleEncoder(1); // CAN?
+    encoder = new DutyCycleEncoder(1);
     encoder.reset();
   }
 

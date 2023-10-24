@@ -9,6 +9,8 @@ import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
+import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
+import frc.robot.subsystems.armIntake.RunIntakeWithJoystick;
 import frc.robot.subsystems.arm.ArmWithPID;
 
 public class RobotContainer {
@@ -18,11 +20,12 @@ public class RobotContainer {
   //Subsystems
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
     private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
 
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
-
+  private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(armIntakeSubsystem, operator);
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0); RUN WITH CAUTION - COULD BREAK ARM
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
@@ -45,5 +48,6 @@ public class RobotContainer {
     //driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
+    armIntakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
   }
 }

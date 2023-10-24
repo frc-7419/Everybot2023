@@ -22,10 +22,10 @@ public class ArmWithPID extends PIDCommand {
       new PIDController(ArmAngleKp, ArmAngleKi, ArmAngleKd),
 
       // This should return the measurement
-      () -> armSubsystem.getPosition(),
+      () -> armSubsystem.getPosition() - Constants.RobotConstants.armEncoderOffset,
 
       // This should return the setpoint (can also be a constant)
-      Constants.RobotConstants.armSetpoint,
+      ()-> setpoint,
 
       // This uses the output
       output -> {
