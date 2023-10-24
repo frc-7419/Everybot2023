@@ -19,19 +19,21 @@ import edu.wpi.first.wpilibj.SPI.Port;
  */
 public final class Constants {
 
-  // public static enum CanIds {
+  public static enum CanIds {
     
-  //   leftFalcon1(62);
+    arm(168),
+    armIntake(62);
+    //TODO: Find armIntake canID
 
     
     
-  //     public final int id;
+      public final int id;
 
-  //   private CanIds(int id) {
-  //       this.id = id;
-  //   }
+    private CanIds(int id) {
+        this.id = id;
+    }
     
-  // }
+  }
 
   public static class RobotConstants {
       public static final double TalonFXTicksPerRotation = 2048;
@@ -55,6 +57,7 @@ public final class Constants {
   public static class PowerConstants {
       public static final double groundIntakePower = 0.2; //arbitrary for now
       public static final double ArmPower = 0.2;//arbitrary for now
+      public static final double ArmIntakeSpeed = 0.5; //arbitrary for now
   }
 
   public static class PIDConstants {
