@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/encoders-software.html#encoders-software
+import frc.robot.Constants.CanIds;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX arm;
   private DutyCycleEncoder encoder;
+  
   public ArmSubsystem() {
-    arm = new TalonFX(50);
+    arm = new TalonFX(CanIds.arm.id);
     encoder = new DutyCycleEncoder(1); // CAN?
     encoder.reset();
   }

@@ -7,7 +7,7 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-
+import frc.robot.Constants;
 import static frc.robot.Constants.PIDConstants.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,12 +25,12 @@ public class ArmWithPID extends PIDCommand {
       () -> armSubsystem.getPosition(),
 
       // This should return the setpoint (can also be a constant)
-      () -> setpoint,
+      Constants.RobotConstants.armSetpoint,
 
       // This uses the output
       output -> {
         SmartDashboard.putNumber("Arm Output", output);
-        // armSubsystem.setPower(output);
+        armSubsystem.setPower(output);
       });
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(armSubsystem);

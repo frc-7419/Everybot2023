@@ -24,7 +24,7 @@ public class RobotContainer {
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
 
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0);
+  // private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0); RUN WITH CAUTION - COULD BREAK ARM
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
 
@@ -33,7 +33,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
+    //new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
   }
 
   public Command getAutonomousCommand() {
@@ -42,8 +42,8 @@ public class RobotContainer {
 
   public void setDefaultCommands() {
     // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
-    driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
-    armSubsystem.setDefaultCommand(runArmWithJoystick);
+    //driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    armSubsystem.setDefaultCommand(runArmWithJoystick);
   }
 }

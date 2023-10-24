@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -23,7 +25,7 @@ public final class Constants {
     
     arm(168),
     armIntake(62);
-    //TODO: Find armIntake canID
+    //TODO: Find arm canID
 
     
     
@@ -42,6 +44,8 @@ public final class Constants {
       public static final double HALF_LENGTH = LENGTH/2.0;
 
       public static final double loopDt = 0.02;
+
+    public static final DoubleSupplier armSetpoint = null;
   }
   
   public static class GearConstants {
