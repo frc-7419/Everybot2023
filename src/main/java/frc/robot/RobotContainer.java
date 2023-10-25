@@ -8,21 +8,21 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import frc.robot.commands.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
-import frc.robot.commands.ScorePieceWithTurning;
+// import frc.robot.commands.ScorePieceWithTurning;
 // import frc.robot.commands.intake.RunGroundIntake;
 // import frc.robot.commands.intake.RunGroundIntakeUntilHolding;
 // import frc.robot.commands.intake.RunGroundIntakeWithJoystick;
 // import frc.robot.commands.intake.RunGroundOuttake;
 // import frc.robot.commands.wrist.RunWristWithJoystick;
 // import frc.robot.commands.wrist.WristToPosition;
-import frc.robot.subsystems.arm.ArmSubsystem;
+// import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 // import frc.robot.subsystems.GroundIntakeSubsystem;
 // import frc.robot.subsystems.WristSubsystem;
-import frc.robot.commands.ScorePieceWithTurning;
-import frc.robot.commands.ScorePieceWithoutTurning;
+// import frc.robot.commands.ScorePieceWithTurning;
+// import frc.robot.commands.ScorePieceWithoutTurning;
 import frc.robot.commands.auto.AutoDock;
-import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
+// import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 
 public class RobotContainer {
@@ -31,8 +31,8 @@ public class RobotContainer {
   private final XboxController operator = new XboxController(1); //operator
   // private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
-  private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
+  // private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  // private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBase);
 
   // private final WristSubsystem wristSubsystem = new WristSubsystem();
@@ -57,8 +57,8 @@ public class RobotContainer {
   }
 
   private void configureAutoSelector() {
-    autonomousChooser.setDefaultOption("Score piece with turning", new ScorePieceWithTurning(armSubsystem, armIntakeSubsystem, swerveDriveFieldCentric, driveBase));
-    autonomousChooser.addOption("Score piece without turning", new ScorePieceWithoutTurning(armSubsystem, armIntakeSubsystem, swerveDriveFieldCentric, driveBase));
+    // autonomousChooser.setDefaultOption("Score piece with turning", new ScorePieceWithTurning(armSubsystem, armIntakeSubsystem, swerveDriveFieldCentric, driveBase));
+    // autonomousChooser.addOption("Score piece without turning", new ScorePieceWithoutTurning(armSubsystem, armIntakeSubsystem, swerveDriveFieldCentric, driveBase));
     autonomousChooser.addOption("Autodock", new AutoDock(driveBase, swerveDriveFieldCentric));
     SmartDashboard.putData(autonomousChooser);
   }
