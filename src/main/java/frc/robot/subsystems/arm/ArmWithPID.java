@@ -6,42 +6,48 @@ package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.PIDConstants.*;
+import static frc.robot.Constants.RobotConstants.*;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmWithPID extends PIDCommand {
-  /** Creates a new ArmWithPID. */
-  private double tolerance = 0.5;
+public class ArmWithPID extends CommandBase {
+  /** Creates a new ArmWithPID2. */
+  ArmSubsystem armSubsystem;
+  PIDController positionController;
+  double setpoint;
+  double tolerance;
   public ArmWithPID(ArmSubsystem armSubsystem, double setpoint) {
-    super(
-      // The controller that the command will use
-      new PIDController(ArmAngleKp, ArmAngleKi, ArmAngleKd),
-
-      // This should return the measurement
-      () -> armSubsystem.getPosition() - Constants.RobotConstants.armEncoderOffset,
-
-      // This should return the setpoint (can also be a constant)
-      ()-> setpoint,
-
-      // This uses the output
-      output -> {
-        SmartDashboard.putNumber("Arm Output", output);
-        armSubsystem.setPower(output);
-      });
-      // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(armSubsystem);
-
-      // Configure additional PID options by calling `getController` here.
-      getController().setTolerance(tolerance);
+    this.armSubsystem = new ArmSubsystem();
+    this.positionController = new PIDController(ArmAngleKp, ArmAngleKi, ArmAngleKd);
+    this.setpoint = setpoint;
+    this.tolerance = 0.5;
+    addRequirements(armSubsystem);
   }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    armSubsystem.coast();
+    positionController.setTolerance(tolerance);
+    positionController.setSetpoint(setpoint);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double position = armSubsystem.getPosition() - armEncoderOffset;
+    double output = positionController.calculate(position);
+    SmartDashboard.putNumber("arm output", output);
+    // armSubsystem.setPower(output);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return positionController.atSetpoint();
   }
 }

@@ -27,8 +27,7 @@ public final class Constants {
     armIntake(62);
 
     
-    
-      public final int id;
+    public final int id;
 
     private CanIds(int id) {
         this.id = id;
@@ -47,6 +46,7 @@ public final class Constants {
     public static final DoubleSupplier armSetpoint = null;
 
     public static final double armEncoderOffset = 0;
+    public static final int armEncoderPort = 0;
   }
   
   public static class GearConstants {

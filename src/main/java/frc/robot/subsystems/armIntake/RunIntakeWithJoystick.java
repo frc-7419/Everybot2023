@@ -14,7 +14,6 @@ public class RunIntakeWithJoystick extends CommandBase {
   public RunIntakeWithJoystick(ArmIntakeSubsystem armIntakeSubsystem, XboxController joystick) {
     this.armIntakeSubsystem = armIntakeSubsystem;
     this.joystick = joystick;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armIntakeSubsystem);
   }
 
@@ -28,7 +27,6 @@ public class RunIntakeWithJoystick extends CommandBase {
     if (joystick.getLeftBumper()) {
       armIntakeSubsystem.coast();
       armIntakeSubsystem.setSpeed(-0.5);
-      
       // SmartDashboard.putNumber("Arm Power", joystick.getLeftY());
     }
     else if(joystick.getRightBumper()) {
