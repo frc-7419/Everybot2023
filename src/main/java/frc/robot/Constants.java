@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -41,6 +43,11 @@ public final class Constants {
       public static final double HALF_LENGTH = LENGTH/2.0;
 
       public static final double loopDt = 0.02;
+
+    public static final DoubleSupplier armSetpoint = null;
+
+    public static final double armEncoderOffset = 0;
+    public static final int armEncoderPort = 0;
   }
   
   public static class GearConstants {
@@ -74,6 +81,10 @@ public final class Constants {
     public static final double BalanceSpeedKTolerance = 0;
     public static final double BalanceSpeed = 0;
     public static final double BalanceSpeedkF = 0;
+
+    public static final double ArmAngleKp = 0.01;
+    public static final double ArmAngleKi = 0;
+    public static final double ArmAngleKd = 0;
   }
   public static final Port SerialPortAHRS = null;
   

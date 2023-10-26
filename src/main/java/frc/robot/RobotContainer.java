@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +25,11 @@ import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.commands.auto.AutoDock;
 // import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.RunArmWithJoystick;
+import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
+import frc.robot.subsystems.armIntake.RunIntakeWithJoystick;
+import frc.robot.subsystems.arm.ArmWithPID;
 
 public class RobotContainer {
   
@@ -35,9 +41,17 @@ public class RobotContainer {
   // private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBase);
 
-  // private final WristSubsystem wristSubsystem = new WristSubsystem();
-  // private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
+  //Subsystems
+  private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+
+  //Commands
+  private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(armIntakeSubsystem, operator);
+  private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+  // private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0); RUN WITH CAUTION - COULD BREAK ARM
+  // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
   // private  final RunGroundIntake runGroundIntake = new RunGroundIntake(groundIntakeSubsystem);
   // private  final RunGroundOuttake runGroundOuttake = new RunGroundOuttake(groundIntakeSubsystem);
@@ -52,8 +66,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // new JoystickButton(driver, XboxController.Button.kA.value).onTrue(runGroundIntakeUntilHolding);
-  
+    //new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
   }
 
   private void configureAutoSelector() {
@@ -68,8 +81,10 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    driveBase.setDefaultCommand(new SwerveDriveFieldCentric(driver, driveBase));
-    // armSubsystem.setDefaultCommand(runArmWithJoystick);
+    // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
+    //driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    armSubsystem.setDefaultCommand(runArmWithJoystick);
+    armIntakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
   }
 }
