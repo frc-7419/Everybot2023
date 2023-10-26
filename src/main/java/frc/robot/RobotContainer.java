@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import frc.robot.commands.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
+import frc.robot.subsystems.led.LedSubsystem;
+import frc.robot.subsystems.led.RunLED;
 // import frc.robot.commands.ScorePieceWithTurning;
 // import frc.robot.commands.intake.RunGroundIntake;
 // import frc.robot.commands.intake.RunGroundIntakeUntilHolding;
@@ -46,6 +48,7 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+  private final LedSubsystem ledSubsystem = new LedSubsystem();
 
   //Commands
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(armIntakeSubsystem, operator);
@@ -58,6 +61,7 @@ public class RobotContainer {
   // private final WristToPosition wristToPosition = new WristToPosition(wristSubsystem, 5);
   // private final RunGroundIntakeUntilHolding  runGroundIntakeUntilHolding = new RunGroundIntakeUntilHolding(groundIntakeSubsystem);
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
+  private final RunLED runLED = new RunLED(operator, ledSubsystem);
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
@@ -86,5 +90,6 @@ public class RobotContainer {
     // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     armIntakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
+    ledSubsystem.setDefaultCommand(runLED);
   }
 }
