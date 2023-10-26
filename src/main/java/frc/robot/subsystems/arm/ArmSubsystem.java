@@ -6,27 +6,21 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/encoders-software.html#encoders-software
 import frc.robot.Constants.CanIds;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX arm;
-  private DutyCycleEncoder encoder;
-  private Encoder relEncoder;
+  private final DutyCycleEncoder encoder = new DutyCycleEncoder(CanIds.armEncoder.id);
   
   public ArmSubsystem() {
     arm = new TalonFX(CanIds.arm.id);
-    // encoder = new DutyCycleEncoder(9);
-    // encoder.reset();
-    relEncoder = new Encoder(0, 1);
-    relEncoder.reset();
+    encoder.setPositionOffset(0.6582);
   }
-
+  
   public void setPower(double power) {
-    arm.set(ControlMode.PercentOutput, power); //make a constant
+    arm.set(ControlMode.PercentOutput, power);
   }
 
   public void coast() {
@@ -38,11 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getPosition() {
-    return encoder.getAbsolutePosition();
-  }
-
-  public double getDistance() {
-    return relEncoder.getDistance();
+    return encoder.getAbsolutePosition() - encoder.getPositionOffset();
   }
 
   public boolean isConnected() {
@@ -51,8 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("Absolute Encoder Angle", getPosition());
-    // SmartDashboard.putBoolean("connected", encoder.isConnected());
-    SmartDashboard.putNumber("Relative Encoder Angle", getDistance());
+    SmartDashboard.putNumber("Absolute Encoder Angle", getPosition());
+    SmartDashboard.putBoolean("connected", encoder.isConnected());
   }
 }

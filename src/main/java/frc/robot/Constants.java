@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.SPI.Port;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -24,15 +22,14 @@ public final class Constants {
   public static enum CanIds {
     
     arm(50),
-    armIntake(62);
-
+    intake(62),
+    armEncoder(1);
     
     public final int id;
 
     private CanIds(int id) {
         this.id = id;
     }
-    
   }
 
   public static class RobotConstants {
@@ -43,10 +40,7 @@ public final class Constants {
 
       public static final double loopDt = 0.02;
 
-    public static final DoubleSupplier armSetpoint = null;
-
-    public static final double armEncoderOffset = 0;
-    public static final int armEncoderPort = 0;
+    public static final double armSetpoint = 0;
   }
   
   public static class GearConstants {
@@ -64,7 +58,7 @@ public final class Constants {
       public static final double ArmPower = 0.2;//arbitrary for now
       public static final double ArmIntakeSpeed = 0.2; //arbitrary for now - slower speed for testing
     public static final double ArmOuttakeSpeed = -0.2; //arbitrary for now
-      public static double maxArmPower = 0.1;
+      public static double maxArmPower = 0.8;
   }
 
   public static class PIDConstants {
@@ -83,8 +77,6 @@ public final class Constants {
     public static final double ArmAngleKi = 0;
     public static final double ArmAngleKd = 0;
   }
-  public static final Port SerialPortAHRS = null;
-  
   /**
    * THIS IS FOR THE SWERVE DRIVE CONSTANTS
    */

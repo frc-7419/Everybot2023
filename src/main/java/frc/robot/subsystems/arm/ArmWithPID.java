@@ -1,53 +1,60 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.PIDConstants.*;
-import static frc.robot.Constants.RobotConstants.*;
 
 public class ArmWithPID extends CommandBase {
-  /** Creates a new ArmWithPID2. */
   ArmSubsystem armSubsystem;
-  PIDController positionController;
-  double setpoint;
-  double tolerance;
-  public ArmWithPID(ArmSubsystem armSubsystem, double setpoint) {
-    this.armSubsystem = new ArmSubsystem();
-    this.positionController = new PIDController(ArmAngleKp, ArmAngleKi, ArmAngleKd);
-    this.setpoint = setpoint;
-    this.tolerance = 0.5;
+  PIDController pidController;
+  double setpoint = 0;
+  double tolerance = 0.5;
+  double kP = 0;
+  double kI = 0;
+  double kD = 0;
+
+  public ArmWithPID(ArmSubsystem armSubsystem) {
+    this.armSubsystem = armSubsystem;
+    this.pidController = new PIDController(kP, kI, kD);
     addRequirements(armSubsystem);
+    SmartDashboard.putNumber("kP", kP);
+    SmartDashboard.putNumber("kI", kI);
+    SmartDashboard.putNumber("kD", kD);
+    SmartDashboard.putNumber("setpoint", setpoint);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    kP = SmartDashboard.getNumber("kP", kP);
+    kI = SmartDashboard.getNumber("kI", kI);
+    kD = SmartDashboard.getNumber("kD", kD);
+    setpoint = SmartDashboard.getNumber("setpoint", setpoint);
+
+    pidController = new PIDController(
+        kP, kI, kD);
+    pidController.setTolerance(tolerance);
+    pidController.setSetpoint(setpoint);
+
     armSubsystem.coast();
-    positionController.setTolerance(tolerance);
-    positionController.setSetpoint(setpoint);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double position = armSubsystem.getPosition() - armEncoderOffset;
-    double output = positionController.calculate(position);
-    SmartDashboard.putNumber("arm output", output);
-    // armSubsystem.setPower(output);
+    double position = armSubsystem.getPosition();
+    double output = pidController.calculate(position);
+    SmartDashboard.putNumber("PID output", output);
+    SmartDashboard.putNumber("PID error", position-setpoint);
+    armSubsystem.setPower(-output);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armSubsystem.setPower(0);
+    armSubsystem.brake();
+  }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return positionController.atSetpoint();
+    return pidController.atSetpoint();
   }
 }

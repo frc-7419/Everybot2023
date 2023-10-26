@@ -1,17 +1,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.ArmWithPID;
+import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
-import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.RunArmWithJoystick;
-import frc.robot.subsystems.armIntake.ArmIntakeSubsystem;
-import frc.robot.subsystems.armIntake.RunIntakeWithJoystick;
-import frc.robot.subsystems.arm.ArmWithPID;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -20,16 +20,13 @@ public class RobotContainer {
   //Subsystems
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
-  // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
-  private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(armIntakeSubsystem, operator);
+  private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(operator, intakeSubsystem);
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  // private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem, 0); RUN WITH CAUTION - COULD BREAK ARM
-  // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, driver);
+  private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -37,6 +34,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
+    new JoystickButton(operator, XboxController.Button.kA.value).onTrue(armWithPID);
   }
 
   public Command getAutonomousCommand() {
@@ -46,8 +44,7 @@ public class RobotContainer {
   public void setDefaultCommands() {
     // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
     //driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
-    // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
-    armIntakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
+    intakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
   }
 }
