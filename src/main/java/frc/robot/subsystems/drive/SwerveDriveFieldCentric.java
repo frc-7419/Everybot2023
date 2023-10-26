@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
@@ -21,8 +19,7 @@ import frc.robot.Constants.SwerveConstants;
 
 public class SwerveDriveFieldCentric extends CommandBase {
   private XboxController joystick;
-  private static DriveBaseSubsystem driveBaseSubsystem;
-  public double recordedAngle;
+  private DriveBaseSubsystem driveBaseSubsystem;
 
   public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem) {
     this.joystick = joystick;
@@ -38,17 +35,9 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
-    double maxTranslationalSpeed = SwerveConstants.maxTranslationalSpeed;
-    double maxTranslationalSpeedX = SwerveConstants.maxTranslationalSpeedX;
-
-    double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) *SwerveConstants.maxTranslationalSpeedX;
+    double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) *SwerveConstants.maxTranslationalSpeed;
     double vy = -(Math.abs(joystick.getLeftX()) > 0.05 ? joystick.getLeftX() : 0.0)*SwerveConstants.maxTranslationalSpeed ;
     double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
-
-    // if(joystick.getLeftY() <-0.05 ){
-    //   rx = 0;
-    //   maxTranslationalSpeedX = maxTranslationalSpeedX*-1;
-    // } this code dont work
 
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
     // SmartDashboard.putNumber("LeftY", joystick.getLeftY());
@@ -61,16 +50,10 @@ public class SwerveDriveFieldCentric extends CommandBase {
     //WPILIB does the Field-Relative Conversions for you, easy peas y
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
 
-    // discretizing for second-order kinematics
-    Pose2d deltaPose = new Pose2d(vx * Constants.RobotConstants.loopDt, vy * Constants.RobotConstants.loopDt, new Rotation2d(rx * Constants.RobotConstants.loopDt));
-    Twist2d twist = new Pose2d().log(deltaPose);
-    SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
-    return new ChassisSpeeds(twist.dx / Constants.RobotConstants.loopDt, twist.dy / Constants.RobotConstants.loopDt, twist.dtheta / Constants.RobotConstants.loopDt);
-
-
     // SmartDashboard.putNumber("Robot vx", speeds.vxMetersPerSecond);
     // SmartDashboard.putNumber("Robot vy", speeds.vyMetersPerSecond);
-    
+    SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
+    return speeds;
   }
 
   /**
@@ -90,7 +73,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     for (int i=0; i<4; ++i) {
       // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
       // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i]);
     }
   }
 
@@ -119,7 +102,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    recordedAngle =driveBaseSubsystem.getPitch();
+    
     // zero();
   }
 
