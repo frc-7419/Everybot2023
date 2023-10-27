@@ -4,19 +4,13 @@
 
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.SwerveConstants;
-
+import frc.robot.commands.Turn90;
 public class SwerveDriveFieldCentric extends CommandBase {
   private XboxController joystick;
   private DriveBaseSubsystem driveBaseSubsystem;
@@ -110,6 +104,9 @@ public class SwerveDriveFieldCentric extends CommandBase {
   @Override
   public void execute() {
     setModuleStatesFromJoystick(joystick);
+    if(joystick.getPOV() == 0){
+
+    }
     // if (joystick.getAButton()) {
     //   zero();
     // }

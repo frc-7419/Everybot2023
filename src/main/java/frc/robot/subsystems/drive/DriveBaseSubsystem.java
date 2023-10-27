@@ -24,7 +24,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
   private SwerveDriveOdometry m_odometry;
   private SwerveModulePosition[] positions;
   private AHRS ahrs;
-  private SwerveModule coaster;
 
   public DriveBaseSubsystem() {
     //remember when setting up, swerve0-3 has to be in this orientation: m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation respectively 
@@ -34,7 +33,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
       new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID, SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 266.572,2),
       new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID, SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 267.803,3),
     };
-    this.coaster = coaster;
     ahrs = new AHRS(SerialPort.Port.kMXP);
     ahrs.zeroYaw(); //field centric, we need yaw to be zero
 
@@ -92,13 +90,9 @@ public class DriveBaseSubsystem extends SubsystemBase {
     
   }
 
-  public void brake() {
+  public void stop() {
     for (int i = 0; i < swerveModules.length; i++) {
       swerveModules[i].setSpeed(0.0);
     }
-  }
-
-  public void coast() {
-    coaster.SwerveCoast();
   }
 }
