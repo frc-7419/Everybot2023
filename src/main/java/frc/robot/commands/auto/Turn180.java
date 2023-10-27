@@ -20,26 +20,24 @@ public class Turn180 extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startingAngle = driveBaseSubsystem.getYaw();
+        startingAngle = driveBaseSubsystem.getYaw()+180;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // turn the robot 180 degrees
-        if (startingAngle - driveBaseSubsystem.getYaw() < 180) {
-            swerveDriveFieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, SwerveConstants.maxRotationalSpeed/2));
-        }
-        
+        swerveDriveFieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, SwerveConstants.maxRotationalSpeed/2));
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        swerveDriveFieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, 0));
+    }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (startingAngle - driveBaseSubsystem.getYaw() >= 180);
+        return Math.abs(startingAngle - (180+driveBaseSubsystem.getYaw())) >= 180;
     }
 }

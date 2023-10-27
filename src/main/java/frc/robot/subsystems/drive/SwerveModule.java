@@ -78,12 +78,11 @@ public class SwerveModule {
         turnEncoder.configMagnetOffset(cancoderOffset);
         turnEncoder.configSensorDirection(false);
         resetToAbsolute();
+        driveEncoder.setPositionConversionFactor(1/22);
     }
     private void resetToAbsolute() {
         double absolutePosition = getTurningPosition() - cancoderOffset;
         turnEncoder.setPosition(absolutePosition);
-        driveEncoder.setPosition(absolutePosition);
-
       }
 
     public void SwerveCoast() {
@@ -93,7 +92,12 @@ public class SwerveModule {
     public double getDrivePosition() {
         return driveEncoder.getPosition();
     }
-
+    public void resetDriveEnc() {
+        driveEncoder.setPosition(0);
+    }
+    public boolean reachedDist(double meters) {
+        return driveEncoder.getPosition() > meters;
+    }
     public double getTurningPosition() {
         return turnEncoder.getPosition();
     }

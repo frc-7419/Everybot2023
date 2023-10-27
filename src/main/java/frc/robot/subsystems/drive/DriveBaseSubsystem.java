@@ -64,7 +64,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
   public double getRoll() {
     return ahrs.getRoll();
   }
-
+  public boolean reachedDist(double meters) {
+    return 
+    (swerveModules[0].reachedDist(meters))&&
+    (swerveModules[1].reachedDist(meters))&&
+    (swerveModules[2].reachedDist(meters))&&
+    (swerveModules[3].reachedDist(meters));
+  }
+  public void resetDriveEnc() {
+    for(SwerveModule s : swerveModules) s.resetDriveEnc();
+  }
   public Rotation2d getRotation2d() {
     return ahrs.getRotation2d();
     /*the thing is .getYaw is -180 to 180 so it not being 0 to 360 
