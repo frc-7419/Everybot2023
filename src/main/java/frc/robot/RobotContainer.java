@@ -11,6 +11,9 @@ import frc.robot.subsystems.led.LedSubsystem;
 import frc.robot.subsystems.led.RunLED;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.commands.auto.AutoDock;
+import frc.robot.commands.auto.MoveForward;
+import frc.robot.commands.auto.Turn180;
+import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmWithPID;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
@@ -65,7 +68,7 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     
-    return autonomousChooser.getSelected();
+    return new MoveForward(driveBase, swerveDriveFieldCentric, 0.1, 1);
   }
 
   public void setDefaultCommands() {

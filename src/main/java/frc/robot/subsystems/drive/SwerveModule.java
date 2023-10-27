@@ -80,7 +80,6 @@ public class SwerveModule {
     private void resetToAbsolute() {
         double absolutePosition = getTurningPosition() - cancoderOffset;
         turnEncoder.setPosition(absolutePosition);
-        driveEncoder.setPosition(absolutePosition);
       }
 
     public void coast() {

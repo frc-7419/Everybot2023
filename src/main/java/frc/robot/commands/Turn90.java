@@ -1,17 +1,17 @@
-package frc.robot.commands.auto; 
+package frc.robot.commands; 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 
-public class Turn180 extends CommandBase {
+public class Turn90 extends CommandBase {
     
     SwerveDriveFieldCentric swerveDriveFieldCentric;
     DriveBaseSubsystem driveBaseSubsystem;
     double startingAngle;
     
-    public Turn180(SwerveDriveFieldCentric swerveDriveFieldCentric, DriveBaseSubsystem driveBaseSubsystem) {
+    public Turn90(SwerveDriveFieldCentric swerveDriveFieldCentric, DriveBaseSubsystem driveBaseSubsystem) {
         this.swerveDriveFieldCentric = swerveDriveFieldCentric;
         this.driveBaseSubsystem = driveBaseSubsystem;
         addRequirements(driveBaseSubsystem);
@@ -26,7 +26,7 @@ public class Turn180 extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        swerveDriveFieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, SwerveConstants.maxRotationalSpeed/2));
+        swerveDriveFieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, SwerveConstants.maxRotationalSpeed/4));
     }
 
     // Called once the command ends or is interrupted.
