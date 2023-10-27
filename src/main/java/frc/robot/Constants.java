@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -25,13 +26,13 @@ public final class Constants {
     intake(62),
     armEncoder(1);
     
+    
     public final int id;
 
     private CanIds(int id) {
         this.id = id;
     }
   }
-
   public static class RobotConstants {
       public static final double TalonFXTicksPerRotation = 2048;
 
@@ -54,11 +55,13 @@ public final class Constants {
   // }
 
   public static class PowerConstants {
-      public static final double groundIntakePower = 0.2; //arbitrary for now
-      public static final double ArmPower = 0.2;//arbitrary for now
-      public static final double ArmIntakeSpeed = 0.2; //arbitrary for now - slower speed for testing
+      // public static final double groundIntakePower = 0.2; //arbitrary for now
+      // public static final double ArmPower = 0.2;//arbitrary for now
+      // public static final double groundIntakePower = 0.2; //arbitrary for now
+    public static final double ArmPower = 0.2;//arbitrary for now
+    public static final double ArmIntakeSpeed = 0.2; //arbitrary for now - slower speed for testing
     public static final double ArmOuttakeSpeed = -0.2; //arbitrary for now
-      public static double maxArmPower = 1;
+    public static double maxArmPower = 1;
   }
 
   public static class PIDConstants {
@@ -151,7 +154,16 @@ public final class Constants {
       this.location = location;
       
     }
+
+    
   }
 
+  public static class ArmConstants {
 
+        public static final double kP = 0.0001;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kTolerance = 100;
+
+    }
 }
