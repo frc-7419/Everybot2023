@@ -34,7 +34,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
-    new JoystickButton(operator, XboxController.Button.kA.value).onTrue(armWithPID);
+    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID);
   }
 
   public Command getAutonomousCommand() {

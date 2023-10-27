@@ -16,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   public ArmSubsystem() {
     arm = new TalonFX(CanIds.arm.id);
-    encoder.setPositionOffset(0.6582);
+    encoder.setPositionOffset(0);
   }
   
   public void setPower(double power) {

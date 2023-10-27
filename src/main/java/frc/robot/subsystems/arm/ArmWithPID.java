@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ArmWithPID extends CommandBase {
-  ArmSubsystem armSubsystem;
-  PIDController pidController;
+  private ArmSubsystem armSubsystem;
+  private PIDController pidController;
   double setpoint = 0;
-  double tolerance = 0.5;
+  double tolerance = 0.01;
   double kP = 0;
   double kI = 0;
   double kD = 0;
