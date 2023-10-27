@@ -1,5 +1,6 @@
 package frc.robot.subsystems.arm;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -41,7 +42,7 @@ public class ArmWithPID extends CommandBase {
   @Override
   public void execute() {
     double position = armSubsystem.getPosition();
-    double output = pidController.calculate(position);
+    double output = MathUtil.clamp(pidController.calculate(position), -0.5, 0.5);
     SmartDashboard.putNumber("PID output", output);
     SmartDashboard.putNumber("PID error", position-setpoint);
     armSubsystem.setPower(-output);

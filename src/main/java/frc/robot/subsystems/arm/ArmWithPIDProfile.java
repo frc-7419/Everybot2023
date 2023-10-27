@@ -17,7 +17,7 @@ public class ArmWithPIDProfile extends CommandBase {
 
   @Override
   public void initialize() {
-    controller = new ProfiledPIDController(kP, 0, 0, null, RobotConstants.loopDt);
+    controller = new ProfiledPIDController(kP, 0, 0, constraints, RobotConstants.loopDt);
     controller.setGoal(2);
   }
 
