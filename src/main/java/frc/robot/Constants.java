@@ -58,7 +58,7 @@ public final class Constants {
       public static final double ArmPower = 0.2;//arbitrary for now
       public static final double ArmIntakeSpeed = 0.2; //arbitrary for now - slower speed for testing
     public static final double ArmOuttakeSpeed = -0.2; //arbitrary for now
-      public static double maxArmPower = 0.8;
+      public static double maxArmPower = 1;
   }
 
   public static class PIDConstants {
