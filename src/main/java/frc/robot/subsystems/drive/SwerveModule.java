@@ -8,19 +8,16 @@ import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.Constants;
-import frc.robot.Constants.SwerveConstants;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 
 // The SwerveModule file contains the the logic of the entire Swerve Drive functionality of EveryBot
@@ -78,22 +75,27 @@ public class SwerveModule {
         turnEncoder.configMagnetOffset(cancoderOffset);
         turnEncoder.configSensorDirection(false);
         resetToAbsolute();
+        driveEncoder.setPositionConversionFactor(1/22);
     }
     private void resetToAbsolute() {
         double absolutePosition = getTurningPosition() - cancoderOffset;
         turnEncoder.setPosition(absolutePosition);
         driveEncoder.setPosition(absolutePosition);
-
       }
 
-    public void SwerveCoast() {
+    public void coast() {
         turnMotor.setIdleMode(IdleMode.kCoast);
         speedMotor.setIdleMode(IdleMode.kCoast);
     }
     public double getDrivePosition() {
         return driveEncoder.getPosition();
     }
-
+    public void resetDriveEnc() {
+        driveEncoder.setPosition(0);
+    }
+    public boolean reachedDist(double meters) {
+        return driveEncoder.getPosition() > meters;
+    }
     public double getTurningPosition() {
         return turnEncoder.getPosition();
     }

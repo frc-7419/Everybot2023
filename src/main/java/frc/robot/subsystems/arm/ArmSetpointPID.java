@@ -4,41 +4,28 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//
-// THIS IS FOR TESTING AND TUNING PID FOR ArmSetPointPID command
-// setpoints are set on dashboard for this command
-//
-public class ArmWithPID extends CommandBase {
+
+public class ArmSetpointPID extends CommandBase {
   private ArmSubsystem armSubsystem;
   private PIDController pidController;
-  double setpoint = 0;
-  double tolerance = 0.01;
-  double kP = 0;
-  double kI = 0;
-  double kD = 0;
-
-  public ArmWithPID(ArmSubsystem armSubsystem) {
+  double setpoint;
+  double tolerance = 0.01; // When the error is less than the tolerance the PID stops
+  /**
+   * This command is for setpoints, it uses a PID controller to move the arm to the given setpoint
+   * @param armSubsystem
+   * @param setpoint
+   */
+  public ArmSetpointPID(ArmSubsystem armSubsystem, double setpoint) {
+    this.setpoint = setpoint;
     this.armSubsystem = armSubsystem;
-    this.pidController = new PIDController(kP, kI, kD);
+    this.pidController = new PIDController(0.5, 0, 0);
     addRequirements(armSubsystem);
-    SmartDashboard.putNumber("kP", kP);
-    SmartDashboard.putNumber("kI", kI);
-    SmartDashboard.putNumber("kD", kD);
-    SmartDashboard.putNumber("setpoint", setpoint);
   }
-
+  
   @Override
   public void initialize() {
-    kP = SmartDashboard.getNumber("kP", kP);
-    kI = SmartDashboard.getNumber("kI", kI);
-    kD = SmartDashboard.getNumber("kD", kD);
-    setpoint = SmartDashboard.getNumber("setpoint", setpoint);
-
-    pidController = new PIDController(
-        kP, kI, kD);
     pidController.setTolerance(tolerance);
     pidController.setSetpoint(setpoint);
-
     armSubsystem.coast();
   }
 
