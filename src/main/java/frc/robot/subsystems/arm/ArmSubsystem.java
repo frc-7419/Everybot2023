@@ -19,8 +19,8 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
     arm = new TalonFX(CanIds.arm.id);
     encoder.setPositionOffset(0.144);
-    arm.configStatorCurrentLimit(new StatorCurrentLimitConfiguration());
-    arm.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 20, .5));
+    arm.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,20,20,0.5));
+    arm.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,20,20,0.5));
   }
   public void setPower(double power) {
     arm.set(ControlMode.PercentOutput, power);
