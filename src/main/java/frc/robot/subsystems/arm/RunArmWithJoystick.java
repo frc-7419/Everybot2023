@@ -8,6 +8,11 @@ import frc.robot.Constants.PowerConstants;
 public class RunArmWithJoystick extends CommandBase {
   private final XboxController joystick;
   private final ArmSubsystem armSubsystem;
+  /**
+   * Runs the arm using an Xbox joystick left Y axis
+   * @param joystick
+   * @param armSubsystem
+   */
   public RunArmWithJoystick(XboxController joystick, ArmSubsystem armSubsystem) {
     this.joystick = joystick;
     this.armSubsystem = armSubsystem;

@@ -4,7 +4,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.RobotConstants;
-
+//
+// IN PROGRESS NOT READY
+//
 public class ArmWithPIDProfile extends CommandBase {
   ProfiledPIDController controller;
   ArmSubsystem armSubsystem;

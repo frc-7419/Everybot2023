@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.arm.ArmSetpointPID;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmWithPID;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
@@ -33,8 +33,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    //new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
-    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID);
+    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID); // testing setpoint, set on dashboard
+    new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.469)); // Mid setpoint
+    new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.637)); // High set point
   }
 
   public Command getAutonomousCommand() {
