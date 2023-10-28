@@ -16,6 +16,8 @@ import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.RunIntakeWithJoystick;
+import frc.robot.subsystems.leds.LedSubsystem;
+import frc.robot.subsystems.leds.RunLED;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -25,6 +27,7 @@ public class RobotContainer {
   private final DriveBaseSubsystem driveBaseSubsystem = new DriveBaseSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final LedSubsystem ledSubsystem = new LedSubsystem();
 
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
@@ -33,6 +36,7 @@ public class RobotContainer {
   private final ArmWithPIDTuning armWithPIDTuning = new ArmWithPIDTuning(armSubsystem);
   private final ArmWithPID doubleSub = new ArmWithPID(armSubsystem, 3.2, 0.2, 0.422);
   private final LockModules lockModules = new LockModules(driveBaseSubsystem, swerveDriveFieldCentric);
+  private final RunLED runLed = new RunLED(operator, ledSubsystem);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -43,7 +47,7 @@ public class RobotContainer {
     new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(armWithPIDTuning);
     new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(doubleSub);
     new JoystickButton(driver, XboxController.Button.kStart.value).onTrue(new InstantCommand(driveBaseSubsystem::zeroYaw));
-    new JoystickButton(driver, XboxController.Button.kA.value).whileTrue(lockModules);
+    new JoystickButton(driver, XboxController.Button.kB.value).whileTrue(lockModules);
   }
 
   public Command getAutonomousCommand() {
@@ -57,5 +61,6 @@ public class RobotContainer {
     driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
+    ledSubsystem.setDefaultCommand(runLed);
   }
 }
