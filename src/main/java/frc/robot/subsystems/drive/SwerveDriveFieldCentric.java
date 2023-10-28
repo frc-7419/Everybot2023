@@ -95,7 +95,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    driveBaseSubsystem.coast();
     // zero();
   }
 
@@ -103,16 +103,15 @@ public class SwerveDriveFieldCentric extends CommandBase {
   @Override
   public void execute() {
     setModuleStatesFromJoystick(joystick);
-    if(joystick.getPOV() == 0){
-
-    }
     // if (joystick.getAButton()) {
     //   zero();
     // }
   }
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    driveBaseSubsystem.brake();
+  }
 
   // Returns true when the command should end.
   @Override

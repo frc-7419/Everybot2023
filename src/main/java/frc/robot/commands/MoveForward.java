@@ -22,6 +22,7 @@ public class MoveForward extends CommandBase {
     @Override
     public void initialize() {
         driveBaseSubsystem.resetDriveEnc();
+        driveBaseSubsystem.coast();
     }
 
     @Override
@@ -31,6 +32,7 @@ public class MoveForward extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         fieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, 0));
+        driveBaseSubsystem.brake();
     } 
 
     @Override

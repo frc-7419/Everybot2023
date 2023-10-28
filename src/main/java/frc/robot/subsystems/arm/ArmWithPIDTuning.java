@@ -13,6 +13,7 @@ public class ArmWithPIDTuning extends CommandBase {
   double kP = 0;
   double kI = 0;
   double kD = 0;
+  double kF = 0;
 
   public ArmWithPIDTuning(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
@@ -21,6 +22,7 @@ public class ArmWithPIDTuning extends CommandBase {
     SmartDashboard.putNumber("kP", kP);
     SmartDashboard.putNumber("kI", kI);
     SmartDashboard.putNumber("kD", kD);
+    SmartDashboard.putNumber("kF", kF);
     SmartDashboard.putNumber("setpoint", setpoint);
   }
 
@@ -29,6 +31,7 @@ public class ArmWithPIDTuning extends CommandBase {
     kP = SmartDashboard.getNumber("kP", kP);
     kI = SmartDashboard.getNumber("kI", kI);
     kD = SmartDashboard.getNumber("kD", kD);
+    kF = SmartDashboard.getNumber("kF", kF);
     setpoint = SmartDashboard.getNumber("setpoint", setpoint);
 
     pidController = new PIDController(
@@ -45,7 +48,7 @@ public class ArmWithPIDTuning extends CommandBase {
     double output = MathUtil.clamp(pidController.calculate(position), -0.5, 0.5);
     SmartDashboard.putNumber("PID output", output);
     SmartDashboard.putNumber("PID error", position-setpoint);
-    armSubsystem.setPower(-output);
+    armSubsystem.setPower(-output-kF);
   }
 
   @Override

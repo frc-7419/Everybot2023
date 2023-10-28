@@ -86,6 +86,12 @@ public class SwerveModule {
         turnMotor.setIdleMode(IdleMode.kCoast);
         speedMotor.setIdleMode(IdleMode.kCoast);
     }
+    
+    public void brake() {
+        turnMotor.setIdleMode(IdleMode.kBrake);
+        speedMotor.setIdleMode(IdleMode.kBrake);
+    }
+
     public double getDrivePosition() {
         return driveEncoder.getPosition();
     }
@@ -93,7 +99,7 @@ public class SwerveModule {
         driveEncoder.setPosition(0);
     }
     public boolean reachedDist(double meters) {
-        return driveEncoder.getPosition() > meters;
+        return Math.abs(driveEncoder.getPosition()) > meters;
     }
     public double getTurningPosition() {
         return turnEncoder.getPosition();

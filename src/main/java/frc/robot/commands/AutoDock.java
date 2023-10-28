@@ -32,9 +32,6 @@ public class AutoDock extends CommandBase {
         
         return ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
     }
-    public ChassisSpeeds endSpeed(){
-        return ChassisSpeeds.fromFieldRelativeSpeeds(0,0,0,driveBaseSubsystem.getRotation2d());
-    }
 
     @Override
     public void initialize() {
@@ -49,7 +46,7 @@ public class AutoDock extends CommandBase {
         SmartDashboard.putNumber("pitch", driveBaseSubsystem.getPitch());
         if((Math.abs(driveBaseSubsystem.getPitch())-recordedStartingPitch)>10) toggle = false;
         if(toggle) {
-            output = 1;
+            output = 0.4;
         }
         else {
             output = pitchController.calculate(driveBaseSubsystem.getPitch());
@@ -58,7 +55,9 @@ public class AutoDock extends CommandBase {
 
     }
     @Override
-    public void end(boolean interrupted) {} 
+    public void end(boolean interrupted) {
+        driveBaseSubsystem.brake();
+    } 
 
     @Override
     public boolean isFinished() {

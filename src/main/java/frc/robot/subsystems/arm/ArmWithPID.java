@@ -12,10 +12,12 @@ public class ArmWithPID extends CommandBase {
   double kP = 0;
   double kI = 0;
   double kD = 0;
+  double kF = 0;
 
-  public ArmWithPID(ArmSubsystem armSubsystem, double kP, double setpoint) {
+  public ArmWithPID(ArmSubsystem armSubsystem, double kP, double kF, double setpoint) {
     this.armSubsystem = armSubsystem;
     this.kP = kP;
+    this.kF = kF;
     this.setpoint = setpoint;
     this.pidController = new PIDController(kP, kI, kD);
     addRequirements(armSubsystem);
@@ -35,7 +37,7 @@ public class ArmWithPID extends CommandBase {
   public void execute() {
     double position = armSubsystem.getPosition();
     double output = MathUtil.clamp(pidController.calculate(position), -0.5, 0.5);
-    armSubsystem.setPower(-output);
+    armSubsystem.setPower(-output-kF);
   }
 
   @Override

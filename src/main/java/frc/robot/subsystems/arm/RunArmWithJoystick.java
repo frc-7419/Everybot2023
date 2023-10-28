@@ -21,7 +21,7 @@ public class RunArmWithJoystick extends CommandBase {
 
   @Override
   public void execute() {
-    if (Math.abs(joystick.getLeftY()) > 0.05) {
+    if (Math.abs(joystick.getLeftY()) > 0.01) {
       armSubsystem.coast();
       double power = joystick.getLeftY() * PowerConstants.maxArmPower;
       armSubsystem.setPower(power);
