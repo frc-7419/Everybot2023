@@ -1,27 +1,27 @@
-package frc.robot.subsystems.drive;
+package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 
 public class AutoDock extends CommandBase {
     PIDController pitchController;
     private DriveBaseSubsystem driveBaseSubsystem;
-    private SwerveModule swerveModule;
     private SwerveDriveFieldCentric fieldCentric;
-    private double recordedPitch;
+    private double recordedStartingPitch;
+    private boolean toggle = true;
 
     //constants
     private double SETPOINT = 0;
     private double TOLERANCE = 0.1;
     
-    public AutoDock(DriveBaseSubsystem driveBaseSubsystem, SwerveModule swerveModule, SwerveDriveFieldCentric fieldCentric) {
+    public AutoDock(DriveBaseSubsystem driveBaseSubsystem, SwerveDriveFieldCentric fieldCentric) {
         this.pitchController = new PIDController(0.01, 0, 0);
         this.fieldCentric = fieldCentric;
         this.driveBaseSubsystem = driveBaseSubsystem;
-        this.swerveModule = swerveModule;
         addRequirements(driveBaseSubsystem);
     }
     public ChassisSpeeds getChassisSpeeds(double vx){
@@ -38,17 +38,23 @@ public class AutoDock extends CommandBase {
 
     @Override
     public void initialize() {
+        recordedStartingPitch = driveBaseSubsystem.getPitch();
         pitchController.setSetpoint(SETPOINT);
         pitchController.setTolerance(TOLERANCE);
-        recordedPitch = fieldCentric.recordedAngle;
     }
 
     @Override
     public void execute(){
-        double pitch = driveBaseSubsystem.getPitch();
-        SmartDashboard.putNumber("pitch", pitch);
-        double output = pitchController.calculate(pitch);
-            fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(getChassisSpeeds(output)));
+        double output;
+        SmartDashboard.putNumber("pitch", driveBaseSubsystem.getPitch());
+        if((Math.abs(driveBaseSubsystem.getPitch())-recordedStartingPitch)>10) toggle = false;
+        if(toggle) {
+            output = 1;
+        }
+        else {
+            output = pitchController.calculate(driveBaseSubsystem.getPitch());
+        }
+        fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(getChassisSpeeds(output)));
 
     }
     @Override

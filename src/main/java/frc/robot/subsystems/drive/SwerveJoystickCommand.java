@@ -51,9 +51,9 @@ public class SwerveJoystickCommand extends CommandBase {
         double turningSpeed = joystick.getRightX();
 
         // deadband
-        xSpeed = Math.abs(xSpeed) > 0.05 ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > 0.05 ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > 0.05 ? turningSpeed : 0.0;
+        // xSpeed = Math.abs(xSpeed) > 0.05 ? xSpeed : 0.0;
+        // ySpeed = Math.abs(ySpeed) > 0.05 ? ySpeed : 0.0;
+        // turningSpeed = Math.abs(turningSpeed) > 0.05 ? turningSpeed : 0.0;
 
         // 3. driving 
         xSpeed = xLimiter.calculate(xSpeed) * Constants.SwerveModuleConstants.kTeleDriveMaxSpeedMetersPerSecond;

@@ -6,7 +6,6 @@ package frc.robot.subsystems.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -14,8 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.drive.SwerveModule;
 
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
@@ -37,6 +34,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
     ahrs.zeroYaw(); //field centric, we need yaw to be zero
 
     m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location); 
+  }
+  
+  public void zeroYaw() {
+    ahrs.zeroYaw();
   }
   
   public SwerveModule getSwerveModule(int index) {
@@ -81,10 +82,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(   "Yaw", getYaw());
+    // SmartDashboard.putNumber(   "Yaw", getYaw());
     for (Integer i=0; i<4; ++i) {
       
-      SmartDashboard.putNumber("Swerve" + i.toString() + "angle", swerveModules[i].getAngle());
+      // SmartDashboard.putNumber("Swerve" + i.toString() + "angle", swerveModules[i].getAngle());
       // SmartDashboard.putNumber("Swerve" + i.toString(), swerveModules[i].getSpeed());
     }
     

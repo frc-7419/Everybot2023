@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.Turn90;
 public class SwerveDriveFieldCentric extends CommandBase {
   private XboxController joystick;
   private DriveBaseSubsystem driveBaseSubsystem;
@@ -29,8 +28,8 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
-    double vx = -(Math.abs(joystick.getLeftY()) > 0.05 ? joystick.getLeftY() : 0.0) *SwerveConstants.maxTranslationalSpeed;
-    double vy = -(Math.abs(joystick.getLeftX()) > 0.05 ? joystick.getLeftX() : 0.0)*SwerveConstants.maxTranslationalSpeed ;
+    double vx = -joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed;
+    double vy = -joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed ;
     double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
 
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());

@@ -143,7 +143,7 @@ public class SwerveModule {
     public void setSpeed(double speed) {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
         double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
-        SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
         speedMotor.set(motorInput);
     }
     public void stop() {
@@ -160,9 +160,9 @@ public class SwerveModule {
     public void setAnglePID(Rotation2d rotation2D) {   
         double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
         // angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
-        SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
-        SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
-        SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
+        // SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
+        // SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
+        // SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
 
         // if (angleController.atSetpoint()) {
         //     return;
@@ -170,8 +170,8 @@ public class SwerveModule {
         //We should clamp the PID output to between -1 and 1
         double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
         double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
-        SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
-        SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
+        // SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
+        // SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
 
         turnMotor.set(-PIDVALCLAMP);
     }

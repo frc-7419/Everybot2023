@@ -5,27 +5,35 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ArmWithPID extends CommandBase {
+public class ArmWithPIDTuning extends CommandBase {
   private ArmSubsystem armSubsystem;
   private PIDController pidController;
   double setpoint = 0;
+  double tolerance = 0.01;
   double kP = 0;
   double kI = 0;
   double kD = 0;
 
-  public ArmWithPID(ArmSubsystem armSubsystem, double kP, double setpoint) {
+  public ArmWithPIDTuning(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
-    this.kP = kP;
-    this.setpoint = setpoint;
     this.pidController = new PIDController(kP, kI, kD);
     addRequirements(armSubsystem);
+    SmartDashboard.putNumber("kP", kP);
+    SmartDashboard.putNumber("kI", kI);
+    SmartDashboard.putNumber("kD", kD);
+    SmartDashboard.putNumber("setpoint", setpoint);
   }
 
   @Override
   public void initialize() {
+    kP = SmartDashboard.getNumber("kP", kP);
+    kI = SmartDashboard.getNumber("kI", kI);
+    kD = SmartDashboard.getNumber("kD", kD);
+    setpoint = SmartDashboard.getNumber("setpoint", setpoint);
+
     pidController = new PIDController(
         kP, kI, kD);
-    pidController.setTolerance(0);
+    pidController.setTolerance(tolerance);
     pidController.setSetpoint(setpoint);
 
     armSubsystem.coast();
@@ -35,6 +43,8 @@ public class ArmWithPID extends CommandBase {
   public void execute() {
     double position = armSubsystem.getPosition();
     double output = MathUtil.clamp(pidController.calculate(position), -0.5, 0.5);
+    SmartDashboard.putNumber("PID output", output);
+    SmartDashboard.putNumber("PID error", position-setpoint);
     armSubsystem.setPower(-output);
   }
 
@@ -46,6 +56,6 @@ public class ArmWithPID extends CommandBase {
 
   @Override
   public boolean isFinished() {
-      return false;
+    return pidController.atSetpoint();
   }
 }

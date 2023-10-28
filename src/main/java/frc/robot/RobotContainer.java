@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.ArmWithPID;
+import frc.robot.subsystems.arm.ArmWithPIDTuning;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
@@ -26,7 +26,7 @@ public class RobotContainer {
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(operator, intakeSubsystem);
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  private final ArmWithPID armWithPID = new ArmWithPID(armSubsystem);
+  private final ArmWithPIDTuning armWithPIDTuning = new ArmWithPIDTuning(armSubsystem);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -34,7 +34,8 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //new JoystickButton(driver, Button.kB.value).onTrue(armWithPID);
-    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID);
+    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPIDTuning);
+    new JoystickButton(driver, XboxController.Button.kStart.value).onTrue(new InstantCommand(driveBaseSubsystem::zeroYaw));
   }
 
   public Command getAutonomousCommand() {
@@ -43,7 +44,7 @@ public class RobotContainer {
 
   public void setDefaultCommands() {
     // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
-    //driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
+    driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
   }
