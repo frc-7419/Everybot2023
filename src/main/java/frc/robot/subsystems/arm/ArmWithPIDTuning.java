@@ -59,6 +59,7 @@ public class ArmWithPIDTuning extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return pidController.atSetpoint();
+    // return pidController.atSetpoint();
+    return false;
   }
 }

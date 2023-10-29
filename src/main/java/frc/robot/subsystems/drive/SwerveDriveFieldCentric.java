@@ -30,7 +30,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
     double vx = -joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed;
     double vy = -joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed ;
-    double rx = joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
+    double rx = 0.7*joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
 
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
     // SmartDashboard.putNumber("LeftY", joystick.getLeftY());
@@ -38,7 +38,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
 
     // SmartDashboard.putNumber("vx", vx);
     // SmartDashboard.putNumber("vy", vy);
-    // SmartDashboard.putNumber("omega", rx);
+    SmartDashboard.putNumber("omega", rx);
 
     //WPILIB does the Field-Relative Conversions for you, easy peas y
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());

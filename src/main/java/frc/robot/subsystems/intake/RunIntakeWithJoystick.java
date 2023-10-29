@@ -15,6 +15,7 @@ public class RunIntakeWithJoystick extends CommandBase {
 
   @Override
   public void initialize() {
+    intakeSubsystem.coast();
   }
 
   @Override
