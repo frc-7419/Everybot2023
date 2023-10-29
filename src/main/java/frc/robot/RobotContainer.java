@@ -34,7 +34,7 @@ public class RobotContainer {
   private final RunIntakeWithJoystick runIntakeWithJoystick = new RunIntakeWithJoystick(operator, intakeSubsystem);
   private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
   private final ArmWithPIDTuning armWithPIDTuning = new ArmWithPIDTuning(armSubsystem);
-  private final ArmWithPID doubleSub = new ArmWithPID(armSubsystem, 3.2, 0.2, 0.422);
+  private final ArmWithPID doubleSub = new ArmWithPID(armSubsystem, 3.0, 0.15, 0.422);
   private final LockModules lockModules = new LockModules(driveBaseSubsystem, swerveDriveFieldCentric);
   private final RunLED runLed = new RunLED(operator, ledSubsystem);
 

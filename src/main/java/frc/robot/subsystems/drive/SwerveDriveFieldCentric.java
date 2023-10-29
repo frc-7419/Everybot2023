@@ -45,7 +45,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
 
     // SmartDashboard.putNumber("Robot vx", speeds.vxMetersPerSecond);
     // SmartDashboard.putNumber("Robot vy", speeds.vyMetersPerSecond);
-    SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
+    // SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
     return speeds;
   }
 
