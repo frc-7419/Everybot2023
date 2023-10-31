@@ -3,9 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AutoDock;
 import frc.robot.commands.LockModules;
 import frc.robot.commands.auto.Auton;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -14,6 +12,8 @@ import frc.robot.subsystems.arm.ArmWithPIDTuning;
 import frc.robot.subsystems.arm.RunArmWithJoystick;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
+import frc.robot.subsystems.groundIntake.GroundIntakeSubsystem;
+import frc.robot.subsystems.groundIntake.RunGroundIntakeWithJoystick;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 import frc.robot.subsystems.leds.LedSubsystem;
@@ -28,6 +28,7 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final LedSubsystem ledSubsystem = new LedSubsystem();
+  private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
 
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
@@ -36,6 +37,7 @@ public class RobotContainer {
   private final ArmWithPIDTuning armWithPIDTuning = new ArmWithPIDTuning(armSubsystem);
   private final ArmWithPID doubleSub = new ArmWithPID(armSubsystem, 3.0, 0.15, 0.422);
   private final LockModules lockModules = new LockModules(driveBaseSubsystem, swerveDriveFieldCentric);
+  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, operator);
   private final RunLED runLed = new RunLED(operator, ledSubsystem);
 
   public RobotContainer() {
@@ -57,10 +59,10 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
     driveBaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
     ledSubsystem.setDefaultCommand(runLed);
+    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
   }
 }
