@@ -25,7 +25,8 @@ public final class Constants {
     intake(62),
     armEncoder(1),
     leftgroundintake(0),
-    rightgroundintake(0);
+    rightgroundintake(0),
+    wrist(0);
     
     public final int id;
 

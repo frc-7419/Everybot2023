@@ -18,6 +18,8 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 import frc.robot.subsystems.leds.LedSubsystem;
 import frc.robot.subsystems.leds.RunLED;
+import frc.robot.subsystems.wrist.RunWristWithJoystick;
+import frc.robot.subsystems.wrist.WristSubsystem;
 
 public class RobotContainer {
   private final XboxController driver = new XboxController(0); //driver
@@ -29,6 +31,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final LedSubsystem ledSubsystem = new LedSubsystem();
   private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
 
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBaseSubsystem);
@@ -39,6 +42,7 @@ public class RobotContainer {
   private final LockModules lockModules = new LockModules(driveBaseSubsystem, swerveDriveFieldCentric);
   private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, operator);
   private final RunLED runLed = new RunLED(operator, ledSubsystem);
+  private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, operator);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -64,5 +68,6 @@ public class RobotContainer {
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick); 
     ledSubsystem.setDefaultCommand(runLed);
     groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    wristSubsystem.setDefaultCommand(runWristWithJoystick);
   }
 }
