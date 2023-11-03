@@ -20,7 +20,7 @@ public class ArmSetpointPID extends CommandBase {
   public ArmSetpointPID(ArmSubsystem armSubsystem, double setpoint) {
     this.setpoint = setpoint;
     this.armSubsystem = armSubsystem;
-    this.pidController = new PIDController(0.5, 0, 0);
+    this.pidController = new PIDController(7, 0, 0);
     addRequirements(armSubsystem);
   }
   
@@ -37,7 +37,7 @@ public class ArmSetpointPID extends CommandBase {
   public void execute() {
     currentProfile = new TrapezoidProfile(armSubsystem.getConstraints(), armSubsystem.getGoal(), armSubsystem.getStart());
     
-    TrapezoidProfile.State nextSetpoint = currentProfile.calculate(0.01);
+    TrapezoidProfile.State nextSetpoint = currentProfile.calculate(0.02);
 
     armSubsystem.setSetpoint(nextSetpoint);
     pidController.setSetpoint(nextSetpoint.position);

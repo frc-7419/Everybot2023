@@ -166,8 +166,8 @@ public final class Constants {
     public static final double kTolerance = 100;
 
     // need to find max velocity and max acceleration
-    public static final double maxVelocity = 0.0;
-    public static final double maxAcceleration = 0.0;
+    public static final double maxVelocity = 10000;
+    public static final double maxAcceleration = 10000;
 
   }
 }

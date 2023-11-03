@@ -7,8 +7,8 @@ import frc.robot.subsystems.arm.ArmSetpointPID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
-import frc.robot.subsystems.led.LedSubsystem;
-import frc.robot.subsystems.led.RunLED;
+// import frc.robot.subsystems.led.LedSubsystem;
+// import frc.robot.subsystems.led.RunLED;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.commands.auto.AutoDock;
 import frc.robot.commands.auto.MoveForward;
@@ -30,7 +30,7 @@ public class RobotContainer {
   //Subsystems
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final LedSubsystem ledSubsystem = new LedSubsystem();
+  //private final LedSubsystem ledSubsystem = new LedSubsystem();
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //Commands
@@ -46,7 +46,7 @@ public class RobotContainer {
   // private final WristToPosition wristToPosition = new WristToPosition(wristSubsystem, 5);
   // private final RunGroundIntakeUntilHolding  runGroundIntakeUntilHolding = new RunGroundIntakeUntilHolding(groundIntakeSubsystem);
   // private final RunArmWithJoystick runArmWithJoystick = new RunArmWithJoystick(operator, armSubsystem);
-  private final RunLED runLED = new RunLED(operator, ledSubsystem);
+  //private final RunLED runLED = new RunLED(operator, ledSubsystem);
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
@@ -55,9 +55,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID); // testing setpoint, set on dashboard
-    new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.469)); // Mid setpoint
-    new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.637)); // High set point
+    //new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID); // testing setpoint, set on dashboard
+    new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.312)); // Mid setpoint
+    new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.481)); // High set point
+    new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.328)); // MidC set point
+    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.477)); // HighC set point
   }
 
   private void configureAutoSelector() {
@@ -76,6 +78,6 @@ public class RobotContainer {
     driveBase.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
-    ledSubsystem.setDefaultCommand(runLED);
+    //ledSubsystem.setDefaultCommand(runLED);
   }
 }
