@@ -14,12 +14,15 @@ public class RunGroundIntakeWithJoystick extends CommandBase {
   public RunGroundIntakeWithJoystick(GroundIntake groundIntake, XboxController joystick) {
     this.groundIntake = groundIntake;
     this.joystick = joystick;
+    addRequirements(groundIntake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    groundIntake.coastWrist();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

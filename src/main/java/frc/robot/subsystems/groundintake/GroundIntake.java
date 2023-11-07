@@ -21,8 +21,6 @@ public class GroundIntake extends SubsystemBase {
   private TalonSRX wristIntake1;
   private TalonSRX wristIntake2;
 
-
-
   /**
    * Makes a new ArmSubsystem
    */
