@@ -8,35 +8,35 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunGroundIntakeWithJoystick extends CommandBase {
-  private GroundIntakeSubsystem groundIntakeSubsystem;
+  /** Creates a new RunGroundIntakeWithJoystick. */
+  private GroundIntake groundIntake;
   private XboxController joystick;
-  public RunGroundIntakeWithJoystick(GroundIntakeSubsystem groundIntakeSubsystem, XboxController joystick) {
-    this.groundIntakeSubsystem = groundIntakeSubsystem;
+  public RunGroundIntakeWithJoystick(GroundIntake groundIntake, XboxController joystick) {
+    this.groundIntake = groundIntake;
     this.joystick = joystick;
-    addRequirements(groundIntakeSubsystem);
+    addRequirements(groundIntake);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
+
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    groundIntakeSubsystem.coast();
+    groundIntake.coastWrist();
   }
+
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (joystick.getLeftTriggerAxis()>0.5) {
-      groundIntakeSubsystem.coast();
-      groundIntakeSubsystem.setSpeed(-0.5);
-    } else if (joystick.getRightTriggerAxis()>0.5) {
-      groundIntakeSubsystem.coast();
-      groundIntakeSubsystem.setSpeed(0.5);
-    } else {
-      groundIntakeSubsystem.setSpeed(0);
-      groundIntakeSubsystem.brake();
-    }
+    if (Math.abs(joystick.getLeftY())  > 0.01 ) {
+      groundIntake.setPowerWrist(joystick.getLeftY());
+    }  
   }
+
+  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    groundIntakeSubsystem.setSpeed(0);
-    groundIntakeSubsystem.brake();
-  }
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

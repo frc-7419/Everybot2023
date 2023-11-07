@@ -3,7 +3,10 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+//
+// THIS IS FOR TESTING AND TUNING PID FOR ArmSetPointPID command
+// setpoints are set on dashboard for this command
+//
 public class ArmWithPID extends CommandBase {
   private ArmSubsystem armSubsystem;
   private PIDController pidController;

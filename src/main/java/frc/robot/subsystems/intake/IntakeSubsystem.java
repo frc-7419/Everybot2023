@@ -12,11 +12,9 @@ public class IntakeSubsystem extends SubsystemBase {
     armMotor.setInverted(true);
     armMotor.enableVoltageCompensation(12);
   }
-
   public void setSpeed(double speed){
     armMotor.set(speed);
   }
-
   public void coast(){
     armMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
   }
