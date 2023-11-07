@@ -25,9 +25,9 @@ public class TwoPiece extends SequentialCommandGroup {
       new RunArm(armSubsystem,-0.15).alongWith(new RunIntake(intakeSubsystem, 0.115)).withTimeout(5),
       new RunArm(armSubsystem,-0.05).alongWith(new RunIntake(intakeSubsystem, -0.5)).withTimeout(1),
       new WaitCommand(3),
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 5.69),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       new RunWrist(wristSubsystem, 0),
+      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 5.69),
       // change to negative if it doesnt work
       new RunGroundIntake(groundIntakeSubsystem, 0.5),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
