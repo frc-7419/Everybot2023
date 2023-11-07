@@ -39,11 +39,14 @@ public class RobotContainer {
 
   //Subsystems
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final GroundIntake groundIntake = new GroundIntake();
   //private final LedSubsystem ledSubsystem = new LedSubsystem();
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
+  
   private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntake, operator);
+  private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBase);
@@ -72,6 +75,7 @@ public class RobotContainer {
     new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.481)); // High set point
     new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.328)); // MidC set point
     new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.477)); // HighC set point
+
   }
 
   private void configureAutoSelector() {
@@ -92,6 +96,7 @@ public class RobotContainer {
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
     groundIntake.setDefaultCommand(runGroundIntakeWithJoystick);
+    wristSubsystem.setDefaultCommand(runWristWithJoystick);
     //ledSubsystem.setDefaultCommand(runLED);
   }
 }
