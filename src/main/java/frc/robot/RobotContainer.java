@@ -7,6 +7,8 @@ import frc.robot.subsystems.arm.ArmSetpointPID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
+import frc.robot.subsystems.groundintake.GroundIntake;
+import frc.robot.subsystems.groundintake.RunGroundIntakeWithJoystick;
 // import frc.robot.subsystems.led.LedSubsystem;
 // import frc.robot.subsystems.led.RunLED;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
@@ -30,8 +32,10 @@ public class RobotContainer {
   //Subsystems
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final GroundIntake groundIntake = new GroundIntake();
   //private final LedSubsystem ledSubsystem = new LedSubsystem();
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
+  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntake, operator);
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBase);
@@ -78,6 +82,7 @@ public class RobotContainer {
     driveBase.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
+    groundIntake.setDefaultCommand(runGroundIntakeWithJoystick);
     //ledSubsystem.setDefaultCommand(runLED);
   }
 }
