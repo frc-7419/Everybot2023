@@ -173,4 +173,12 @@ public final class Constants {
     public static final double maxAcceleration = 10000;
 
   }
+
+  public static class WristConstants {
+
+    // TODO: Need to find the actual constants
+    public static final double maxAcceleration = 1.0;
+    public static final double maxVelocity = 1.0;
+    
+  }
 }
