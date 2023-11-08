@@ -33,10 +33,10 @@ public class RunGroundIntakeWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(joystick.getRightTriggerAxis())  > 0.01 ) {
+    if (Math.abs(joystick.getRightTriggerAxis())  > 0.5 ) {
       groundIntakeSubsystem.setIntakeSpeed(joystick.getRightTriggerAxis()/5);
     }  
-    if (-(joystick.getLeftTriggerAxis())  < -0.01 ) {
+    if ((joystick.getLeftTriggerAxis())  > 0.5 ) {
       groundIntakeSubsystem.setIntakeSpeed(-joystick.getLeftTriggerAxis()/5);
     }
 
