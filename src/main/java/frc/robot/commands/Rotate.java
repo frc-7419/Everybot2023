@@ -30,7 +30,9 @@ public class Rotate extends CommandBase {
 
   @Override
   public void execute() {
-    if(driveBaseSubsystem.getYaw()-startingYaw > degrees) {
+    double currentYaw = driveBaseSubsystem.getYaw()+180;
+    double deltaYaw = currentYaw-startingYaw;
+    if(deltaYaw > degrees) {
       swerveDriveFieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0,0, Math.PI/2));
     }
     else {
@@ -45,6 +47,6 @@ public class Rotate extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs((driveBaseSubsystem.getYaw()+180)-startingYaw)<3;
   }
 }
