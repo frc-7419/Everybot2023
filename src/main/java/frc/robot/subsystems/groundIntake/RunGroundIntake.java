@@ -15,8 +15,8 @@ public class RunGroundIntake extends CommandBase {
 
   @Override
   public void initialize() {
-    groundIntakeSubsystem.coast();
-    groundIntakeSubsystem.setSpeed(power);
+    groundIntakeSubsystem.intakeCoast();
+    groundIntakeSubsystem.setIntakeSpeed(power);
   }
 
   @Override
@@ -24,8 +24,8 @@ public class RunGroundIntake extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    groundIntakeSubsystem.setSpeed(0);
-    groundIntakeSubsystem.brake();
+    groundIntakeSubsystem.setIntakeSpeed(0);
+    groundIntakeSubsystem.intakeBrake();
   }
 
   @Override

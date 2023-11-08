@@ -2,53 +2,53 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.wrist;
+package frc.robot.subsystems.groundIntake;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunWrist extends CommandBase {
-  private WristSubsystem wristSubsystem;
+  private GroundIntakeSubsystem groundIntakeSubsystem;
   private PIDController pidController;
   private TrapezoidProfile currentProfile;
   public double setpoint;
   public double tolerance = 0.01;
 
   
-  public RunWrist(WristSubsystem wristSubsystem, double setpoint) {
+  public RunWrist(GroundIntakeSubsystem groundIntakeSubsystem, double setpoint) {
     this.pidController = new PIDController(1,0,0);
-    this.wristSubsystem = wristSubsystem;
+    this.groundIntakeSubsystem = groundIntakeSubsystem;
     this.setpoint = setpoint;
-    addRequirements(wristSubsystem);
+    addRequirements(groundIntakeSubsystem);
   }
 
   @Override
   public void initialize() {
-    wristSubsystem.setGoal(setpoint);
-    double armPosition = wristSubsystem.getPosition();
+    groundIntakeSubsystem.setWristGoal(setpoint);
+    double armPosition = groundIntakeSubsystem.getPosition();
     pidController.setTolerance(tolerance);
     pidController.setSetpoint(setpoint);
-    wristSubsystem.coast();
+    groundIntakeSubsystem.wristCoast();
   }
 
   @Override
   public void execute() {
-    currentProfile = new TrapezoidProfile(wristSubsystem.getConstraints(), wristSubsystem.getGoal(),wristSubsystem.getStart());
+    currentProfile = new TrapezoidProfile(groundIntakeSubsystem.getConstraints(), groundIntakeSubsystem.getGoal(),groundIntakeSubsystem.getStart());
 
     TrapezoidProfile.State nextSetpoint = currentProfile.calculate(0.02);
-    wristSubsystem.setSetpoint(nextSetpoint);
+    groundIntakeSubsystem.setWristSetpoint(nextSetpoint);
     pidController.setSetpoint(nextSetpoint.position);
-    double position = wristSubsystem.getPosition();
+    double position = groundIntakeSubsystem.getPosition();
     double output = pidController.calculate(position);
 
-    wristSubsystem.setPower(output);
+    groundIntakeSubsystem.setWristPower(output);
   }
 
   @Override
   public void end(boolean interrupted) {
-    wristSubsystem.setPower(0);
-    wristSubsystem.brake();
+    groundIntakeSubsystem.setWristPower(0);
+    groundIntakeSubsystem.wristBrake();
   }
 
   @Override

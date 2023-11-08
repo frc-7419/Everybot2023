@@ -6,18 +6,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LockModules;
+// import frc.robot.commands.Turn180;
 import frc.robot.subsystems.arm.ArmSetpointPID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
-import frc.robot.subsystems.groundIntake.GroundIntake;
+// import frc.robot.subsystems.groundIntake.GroundIntake;
 import frc.robot.subsystems.groundIntake.RunGroundIntakeWithJoystick;
 // import frc.robot.subsystems.led.LedSubsystem;
 // import frc.robot.subsystems.led.RunLED;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
-import frc.robot.commands.auto.AutoDock;
-import frc.robot.commands.auto.MoveForward;
-import frc.robot.commands.auto.Turn180;
+import frc.robot.commands.AutoDock;
+import frc.robot.commands.MoveForward;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmWithPID;
@@ -27,8 +27,9 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.RunIntakeWithJoystick;
 import frc.robot.subsystems.leds.LedSubsystem;
 import frc.robot.subsystems.leds.RunLED;
-import frc.robot.subsystems.wrist.RunWristWithJoystick;
-import frc.robot.subsystems.wrist.WristSubsystem;
+// import frc.robot.subsystems.wrist.RunWristWithJoystick;
+// import frc.robot.subsystems.wrist.WristSubsystem;
+import frc.robot.subsystems.groundIntake.GroundIntakeSubsystem;
 
 public class RobotContainer {
   
@@ -39,14 +40,14 @@ public class RobotContainer {
 
   //Subsystems
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
-  private final WristSubsystem wristSubsystem = new WristSubsystem();
+  // private final WristSubsystem wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final GroundIntake groundIntake = new GroundIntake();
+  private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //private final LedSubsystem ledSubsystem = new LedSubsystem();
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
   
-  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntake, operator);
-  private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
+  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, operator);
+  // private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //Commands
   private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driver, driveBase);
@@ -95,8 +96,8 @@ public class RobotContainer {
     driveBase.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
-    groundIntake.setDefaultCommand(runGroundIntakeWithJoystick);
-    wristSubsystem.setDefaultCommand(runWristWithJoystick);
+    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    // wristSubsystem.setDefaultCommand(runWristWithJoystick);
     //ledSubsystem.setDefaultCommand(runLED);
   }
 }

@@ -24,6 +24,18 @@ public class AutoDock extends CommandBase {
         this.driveBaseSubsystem = driveBaseSubsystem;
         addRequirements(driveBaseSubsystem);
     }
+    public ChassisSpeeds getChassisSpeeds(double vx){
+        double vy = 1;
+        double rx = Math.PI/6;
+
+        //WPILIB does the Field-Relative Conversions for you, easy peas y
+        
+        return ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
+    }
+    public ChassisSpeeds endSpeed(){
+        return ChassisSpeeds.fromFieldRelativeSpeeds(0,0,0,driveBaseSubsystem.getRotation2d());
+    }
+
     @Override
     public void initialize() {
         recordedStartingPitch = driveBaseSubsystem.getPitch();
@@ -37,18 +49,16 @@ public class AutoDock extends CommandBase {
         SmartDashboard.putNumber("pitch", driveBaseSubsystem.getPitch());
         if((Math.abs(driveBaseSubsystem.getPitch())-recordedStartingPitch)>10) toggle = false;
         if(toggle) {
-            output = 0.4;
+            output = 1;
         }
         else {
             output = pitchController.calculate(driveBaseSubsystem.getPitch());
         }
-        fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(new ChassisSpeeds(output,0,0)));
+        fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(getChassisSpeeds(output)));
 
     }
     @Override
-    public void end(boolean interrupted) {
-        driveBaseSubsystem.brake();
-    } 
+    public void end(boolean interrupted) {} 
 
     @Override
     public boolean isFinished() {

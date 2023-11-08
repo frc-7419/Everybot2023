@@ -1,10 +1,8 @@
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.MoveForward;
 import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.ArmWithPID;
 import frc.robot.subsystems.arm.RunArm;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
