@@ -16,8 +16,10 @@ import frc.robot.subsystems.groundIntake.RunGroundIntakeWithJoystick;
 // import frc.robot.subsystems.led.LedSubsystem;
 // import frc.robot.subsystems.led.RunLED;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.AutoDock;
 import frc.robot.commands.MoveForward;
+import frc.robot.commands.ZeroFieldCentric;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.ArmWithPID;
@@ -75,7 +77,8 @@ public class RobotContainer {
     new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.312)); // Mid setpoint
     new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.481)); // High set point
     new JoystickButton(operator, XboxController.Button.kA.value).onTrue(new ArmSetpointPID(armSubsystem, 0.104)); // Retract set point
-
+    new JoystickButton(operator, XboxController.Button.kY.value).onTrue(new ArmSetpointPID(armSubsystem, ArmConstants.highCubeSetpoint)); //High cube setpoint
+    new JoystickButton(driver, XboxController.Button.kStart.value).onTrue(new ZeroFieldCentric(driveBase));
 
   }
 

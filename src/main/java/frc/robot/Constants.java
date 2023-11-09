@@ -177,6 +177,7 @@ public final class Constants {
     public static final double highConeSetpoint = 0.481;
     public static final double midCubeSetpoint = 0.328;
     public static final double highCubeSetpoint = 0.477;
+    public static final double armIdle = 0.104;
   }
 
   public static class WristConstants {
