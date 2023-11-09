@@ -16,6 +16,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -137,7 +139,10 @@ public class SwerveModule {
         setSpeed(state.speedMetersPerSecond);
         setAnglePID(state.angle);
     }
-
+    public void setSwerveModuleState2(SwerveModuleState state, XboxController joystick) {
+        setSpeed(state.speedMetersPerSecond, joystick);
+        setAnglePID(state.angle);
+    }
     public void testTurn(){
         turnMotor.set(0.1);
     }
@@ -150,6 +155,17 @@ public class SwerveModule {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
         double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
         // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        speedMotor.set(motorInput);
+    }
+    /**
+     * This function sets the speed of the motors
+     * @param speed is in the format meters per second(m/s) type: double
+     */
+    public void setSpeed(double speed, XboxController joystick) {
+        //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
+        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
+        // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        motorInput = joystick.getLeftBumper()?motorInput*0.1:motorInput;
         speedMotor.set(motorInput);
     }
     public void stop() {

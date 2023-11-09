@@ -74,15 +74,15 @@ public class RobotContainer {
     //new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(armWithPID); // testing setpoint, set on dashboard
     new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.312)); // Mid setpoint
     new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.481)); // High set point
-    new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.328)); // MidC set point
-    new JoystickButton(operator, XboxController.Button.kA.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.477)); // HighC set point
+    new JoystickButton(operator, XboxController.Button.kA.value).onTrue(new ArmSetpointPID(armSubsystem, 0.104)); // Retract set point
+
 
   }
 
   private void configureAutoSelector() {
     // autonomousChooser.setDefaultOption("Score piece with turning", new ScorePieceWithTurning(armSubsystem, armIntakeSubsystem, swerveDriveFieldCentric, driveBase));
     // autonomousChooser.addOption("Score piece without turning", new ScorePieceWithoutTurning(armSubsystem, armIntakeSubsystem, swerveDriveFieldCentric, driveBase));
-    autonomousChooser.addOption("Autodock", new AutoDock(driveBase, swerveDriveFieldCentric));
+    //autonomousChooser.addOption("Autodock", new AutoDock(driveBase, swerveDriveFieldCentric));
     SmartDashboard.putData(autonomousChooser);
   }
   public Command getAutonomousCommand() {
@@ -92,7 +92,6 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    // driveBaseSubsystem.setDefaultCommand(swerveJoystickCommand);
     driveBase.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);

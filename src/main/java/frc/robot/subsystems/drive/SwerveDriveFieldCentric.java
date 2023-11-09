@@ -28,8 +28,8 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
-    double vx = -joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed;
-    double vy = -joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed ;
+    double vx = Math.abs(joystick.getLeftY())>0.05?-joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed:0;
+    double vy = Math.abs(joystick.getLeftX())>0.05?-joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed:0;
     double rx = 0.7*joystick.getRightX()*SwerveConstants.maxRotationalSpeed;
 
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
@@ -69,7 +69,13 @@ public class SwerveDriveFieldCentric extends CommandBase {
       driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i]);
     }
   }
-
+  public void setModuleStatesTeleop(SwerveModuleState[] moduleStates, XboxController joystick) {
+    for (int i=0; i<4; ++i) {
+      // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
+      // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i], joystick);
+    }
+  }
   //The following two function smake the code less verbose by combining the above functions
   /**
    * Sets the module states directly from the chassis speed
@@ -78,13 +84,15 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public void setModuleStatesFromChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setModuleStates(ChassisSpeedstoModuleSpeeds(chassisSpeeds));
   }
-
+  public void setModuleStatesFromChassisSpeedTeleop(ChassisSpeeds chassisSpeeds, XboxController joystick) {
+    setModuleStatesTeleop(ChassisSpeedstoModuleSpeeds(chassisSpeeds), joystick);
+  }
   /**
    * this is what makes the robot begin moving, the entry point for swerve centric drive!
    * @param joystick
    */
   public void setModuleStatesFromJoystick(XboxController joystick) {
-    setModuleStatesFromChassisSpeed(getChassisSpeedsFromJoystick(joystick));
+    setModuleStatesFromChassisSpeedTeleop(getChassisSpeedsFromJoystick(joystick), joystick);
   }
 
   /**
@@ -96,6 +104,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   @Override
   public void initialize() {
     driveBaseSubsystem.coast();
+    driveBaseSubsystem.zeroYaw();
     // zero();
   }
 

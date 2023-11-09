@@ -91,7 +91,7 @@ public final class Constants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
 
-    public static double maxTranslationalSpeed = Units.feetToMeters(2);
+    public static double maxTranslationalSpeed = Units.feetToMeters(2.5);
     //arbitrary value in radians, let's say one pi/second
     public static double maxRotationalSpeed = Math.PI/6;
 
@@ -169,16 +169,16 @@ public final class Constants {
     public static final double kTolerance = 100;
 
     // need to find max velocity and max acceleration
-    public static final double maxVelocity = 10000;
-    public static final double maxAcceleration = 10000;
+    public static final double maxVelocity = 1000000;
+    public static final double maxAcceleration = 1000000;
 
   }
 
   public static class WristConstants {
 
     // TODO: Need to find the actual constants
-    public static final double maxAcceleration = 1.0;
-    public static final double maxVelocity = 1.0;
+    public static final double maxAcceleration = 0.9;
+    public static final double maxVelocity = 0.9;
     
   }
 }
