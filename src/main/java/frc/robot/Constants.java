@@ -172,6 +172,11 @@ public final class Constants {
     public static final double maxVelocity = 1000000;
     public static final double maxAcceleration = 1000000;
 
+    // these constants are for storing purposes only
+    public static final double midConeSetpoint = 0.312;
+    public static final double highConeSetpoint = 0.481;
+    public static final double midCubeSetpoint = 0.328;
+    public static final double highCubeSetpoint = 0.477;
   }
 
   public static class WristConstants {
