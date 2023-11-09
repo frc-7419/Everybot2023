@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+// import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.arm.ArmSetpointPID;
 import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.arm.RunArm;
+// import frc.robot.subsystems.arm.RunArm;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -31,12 +31,15 @@ public class TwoPiece extends SequentialCommandGroup {
           new RunGroundIntake(groundIntakeSubsystem, 0.5)),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       new RunWrist(groundIntakeSubsystem, 90).alongWith(),
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 5.69),
+      // as we move backward turn 180 degrees
+      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 5.69).alongWith(
+        new Rotate(driveBaseSubsystem, swerveDriveFieldCentric, 180)
+      ),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       new RunWrist(groundIntakeSubsystem, 0),
       // change to positive if it doesnt work
-      new RunGroundIntake(groundIntakeSubsystem, -0.5),
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
+      new RunGroundIntake(groundIntakeSubsystem, -0.5)
+      // new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
     );
   }
 }

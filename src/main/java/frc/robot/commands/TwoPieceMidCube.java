@@ -32,12 +32,14 @@ public class TwoPieceMidCube extends SequentialCommandGroup {
           new RunGroundIntake(groundIntakeSubsystem, 0.5)),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       new RunWrist(groundIntakeSubsystem, 90).alongWith(),
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 5.69),
+      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 5.69).alongWith(
+        new Rotate(driveBaseSubsystem, swerveDriveFieldCentric, 180)
+      ),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       new RunWrist(groundIntakeSubsystem, 0),
       // change to positive if it doesnt work
-      new RunGroundIntake(groundIntakeSubsystem, -0.5),
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
+      new RunGroundIntake(groundIntakeSubsystem, -0.5)
+    //   new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
     );
   }
 }
