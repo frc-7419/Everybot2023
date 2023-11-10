@@ -165,7 +165,7 @@ public class SwerveModule {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
         double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
         // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
-        motorInput = joystick.getLeftBumper()?motorInput*0.1:motorInput;
+        motorInput = joystick.getLeftBumper()?motorInput*0.3:motorInput;
         speedMotor.set(motorInput);
     }
     public void stop() {

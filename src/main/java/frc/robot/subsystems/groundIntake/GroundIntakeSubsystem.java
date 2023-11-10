@@ -23,7 +23,6 @@ public class GroundIntakeSubsystem extends SubsystemBase {
   private TalonFX wristMotor;
   //TODO: find the correct encoder value
   private final TrapezoidProfile.Constraints constraints;
-  private final DutyCycleEncoder encoder = new DutyCycleEncoder(CanIds.wrist.id);
   private TrapezoidProfile.State goal;
   private TrapezoidProfile.State start;  
 
@@ -43,9 +42,6 @@ public class GroundIntakeSubsystem extends SubsystemBase {
     config.supplyCurrLimit.triggerThresholdTime = 1.5;
     config.supplyCurrLimit.currentLimit = 30;
     wristMotor.configAllSettings(config);
-
-    //TODO: Find the correct offset
-    encoder.setPositionOffset(0.144);
   }
   public void setIntakeSpeed(double speed) {
     leftMotor.set(ControlMode.PercentOutput, speed);
@@ -95,16 +91,12 @@ public class GroundIntakeSubsystem extends SubsystemBase {
   }
 
   public double getPosition() {
-    return encoder.getAbsolutePosition() - encoder.getPositionOffset();
+    return ((wristMotor.getSelectedSensorPosition()/2048)*360)/70;
   }
 
-  public boolean isConnected() {
-    return encoder.isConnected();
-  }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Absolute Wrist Encoder Angle", getPosition());
-    SmartDashboard.putBoolean("connected", encoder.isConnected());
+    SmartDashboard.putNumber("Relative Wrist Encoder Angle", getPosition());
   }
 }

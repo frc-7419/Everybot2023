@@ -22,11 +22,11 @@ public class RunIntakeWithJoystick extends CommandBase {
   public void execute() {
     if (joystick.getLeftBumper()) {
       intakeSubsystem.coast();
-      intakeSubsystem.setSpeed(-0.5);
+      intakeSubsystem.setSpeed(-0.98);
       // SmartDashboard.putNumber("Arm Power", joystick.getLeftY());
     } else if (joystick.getRightBumper()) {
       intakeSubsystem.coast();
-      intakeSubsystem.setSpeed(0.5);
+      intakeSubsystem.setSpeed(0.98);
     } else {
       // TODO: Replace the 0 with some tested constant that keeps the arm stationary -
       // PowerConstants.armStationaryPower

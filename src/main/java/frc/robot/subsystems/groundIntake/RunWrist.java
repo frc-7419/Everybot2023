@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.groundIntake;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,7 +18,7 @@ public class RunWrist extends CommandBase {
 
   
   public RunWrist(GroundIntakeSubsystem groundIntakeSubsystem, double setpoint) {
-    this.pidController = new PIDController(1,0,0);
+    this.pidController = new PIDController(0.02,0,0);
     this.groundIntakeSubsystem = groundIntakeSubsystem;
     this.setpoint = setpoint;
     addRequirements(groundIntakeSubsystem);
@@ -25,7 +26,7 @@ public class RunWrist extends CommandBase {
 
   @Override
   public void initialize() {
-    groundIntakeSubsystem.setWristGoal(setpoint);
+    // groundIntakeSubsystem.setWristGoal(setpoint);
     double armPosition = groundIntakeSubsystem.getPosition();
     pidController.setTolerance(tolerance);
     pidController.setSetpoint(setpoint);
@@ -34,13 +35,13 @@ public class RunWrist extends CommandBase {
 
   @Override
   public void execute() {
-    currentProfile = new TrapezoidProfile(groundIntakeSubsystem.getConstraints(), groundIntakeSubsystem.getGoal(),groundIntakeSubsystem.getStart());
+    // currentProfile = new TrapezoidProfile(groundIntakeSubsystem.getConstraints(), groundIntakeSubsystem.getGoal(),groundIntakeSubsystem.getStart());
 
-    TrapezoidProfile.State nextSetpoint = currentProfile.calculate(0.02);
-    groundIntakeSubsystem.setWristSetpoint(nextSetpoint);
-    pidController.setSetpoint(nextSetpoint.position);
+    // TrapezoidProfile.State nextSetpoint = currentProfile.calculate(0.02);
+    // groundIntakeSubsystem.setWristSetpoint(setpoint);
+    pidController.setSetpoint(setpoint);
     double position = groundIntakeSubsystem.getPosition();
-    double output = pidController.calculate(position);
+    double output = MathUtil.clamp(pidController.calculate(position),-0.2,0.2);
 
     groundIntakeSubsystem.setWristPower(output);
   }

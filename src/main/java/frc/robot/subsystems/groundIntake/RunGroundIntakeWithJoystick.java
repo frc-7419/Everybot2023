@@ -34,7 +34,7 @@ public class RunGroundIntakeWithJoystick extends CommandBase {
   @Override
   public void execute() {
     if (Math.abs(joystick.getRightY())  > 0.01 ) {
-      groundIntakeSubsystem.setWristPower(joystick.getRightY()*0.1);
+      groundIntakeSubsystem.setWristPower(-joystick.getRightY()*0.25);
     }  
     // if (-(joystick.getLeftTriggerAxis())  < -0.01 ) {
     //   groundIntake.setPowerWrist(-joystick.getLeftTriggerAxis()*0.1);
