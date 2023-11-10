@@ -19,11 +19,12 @@ public class Auton extends SequentialCommandGroup {
       // // new ArmWithPID(armSubsystem, 1, 0, 0.2).withTimeout(1.5), // TO TEST
       // new RunArm(armSubsystem, -0.15).withTimeout(4),
       // new RunArm(armSubsystem,-0.15).alongWith(new RunIntake(intakeSubsystem, 0.115)).withTimeout(5),
-      new ArmSetpointPID(armSubsystem, ArmConstants.highConeSetpoint).alongWith(new RunIntake(intakeSubsystem, 0.115)).withTimeout(3),
+      new ArmSetpointPID(armSubsystem, ArmConstants.highConeSetpoint).alongWith(new RunIntake(intakeSubsystem, 0.115)).withTimeout(2),
       // new RunArm(armSubsystem,-0.05).alongWith(new RunIntake(intakeSubsystem, -0.5)).withTimeout(1),
       new RunIntake(intakeSubsystem, -0.8).withTimeout(1),
       new ArmSetpointPID(armSubsystem, ArmConstants.armIdle),
-      new WaitCommand(3)
+      new WaitCommand(2)
+      //4.5
       // new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
     );
   }

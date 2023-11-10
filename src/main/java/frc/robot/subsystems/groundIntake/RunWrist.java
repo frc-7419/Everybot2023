@@ -49,7 +49,7 @@ public class RunWrist extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     groundIntakeSubsystem.setWristPower(0);
-    groundIntakeSubsystem.wristBrake();
+    // groundIntakeSubsystem.wristBrake();
   }
 
   @Override

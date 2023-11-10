@@ -21,6 +21,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.AutoDock;
 import frc.robot.commands.Auton;
 import frc.robot.commands.MoveForward;
+import frc.robot.commands.TwoPiece;
 import frc.robot.commands.ZeroFieldCentric;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -79,7 +80,7 @@ public class RobotContainer {
     new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.309)); // Mid setpoint
     new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.481)); // High set point
     new JoystickButton(operator, XboxController.Button.kA.value).onTrue(new ArmSetpointPID(armSubsystem, 0.104)); // Retract set point
-    new JoystickButton(operator, XboxController.Button.kY.value).onTrue(new RunWrist(groundIntakeSubsystem, -43));
+    new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new RunWrist(groundIntakeSubsystem, -61));
     // new JoystickButton(operator, XboxController.Button.kY.value).onTrue(new ArmSetpointPID(armSubsystem, ArmConstants.highCubeSetpoint)); //High cube setpoint
     new JoystickButton(driver, XboxController.Button.kStart.value).onTrue(new ZeroFieldCentric(driveBase));
 
@@ -93,7 +94,8 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     // return new WaitCommand(5);
-    return new Auton(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric);
+    return new TwoPiece(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric, groundIntakeSubsystem);
+    // return new Auton(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric);
     // return new AutoDock(driveBaseSubsystem, swerveDriveFieldCentric);
   }
 
