@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +22,7 @@ public class AutoDock extends CommandBase {
     private double TOLERANCE = 0.5;
     
     public AutoDock(DriveBaseSubsystem driveBaseSubsystem, SwerveDriveFieldCentric fieldCentric, double modifier) {
-        this.pitchController = new PIDController(0.1, 0, 0);
+        this.pitchController = new PIDController(0.04, 0, 0);
         this.fieldCentric = fieldCentric;
         this.driveBaseSubsystem = driveBaseSubsystem;
         this.modifier = modifier;
@@ -39,12 +40,14 @@ public class AutoDock extends CommandBase {
     public void execute(){
         double output;
         SmartDashboard.putNumber("pitch", driveBaseSubsystem.getPitch());
+        SmartDashboard.putBoolean("toggle", toggle);
         if(Math.abs(driveBaseSubsystem.getPitch()-recordedStartingPitch)>10) toggle = false;
         if(toggle) {
             output = 1;
         }
         else {
             output = pitchController.calculate(driveBaseSubsystem.getPitch());
+            output = MathUtil.clamp(output, -0.2,0.2);
         }
         fieldCentric.setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(modifier*output*Constants.SwerveConstants.maxTranslationalSpeed,0,0,driveBaseSubsystem.getRotation2d()));
 
