@@ -82,7 +82,7 @@ public class RobotContainer {
     new JoystickButton(operator, XboxController.Button.kA.value).onTrue(new ArmSetpointPID(armSubsystem, 0.104)); // Retract set point
     new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new RunWrist(groundIntakeSubsystem, -61));
     // new JoystickButton(operator, XboxController.Button.kY.value).onTrue(new ArmSetpointPID(armSubsystem, ArmConstants.highCubeSetpoint)); //High cube setpoint
-    // new JoystickButton(driver, XboxController.Button.kStart.value).onTrue(new ZeroFieldCentric(driveBase));
+    new JoystickButton(driver, XboxController.Button.kStart.value).onTrue(new ZeroFieldCentric(driveBase));
 
   }
 

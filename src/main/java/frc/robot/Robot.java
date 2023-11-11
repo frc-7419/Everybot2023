@@ -9,12 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.drive.DriveBaseSubsystem;
+// import frc.robot.subsystems.drive.DriveBaseSubsystem;
 
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  private DriveBaseSubsystem driveBaseSubsystem;
+  // private DriveBaseSubsystem driveBaseSubsystem;
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() {
-    driveBaseSubsystem.zeroYaw();
+    // driveBaseSubsystem.zeroYaw();
     // robotContainer.getAutonomousCommand().cancel();
     robotContainer.setDefaultCommands();
   }
