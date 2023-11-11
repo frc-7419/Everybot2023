@@ -4,36 +4,28 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.subsystems.drive.SwerveDriveFieldCentric;
 
 public class AutoDock extends CommandBase {
-    PIDController pitchController;
+    private PIDController pitchController;
     private DriveBaseSubsystem driveBaseSubsystem;
     private SwerveDriveFieldCentric fieldCentric;
     private double recordedStartingPitch;
     private boolean toggle = true;
+    private double modifier;
 
     //constants
     private double SETPOINT = 0;
-    private double TOLERANCE = 0.1;
+    private double TOLERANCE = 0.5;
     
-    public AutoDock(DriveBaseSubsystem driveBaseSubsystem, SwerveDriveFieldCentric fieldCentric) {
-        this.pitchController = new PIDController(0.01, 0, 0);
+    public AutoDock(DriveBaseSubsystem driveBaseSubsystem, SwerveDriveFieldCentric fieldCentric, double modifier) {
+        this.pitchController = new PIDController(0.1, 0, 0);
         this.fieldCentric = fieldCentric;
         this.driveBaseSubsystem = driveBaseSubsystem;
+        this.modifier = modifier;
         addRequirements(driveBaseSubsystem);
-    }
-    public ChassisSpeeds getChassisSpeeds(double vx){
-        double vy = 1;
-        double rx = Math.PI/6;
-
-        //WPILIB does the Field-Relative Conversions for you, easy peas y
-        
-        return ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
-    }
-    public ChassisSpeeds endSpeed(){
-        return ChassisSpeeds.fromFieldRelativeSpeeds(0,0,0,driveBaseSubsystem.getRotation2d());
     }
 
     @Override
@@ -47,18 +39,21 @@ public class AutoDock extends CommandBase {
     public void execute(){
         double output;
         SmartDashboard.putNumber("pitch", driveBaseSubsystem.getPitch());
-        if((Math.abs(driveBaseSubsystem.getPitch())-recordedStartingPitch)>10) toggle = false;
+        if(Math.abs(driveBaseSubsystem.getPitch()-recordedStartingPitch)>10) toggle = false;
         if(toggle) {
             output = 1;
         }
         else {
             output = pitchController.calculate(driveBaseSubsystem.getPitch());
         }
-        fieldCentric.setModuleStates(fieldCentric.ChassisSpeedstoModuleSpeeds(getChassisSpeeds(output)));
+        fieldCentric.setModuleStatesFromChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(modifier*output*Constants.SwerveConstants.maxTranslationalSpeed,0,0,driveBaseSubsystem.getRotation2d()));
 
     }
     @Override
-    public void end(boolean interrupted) {} 
+    public void end(boolean interrupted) {
+        fieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0,0,0));
+        driveBaseSubsystem.brake();
+    } 
 
     @Override
     public boolean isFinished() {

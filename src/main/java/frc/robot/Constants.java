@@ -20,8 +20,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-  public static enum CanIds {
-    
+  public static enum CanIds {    
     arm(50),
     intake(62),
     armEncoder(1),

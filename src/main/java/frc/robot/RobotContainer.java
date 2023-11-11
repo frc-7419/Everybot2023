@@ -20,6 +20,7 @@ import frc.robot.subsystems.drive.DriveBaseSubsystem;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.AutoDock;
 import frc.robot.commands.Auton;
+import frc.robot.commands.AutonMid;
 import frc.robot.commands.MoveForward;
 import frc.robot.commands.TwoPiece;
 import frc.robot.commands.ZeroFieldCentric;
@@ -47,11 +48,11 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
   // private final WristSubsystem wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
+  // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //private final LedSubsystem ledSubsystem = new LedSubsystem();
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
   
-  private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, operator);
+  // private final RunGroundIntakeWithJoystick runGroundIntakeWithJoystick = new RunGroundIntakeWithJoystick(groundIntakeSubsystem, operator);
   // private final RunWristWithJoystick runWristWithJoystick = new RunWristWithJoystick(wristSubsystem, driver);
   // private final GroundIntakeSubsystem groundIntakeSubsystem = new GroundIntakeSubsystem();
   //Commands
@@ -80,7 +81,7 @@ public class RobotContainer {
     new JoystickButton(operator, XboxController.Button.kB.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.309)); // Mid setpoint
     new JoystickButton(operator, XboxController.Button.kX.value).whileTrue(new ArmSetpointPID(armSubsystem, 0.481)); // High set point
     new JoystickButton(operator, XboxController.Button.kA.value).onTrue(new ArmSetpointPID(armSubsystem, 0.104)); // Retract set point
-    new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new RunWrist(groundIntakeSubsystem, -61));
+    // new JoystickButton(operator, XboxController.Button.kY.value).whileTrue(new RunWrist(groundIntakeSubsystem, -64));
     // new JoystickButton(operator, XboxController.Button.kY.value).onTrue(new ArmSetpointPID(armSubsystem, ArmConstants.highCubeSetpoint)); //High cube setpoint
     new JoystickButton(driver, XboxController.Button.kStart.value).whileTrue(new ZeroFieldCentric(driveBase));
 
@@ -94,8 +95,9 @@ public class RobotContainer {
   }
   public Command getAutonomousCommand() {
     // return new WaitCommand(5);
-    return new TwoPiece(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric, groundIntakeSubsystem);
+    // return new TwoPiece(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric, groundIntakeSubsystem);
     // return new Auton(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric);
+    return new AutonMid(driveBase, armSubsystem, intakeSubsystem, swerveDriveFieldCentric);
     // return new AutoDock(driveBaseSubsystem, swerveDriveFieldCentric);
   }
 
@@ -103,7 +105,7 @@ public class RobotContainer {
     driveBase.setDefaultCommand(swerveDriveFieldCentric);
     armSubsystem.setDefaultCommand(runArmWithJoystick);
     intakeSubsystem.setDefaultCommand(runIntakeWithJoystick);
-    groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
+    // groundIntakeSubsystem.setDefaultCommand(runGroundIntakeWithJoystick);
     // wristSubsystem.setDefaultCommand(runWristWithJoystick);
     //ledSubsystem.setDefaultCommand(runLED);
   }
