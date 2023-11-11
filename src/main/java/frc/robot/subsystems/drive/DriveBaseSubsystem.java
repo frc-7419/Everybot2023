@@ -98,7 +98,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber( "Yaw", getYaw());
+    SmartDashboard.putNumber( "Yaw", getYaw());
     for (Integer i = 0; i < 4; ++i) {
 
       // SmartDashboard.putNumber("Swerve" + i.toString() + "angle",

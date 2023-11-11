@@ -28,21 +28,20 @@ public class TwoPiece extends SequentialCommandGroup {
       new ArmSetpointPID(armSubsystem,0.144),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       //5.69
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 0.1).alongWith(
-        new RunWrist(groundIntakeSubsystem, 0),
-        new WaitCommand(1.0)),
-        new RunGroundIntake(groundIntakeSubsystem, 0.5),
+      // new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 0.1),
+      new RunWrist(groundIntakeSubsystem, 90).withTimeout(1),
+      new RunGroundIntake(groundIntakeSubsystem, 0.5).withTimeout(1),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
-      new RunWrist(groundIntakeSubsystem, 90).alongWith(),
+      new RunWrist(groundIntakeSubsystem, 0).withTimeout(1),
       // as we move backward turn 180 degrees
       //5.69
-      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 0.1),
+      // new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 0.1), @jihaan move command causing jitter
       new Rotate(driveBaseSubsystem, swerveDriveFieldCentric, 180),
       // change the setpoint to whatever the proper setpoint is after runwrist is fixed
       new RunWrist(groundIntakeSubsystem, 0),
       // change to positive if it doesnt work
-      new RunGroundIntake(groundIntakeSubsystem, -0.5)
-      // new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
+      new RunGroundIntake(groundIntakeSubsystem, -0.5),
+      new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, -0.3, 4.5)
     );
   }
 }
