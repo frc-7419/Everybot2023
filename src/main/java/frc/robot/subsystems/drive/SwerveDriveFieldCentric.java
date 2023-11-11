@@ -28,9 +28,9 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
 
     //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
-    double vx = Math.abs(joystick.getLeftY())>0.05?-joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed:0;
-    double vy = Math.abs(joystick.getLeftX())>0.05?-joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed:0;
-    double rx = Math.abs(joystick.getRightX())>0.05?0.7*joystick.getRightX()*SwerveConstants.maxRotationalSpeed:0;
+    double vx = Math.abs(joystick.getLeftY())>0.05?joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed:0;
+    double vy = Math.abs(joystick.getLeftX())>0.05?joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed:0;
+    double rx = Math.abs(joystick.getRightX())>0.05?-0.7*joystick.getRightX()*SwerveConstants.maxRotationalSpeed:0;
 
     // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
     // SmartDashboard.putNumber("LeftY", joystick.getLeftY());
