@@ -26,7 +26,7 @@ public class RunArmWithJoystick extends CommandBase {
 
   @Override
   public void execute() {
-    if (Math.abs(joystick.getLeftY()) > 0.01) {
+    if (Math.abs(joystick.getLeftY()) > 0.05) {
       armSubsystem.coast();
       double power = joystick.getLeftY() * PowerConstants.maxArmPower;
       armSubsystem.setPower(power);
@@ -34,7 +34,6 @@ public class RunArmWithJoystick extends CommandBase {
       SmartDashboard.putNumber("Arm Power", power);
     }
     else {
-      //TODO: Replace the 0 with some tested constant that keeps the arm stationary - PowerConstants.armStationaryPower
       armSubsystem.setPower(0);
       armSubsystem.brake();
     }
