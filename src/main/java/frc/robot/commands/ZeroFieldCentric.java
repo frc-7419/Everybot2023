@@ -10,17 +10,18 @@ public class ZeroFieldCentric extends CommandBase {
     private DriveBaseSubsystem driveBaseSubsystem;
 
     public ZeroFieldCentric(DriveBaseSubsystem driveBaseSubsystem) {
+        this.driveBaseSubsystem = driveBaseSubsystem;
         addRequirements(driveBaseSubsystem);
     }
 
     @Override
     public void initialize() {
-        // driveBaseSubsystem.zeroYaw();
+        driveBaseSubsystem.zeroYaw();
     }
 
     @Override
     public void execute() {
-        driveBaseSubsystem.zeroYaw();
+        // driveBaseSubsystem.zeroYaw();
     }
 
     @Override
