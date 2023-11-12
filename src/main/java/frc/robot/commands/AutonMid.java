@@ -24,7 +24,7 @@ public class AutonMid extends SequentialCommandGroup {
       new WaitCommand(3),
       // new MoveForward(driveBaseSubsystem, swerveDriveFieldCentric, 0.5, 5),
       // Change modifier to -1 if the line above is uncommented
-      new AutoDock(driveBaseSubsystem, swerveDriveFieldCentric ,-0.5)
+      new AutoDock(driveBaseSubsystem, swerveDriveFieldCentric)
     );
   }
 }
