@@ -61,7 +61,7 @@ public final class Constants {
       // public static final double ArmPower = 0.2;//arbitrary for now
       // public static final double groundIntakePower = 0.2; //arbitrary for now
     public static final double ArmPower = 0.2;//arbitrary for now
-    public static final double ArmIntakeSpeed = 0.5; //arbitrary for now - slower speed for testing
+    public static final double ArmIntakeSpeed = 0.3; //arbitrary for now - slower speed for testing
     public static final double ArmOuttakeSpeed = -0.5; //arbitrary for now
     public static double maxArmPower = 1;
   }
@@ -130,7 +130,7 @@ public final class Constants {
     public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
       6, 5,11, 291.533,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
-      8, 7, 12, 273.16, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
+      8, 7, 12, 17.57, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
   }
 
   public static class SwerveModuleConstants {

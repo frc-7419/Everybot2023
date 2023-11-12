@@ -36,7 +36,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
         new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID,
             SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 266.572, 2),
         new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID,
-            SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 267.803, 3),
+            SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 177, 3),
     };
     ahrs = new AHRS(SerialPort.Port.kMXP);
     ahrs.zeroYaw(); // field centric, we need yaw to be zero
@@ -101,8 +101,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
     SmartDashboard.putNumber( "Yaw", getYaw());
     for (Integer i = 0; i < 4; ++i) {
 
-      // SmartDashboard.putNumber("Swerve" + i.toString() + "angle",
-      // swerveModules[i].getAngle());
+      SmartDashboard.putNumber("Swerve" + i.toString() + "angle",
+      swerveModules[i].getAngle());
       // SmartDashboard.putNumber("Swerve" + i.toString(),
       // swerveModules[i].getSpeed());
     }
