@@ -33,15 +33,15 @@ public class AutoDock extends CommandBase {
         double output;
         SmartDashboard.putNumber("pitch", driveBaseSubsystem.getPitch());
         SmartDashboard.putBoolean("starting", starting);
-        starting = Math.abs(driveBaseSubsystem.getPitch()-startingPitch)>10?false:starting;
+        starting = Math.abs(tiltError)>10?false:starting;
         if(starting) {
             output = 0.6;
         }
         else {
-            if(tiltError>1){
+            if(tiltError>2){
                 output = -Math.abs(tiltError)*0.015*flip;
               }
-              else if(tiltError<-1){
+              else if(tiltError<-2){
                 output = Math.abs(tiltError)*0.015*flip;
               }
               else {
