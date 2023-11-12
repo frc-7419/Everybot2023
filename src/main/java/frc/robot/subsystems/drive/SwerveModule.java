@@ -136,12 +136,12 @@ public class SwerveModule {
     }
 
     public void setSwerveModuleState2(SwerveModuleState state) {
-        SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
+        state = SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
         setSpeed(state.speedMetersPerSecond);
         setAnglePID(state.angle);
     }
     public void setSwerveModuleState2(SwerveModuleState state, XboxController joystick) {
-        SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
+        state = SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
         setSpeed(state.speedMetersPerSecond, joystick);
         setAnglePID(state.angle);
     }
