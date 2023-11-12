@@ -59,7 +59,7 @@ public class SwerveModule {
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
         driveEncoder = speedMotor.getEncoder();
-        angleController = new PIDController(0.003, 0, 0.00000); //never changes after initialization anyways
+        angleController = new PIDController(0.003, 0, 0); //never changes after initialization anyways
 
         config();
     }
@@ -136,10 +136,12 @@ public class SwerveModule {
     }
 
     public void setSwerveModuleState2(SwerveModuleState state) {
+        SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
         setSpeed(state.speedMetersPerSecond);
         setAnglePID(state.angle);
     }
     public void setSwerveModuleState2(SwerveModuleState state, XboxController joystick) {
+        SwerveModuleState.optimize(state, new Rotation2d(getAngle()));
         setSpeed(state.speedMetersPerSecond, joystick);
         setAnglePID(state.angle);
     }
