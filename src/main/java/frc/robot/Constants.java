@@ -20,11 +20,13 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-  public static enum CanIds {
-    
+  public static enum CanIds {    
     arm(50),
     intake(62),
-    armEncoder(1);
+    armEncoder(1),
+    leftgroundintake(30),
+    rightgroundintake(31),
+    wrist(13);
     
     
     public final int id;
@@ -59,8 +61,8 @@ public final class Constants {
       // public static final double ArmPower = 0.2;//arbitrary for now
       // public static final double groundIntakePower = 0.2; //arbitrary for now
     public static final double ArmPower = 0.2;//arbitrary for now
-    public static final double ArmIntakeSpeed = 0.2; //arbitrary for now - slower speed for testing
-    public static final double ArmOuttakeSpeed = -0.2; //arbitrary for now
+    public static final double ArmIntakeSpeed = 0.3; //arbitrary for now - slower speed for testing
+    public static final double ArmOuttakeSpeed = -0.5; //arbitrary for now
     public static double maxArmPower = 1;
   }
 
@@ -88,9 +90,9 @@ public final class Constants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
 
-    public static double maxTranslationalSpeed = Units.feetToMeters(2);
+    public static double maxTranslationalSpeed = Units.feetToMeters(3);
     //arbitrary value in radians, let's say one pi/second
-    public static double maxRotationalSpeed = Math.PI/6;
+    public static double maxRotationalSpeed = Math.PI/4;
 
     /*
     * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
@@ -128,7 +130,7 @@ public final class Constants {
     public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
       6, 5,11, 291.533,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
-      8, 7, 12, 273.16, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
+      8, 7, 12, 17.57, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
   }
 
   public static class SwerveModuleConstants {
@@ -160,10 +162,30 @@ public final class Constants {
 
   public static class ArmConstants {
 
-        public static final double kP = 0.0001;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kTolerance = 100;
+    public static final double kP = 0.0001;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kTolerance = 100;
 
-    }
+    // need to find max velocity and max acceleration
+    public static final double maxVelocity = 1000000;
+    public static final double maxAcceleration = 1000000;
+
+    // these constants are for storing purposes only
+    public static final double midConeSetpoint = 0.222;
+    public static final double highConeSetpoint = 0.489;
+    public static final double midCubeSetpoint = 0.328;
+    public static final double highCubeSetpoint = 0.477;
+    public static final double armIdle = 0.072;
+  }
+
+  public static class WristConstants {
+
+    // TODO: Need to find the actual constants
+    public static final double maxAcceleration = 0.9;
+    public static final double maxVelocity = 0.9;
+    public static final double returnWrist = 0;
+    public static final double scoreHighWrist = -43;
+    
+  }
 }

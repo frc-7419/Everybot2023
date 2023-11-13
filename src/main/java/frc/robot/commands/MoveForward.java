@@ -1,4 +1,4 @@
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,6 +22,7 @@ public class MoveForward extends CommandBase {
     @Override
     public void initialize() {
         driveBaseSubsystem.resetDriveEnc();
+        driveBaseSubsystem.coast();
     }
 
     @Override
@@ -31,6 +32,7 @@ public class MoveForward extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         fieldCentric.setModuleStatesFromChassisSpeed(new ChassisSpeeds(0, 0, 0));
+        driveBaseSubsystem.brake();
     } 
 
     @Override

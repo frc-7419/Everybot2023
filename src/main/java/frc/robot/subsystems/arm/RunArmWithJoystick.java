@@ -34,7 +34,6 @@ public class RunArmWithJoystick extends CommandBase {
       SmartDashboard.putNumber("Arm Power", power);
     }
     else {
-      //TODO: Replace the 0 with some tested constant that keeps the arm stationary - PowerConstants.armStationaryPower
       armSubsystem.setPower(0);
       armSubsystem.brake();
     }

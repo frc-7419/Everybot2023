@@ -16,6 +16,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -86,6 +88,12 @@ public class SwerveModule {
         turnMotor.setIdleMode(IdleMode.kCoast);
         speedMotor.setIdleMode(IdleMode.kCoast);
     }
+    
+    public void brake() {
+        turnMotor.setIdleMode(IdleMode.kBrake);
+        speedMotor.setIdleMode(IdleMode.kBrake);
+    }
+
     public double getDrivePosition() {
         return driveEncoder.getPosition();
     }
@@ -93,7 +101,7 @@ public class SwerveModule {
         driveEncoder.setPosition(0);
     }
     public boolean reachedDist(double meters) {
-        return driveEncoder.getPosition() > meters;
+        return Math.abs(driveEncoder.getPosition()) > meters;
     }
     public double getTurningPosition() {
         return turnEncoder.getPosition();
@@ -131,7 +139,10 @@ public class SwerveModule {
         setSpeed(state.speedMetersPerSecond);
         setAnglePID(state.angle);
     }
-
+    public void setSwerveModuleState2(SwerveModuleState state, XboxController joystick) {
+        setSpeed(state.speedMetersPerSecond, joystick);
+        setAnglePID(state.angle);
+    }
     public void testTurn(){
         turnMotor.set(0.1);
     }
@@ -143,7 +154,18 @@ public class SwerveModule {
     public void setSpeed(double speed) {
         //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
         double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
-        SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        speedMotor.set(motorInput);
+    }
+    /**
+     * This function sets the speed of the motors
+     * @param speed is in the format meters per second(m/s) type: double
+     */
+    public void setSpeed(double speed, XboxController joystick) {
+        //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
+        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
+        // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
+        motorInput = joystick.getLeftBumper()?motorInput*0.2:motorInput;
         speedMotor.set(motorInput);
     }
     public void stop() {
@@ -160,9 +182,9 @@ public class SwerveModule {
     public void setAnglePID(Rotation2d rotation2D) {   
         double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
         // angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
-        SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
-        SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
-        SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
+        // SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
+        // SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
+        // SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
 
         // if (angleController.atSetpoint()) {
         //     return;
@@ -170,8 +192,8 @@ public class SwerveModule {
         //We should clamp the PID output to between -1 and 1
         double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
         double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
-        SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
-        SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
+        // SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
+        // SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
 
         turnMotor.set(-PIDVALCLAMP);
     }
