@@ -16,7 +16,7 @@ public class RobotContainer {
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
   
   //Commands
-  private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driveBase, driver.getLeftY(), driver.getLeftX(), driver.getRightX(), driver.getAButton(), driveBase.getHeading(), driver.getBButton());
+  private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(driveBase, ()-> driver.getLeftY(), ()-> driver.getLeftX(), ()->driver.getRightX(),driver.getAButton(),()-> driveBase.getHeading(), driver.getBButton());
   
   private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 

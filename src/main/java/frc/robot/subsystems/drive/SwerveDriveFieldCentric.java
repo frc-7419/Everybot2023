@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class SwerveDriveFieldCentric extends CommandBase {
 
   private final DriveBaseSubsystem driveBaseSubsystem;
-  private final double xSpdFunction, ySpdFunction, turningSpdFunction, headingFunction;
+  private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction, headingFunction;
   private final boolean fieldOrientedFunction;
   private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
   private final boolean flickFunction;
@@ -27,8 +27,8 @@ public class SwerveDriveFieldCentric extends CommandBase {
   private double added;
   private int counter;
   public SwerveDriveFieldCentric(DriveBaseSubsystem driveBaseSubsystem,
-  double xSpdFunction, double ySpdFunction, double turningSpdFunction,
-  boolean fieldOrientedFunction, double headingFunction, boolean flickFunction){
+  Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+  boolean fieldOrientedFunction, Supplier<Double> headingFunction, boolean flickFunction){
     this.driveBaseSubsystem = driveBaseSubsystem;
     this.xSpdFunction = xSpdFunction;
     this.ySpdFunction = ySpdFunction;
@@ -37,7 +37,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     this.headingFunction = headingFunction;
 
       this.flickFunction = flickFunction;
-      this.initialHeading = headingFunction;
+      this.initialHeading = headingFunction.get();
       this.xLimiter = new SlewRateLimiter(SwerveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
       this.yLimiter = new SlewRateLimiter(SwerveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
       this.turningLimiter = new SlewRateLimiter(SwerveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -53,16 +53,16 @@ public class SwerveDriveFieldCentric extends CommandBase {
 
     @Override
     public void initialize() {
-      initialHeading = headingFunction;
+      initialHeading = headingFunction.get();
       added = 0;
     }
 
     @Override
     public void execute(){
 
-      double xSpeed = xSpdFunction;
-      double ySpeed = ySpdFunction;
-      double turningSpeed = turningSpdFunction * 8;
+      double xSpeed = xSpdFunction.get();
+      double ySpeed = ySpdFunction.get();
+      double turningSpeed = turningSpdFunction.get() * 8;
 
       xSpeed = Math.abs(xSpeed) > SwerveConstants.kDeadband ? xSpeed : 0.0;
       ySpeed = Math.abs(ySpeed) > SwerveConstants.kDeadband ? ySpeed : 0.0;
@@ -75,7 +75,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
       initialHeading += turningSpeed;
 
 
-      double newHeading = headingFunction;
+      double newHeading = headingFunction.get();
 
   
       if(flickFunction){
@@ -103,7 +103,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
     
     SmartDashboard.putNumber("Turning Speed", turningSpeed);
     SmartDashboard.putNumber("Inital Heading", initialHeading);
-    SmartDashboard.putNumber("NavX Heading", headingFunction);
+    // SmartDashboard.putNumber("NavX Heading", headingFunction);
 
 
     ChassisSpeeds chassisSpeeds;
