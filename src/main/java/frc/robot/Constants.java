@@ -54,7 +54,6 @@ public final class Constants {
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
-    public static final double maxTranslationalSpeedX = Units.feetToMeters(2);
     public static final double anglekP = 0.002;
     public static final double anglekD = 0.001;
 
@@ -68,7 +67,7 @@ public final class Constants {
   }
 
   public static class SwerveModuleConstants {
-    public final int speedMotorID;
+    public final int driveMotorID;
     public final int turnMotorID;
     public final int turnEncoderID;
     public final double absolutePositionAtRobotZero;
@@ -82,15 +81,12 @@ public final class Constants {
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
     
-    public SwerveModuleConstants(int speedMotorID, int turnMotorID, int turnEncoderID, double absolutePositionAtRobotZero, Translation2d location) {
-      this.speedMotorID = speedMotorID;
+    public SwerveModuleConstants(int driveMotorID, int turnMotorID, int turnEncoderID, double absolutePositionAtRobotZero, Translation2d location) {
+      this.driveMotorID = driveMotorID;
       this.turnMotorID = turnMotorID;
       this.turnEncoderID = turnEncoderID;
       this.absolutePositionAtRobotZero = absolutePositionAtRobotZero;
       this.location = location;
-      
-    }
-
-    
+    } 
   }
 }

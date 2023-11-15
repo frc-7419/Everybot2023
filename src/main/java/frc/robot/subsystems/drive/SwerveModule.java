@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 
@@ -96,7 +97,7 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(turnEncoder.getPosition()));
     }
     public void setSwerveModuleState(SwerveModuleState state) {
-        setSpeed(state.speedMetersPerSecond);
+        driveMotor.set(state.speedMetersPerSecond/Constants.SwerveConstants.maxTranslationalSpeed);
         setAnglePID(state.angle);
     }
     public void setSwerveModuleState(SwerveModuleState state, XboxController joystick) {
@@ -112,8 +113,7 @@ public class SwerveModule {
      * @param speed is in the format meters per second(m/s) type: double
      */
     public void setSpeed(double speed) {
-        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
-        driveMotor.set(motorInput);
+        driveMotor.set(speed/Constants.SwerveConstants.maxTranslationalSpeed);
     }
     /**
      * This function sets the speed of the motors
@@ -136,8 +136,7 @@ public class SwerveModule {
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
     */
     public void setAnglePID(Rotation2d rotation2D) {   
-        double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
-        double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
+        double PIDVAL = angleController.calculate(getAngle(), rotation2D.getDegrees());
         double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
         turnMotor.set(-PIDVALCLAMP);
     }
@@ -147,7 +146,9 @@ public class SwerveModule {
      * @return the angle of the bot from the original starting angle
      */
     public double getAngle() {
-        return (turnEncoder.getAbsolutePosition()); //make sure this is degrees
+        return (turnEncoder.getAbsolutePosition());
     }
-    
+    public void outputDashboard() {
+        SmartDashboard.putNumber(module+" angle", getAngle());
+    }
   }
