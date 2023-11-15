@@ -59,10 +59,10 @@ public final class Constants {
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
-    public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(2, 1, 9, 360-77.61, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );//258.3
-    public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(4, 3, 10, 360-170.06,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));//353.67
-    public static final SwerveModuleConstants backRight = new SwerveModuleConstants(6, 5,11, 360-293.91+180,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));//291.533
-    public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(8, 7, 12, 360-198.37, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));//17.57
+    public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(2, 1, 9, 282.39, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
+    public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(4, 3, 10, 189.94,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants backRight = new SwerveModuleConstants(6, 5,11, 246.09,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(8, 7, 12, 161.63, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
     public static final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location);
   }
 
