@@ -30,7 +30,6 @@ public class SwerveModule {
     private final CANCoder turnEncoder;
     private final RelativeEncoder driveEncoder;
     private final PIDController angleController;
-    private final double turnEncoderOffset;
     private final String module;
 
     /**
@@ -43,7 +42,6 @@ public class SwerveModule {
      */
     public SwerveModule(int turnMotorID, int driveMotorID, int turnEncoderID, double turnEncoderOffset, String module) {
         this.module = module;
-        this.turnEncoderOffset = turnEncoderOffset;
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         turnEncoder = new CANCoder(turnEncoderID);
@@ -61,9 +59,6 @@ public class SwerveModule {
         driveEncoder.setPositionConversionFactor(1/22); // TODO: fix this
         resetDriveEnc();
     }
-    private void resetToAbsolute() {
-        turnEncoder.setPosition(turnEncoder.getPosition() + turnEncoderOffset);
-      }
 
     public void coast() {
         turnMotor.setIdleMode(IdleMode.kCoast);
@@ -74,7 +69,7 @@ public class SwerveModule {
         turnMotor.setIdleMode(IdleMode.kBrake);
         driveMotor.setIdleMode(IdleMode.kBrake);
     }
-
+    // TODO: meter is not a meter
     public double getDrivePosition() {
         return driveEncoder.getPosition();
     }
@@ -123,31 +118,21 @@ public class SwerveModule {
         driveMotor.set(motorInput);
     }
     public void stop() {
-        resetToAbsolute();
         driveMotor.set(0);
         turnMotor.set(0);
-      }
+    }
     
 
     /**
     * Rotates the bot to the specified angle with precision
     * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
     */
-    public void setAnglePID(Rotation2d rotation2D) {   
-        double PIDVAL = angleController.calculate(getAngle(), rotation2D.getDegrees());
-        double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
-        turnMotor.set(-PIDVALCLAMP);
+    public void setAnglePID(Rotation2d rotation2D) {
+        turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), rotation2D.getDegrees()) , -0.3 , 0.3));
     }
     
-    /**
-     * Gets the absolute position of the cancoder, it tells you the angle of rotation of CANCoder. 
-     * @return the angle of the bot from the original starting angle
-     */
-    public double getAngle() {
-        return (turnEncoder.getAbsolutePosition());
-    }
     public void outputDashboard() {
-        SmartDashboard.putNumber(module+" angle", getAngle());
+        SmartDashboard.putNumber(module+" angle", turnEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(module+" driveEncoder", getDrivePosition());
     }
   }
