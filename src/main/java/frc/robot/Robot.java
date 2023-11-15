@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
-  // private DriveBaseSubsystem driveBaseSubsystem;
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
@@ -46,8 +45,6 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() {
-    // driveBaseSubsystem.zeroYaw();
-    // robotContainer.getAutonomousCommand().cancel();
     robotContainer.setDefaultCommands();
   }
 

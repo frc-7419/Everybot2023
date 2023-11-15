@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -23,12 +24,13 @@ public final class Constants {
       public static final double HALF_LENGTH = LENGTH/2.0;
   }
   public static class SwerveConstants {
+    public static final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location, SwerveConstants.backRight.location, SwerveConstants.backLeft.location);
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
 
-    public static double maxTranslationalSpeed = Units.feetToMeters(3);
+    public static final double maxTranslationalSpeed = Units.feetToMeters(3);
     //arbitrary value in radians, let's say one pi/second
-    public static double maxRotationalSpeed = Math.PI/4;
+    public static final double maxRotationalSpeed = Math.PI/4;
 
     /*
     * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
@@ -37,43 +39,40 @@ public final class Constants {
     /* ANGLE MOTOR
     * NEO Shaft to 12T Pulley to 24T Pulley to 14T Gear to 72T Main Rotation Gear
     */
-    public static double gearRatioAngleMotor = (double) 12.0/24.0*14.0/72.0;
+    public static final double gearRatioAngleMotor = (double) 12.0/24.0*14.0/72.0;
     /* DRIVE MOTOR
       * NEO shaft to 12T Pulley to 24T Pulley to 24T Gear to 22T Gear to 15T bevel to 45T Bevel
       *
       * The CANCODER measures rotations of a the driven 1:1 PULLEY in which the driver pulley is on the same
       * shaft as the 24T Pulley
       */
-    public static double gearRatioSpeedMotor = (double) 12.0/24.0* 24.0/22.0 * 15.0/45.0;
+    public static final double gearRatioSpeedMotor = (double) 12.0/24.0* 24.0/22.0 * 15.0/45.0;
     // /* THIS IS WRONG
     //   * So Number of Rotations of this CANCOder sensor measured means this amount of rotations in actual SPEED wheel
     //   */
     // public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
-    public static double wheelDiameter = Units.inchesToMeters(4.0);
-    public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
-    public static double kPhysicalMaxSpeedMetersPerSecond = 5;
-    public static double maxTranslationalSpeedX = Units.feetToMeters(2);
+    public static final double wheelDiameter = Units.inchesToMeters(4.0);
+    public static final double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+    public static final double maxTranslationalSpeedX = Units.feetToMeters(2);
     public static final double anglekP = 0.002;
     public static final double anglekD = 0.001;
 
     
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
-    public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
-      2, 1, 9, 258.3, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
+    public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(2, 1, 9, 258.3, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
     public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(4, 3, 10, 353.67,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
-    public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
-      6, 5,11, 291.533,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
-    public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
-      8, 7, 12, 17.57, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants backRight = new SwerveModuleConstants(6, 5,11, 291.533,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+    public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(8, 7, 12, 17.57, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
   }
 
   public static class SwerveModuleConstants {
-    public int speedMotorID;
-    public int turnMotorID;
-    public int turnEncoderID;
-    public double absolutePositionAtRobotZero;
-    public Translation2d location;
+    public final int speedMotorID;
+    public final int turnMotorID;
+    public final int turnEncoderID;
+    public final double absolutePositionAtRobotZero;
+    public final Translation2d location;
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 1;
     // Supposed to be math.pi *6/4/2

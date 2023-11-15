@@ -7,7 +7,6 @@ package frc.robot.subsystems.drive;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -17,11 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBaseSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem2. */
-  private SwerveModule[] swerveModules;
-  private SwerveDriveKinematics m_kinematics;
+  private final SwerveModule[] swerveModules;
   private SwerveDriveOdometry m_odometry;
   private SwerveModulePosition[] positions;
-  private AHRS ahrs;
+  private final AHRS ahrs;
 
   public DriveBaseSubsystem() {
     // remember when setting up, swerve0-3 has to be in this orientation:
@@ -29,21 +27,16 @@ public class DriveBaseSubsystem extends SubsystemBase {
     // m_backRightLocation respectively
     swerveModules = new SwerveModule[] {
         new SwerveModule(SwerveConstants.frontLeft.turnMotorID, SwerveConstants.frontLeft.speedMotorID,
-            SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero, 94.219, 0),
+         SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero, "FrontLeftModule"),
         new SwerveModule(SwerveConstants.frontRight.turnMotorID, SwerveConstants.frontRight.speedMotorID,
-            SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero, 28.125,
-            1),
+         SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero, "FrontRightModule"),
         new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID,
-            SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 266.572, 2),
+         SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, "BackRightModule"),
         new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID,
-            SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 177, 3),
+         SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, "BackLeftModule"),
     };
     ahrs = new AHRS(SerialPort.Port.kMXP);
     ahrs.zeroYaw(); // field centric, we need yaw to be zero
-
-    m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location,
-        SwerveConstants.backRight.location, SwerveConstants.backLeft.location);
-    
     coast();
   }
 
@@ -55,17 +48,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
     return swerveModules[index];
   }
 
-  public SwerveDriveKinematics getSwerveDriveKinematics() {
-    return m_kinematics;
-  }
-
   public SwerveModule[] getSwerveModules() {
     return swerveModules;
   }
 
   public double getYaw() { // CW IS POSITIVE BY DEFAULT
     return -ahrs.getYaw();
-    // ahrs.getRotation2d();
   }
 
   public double getPitch() {
@@ -99,31 +87,23 @@ public class DriveBaseSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber( "Yaw", getYaw());
-    for (Integer i = 0; i < 4; ++i) {
-
-      SmartDashboard.putNumber("Swerve" + i.toString() + "angle",
-      swerveModules[i].getAngle());
-      // SmartDashboard.putNumber("Swerve" + i.toString(),
-      // swerveModules[i].getSpeed());
-    }
-
   }
 
   public void brake() {
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].brake();
+    for (SwerveModule s : swerveModules) {
+      s.brake();
     }
   }
 
   public void coast() {
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].coast();
+    for (SwerveModule s : swerveModules) {
+      s.coast();
     }
   }
 
   public void stop() {
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].setSpeed(0.0);
+    for (SwerveModule s : swerveModules) {
+      s.setSpeed(0.0);
     }
   }
 }

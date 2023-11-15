@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 public class SwerveDriveFieldCentric extends CommandBase {
   private XboxController joystick;
@@ -55,7 +56,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
    * @return 
    */
   public SwerveModuleState[] ChassisSpeedstoModuleSpeeds(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] moduleStates = driveBaseSubsystem.getSwerveDriveKinematics().toSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] moduleStates = Constants.SwerveConstants.m_kinematics.toSwerveModuleStates(chassisSpeeds);
     return moduleStates;
   }
   /**
@@ -66,14 +67,14 @@ public class SwerveDriveFieldCentric extends CommandBase {
     for (int i=0; i<4; ++i) {
       // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
       // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i]);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
     }
   }
   public void setModuleStatesTeleop(SwerveModuleState[] moduleStates, XboxController joystick) {
     for (int i=0; i<4; ++i) {
       // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
       // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i], joystick);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i], joystick);
     }
   }
   //The following two function smake the code less verbose by combining the above functions
