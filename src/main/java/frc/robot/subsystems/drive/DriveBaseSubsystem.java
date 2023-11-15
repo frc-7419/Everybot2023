@@ -115,8 +115,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     double vx = Math.abs(joystick.getLeftY())>0.05?joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed:0;
     double vy = Math.abs(joystick.getLeftX())>0.05?joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed:0;
     double rx = Math.abs(joystick.getRightX())>0.05?-0.7*joystick.getRightX()*SwerveConstants.maxRotationalSpeed:0;
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, getRotation2d());
-    return speeds;
+    return ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, getRotation2d());
   }
     /**
    * Converts chassis speeds to individual module speeds

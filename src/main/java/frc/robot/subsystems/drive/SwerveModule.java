@@ -48,18 +48,18 @@ public class SwerveModule {
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         turnEncoder = new CANCoder(turnEncoderID);
         driveEncoder = driveMotor.getEncoder();
-        angleController = new PIDController(0.003, 0, 0);
+        angleController = new PIDController(Constants.SwerveConstants.anglekP, 0, Constants.SwerveConstants.anglekD);
         turnMotor.setIdleMode(IdleMode.kCoast);
         driveMotor.setIdleMode(IdleMode.kCoast);
-        angleController.setTolerance(0.5);
+        angleController.setTolerance(1);
         angleController.enableContinuousInput(0, 360);
         turnEncoder.configFactoryDefault();
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
         turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
         turnEncoder.configMagnetOffset(turnEncoderOffset);
         turnEncoder.configSensorDirection(false);
-        resetToAbsolute();
-        driveEncoder.setPositionConversionFactor(1/22);
+        driveEncoder.setPositionConversionFactor(1/22); // TODO: fix this
+        resetDriveEnc();
     }
     private void resetToAbsolute() {
         turnEncoder.setPosition(turnEncoder.getPosition() + turnEncoderOffset);
@@ -81,6 +81,7 @@ public class SwerveModule {
     public void resetDriveEnc() {
         driveEncoder.setPosition(0);
     }
+    // TODO: meter is not a meter
     public boolean reachedDist(double meters) {
         return Math.abs(driveEncoder.getPosition()) > meters;
     }
@@ -103,9 +104,6 @@ public class SwerveModule {
     public void setSwerveModuleState(SwerveModuleState state, XboxController joystick) {
         setSpeed(state.speedMetersPerSecond, joystick);
         setAnglePID(state.angle);
-    }
-    public void testTurn(){
-        turnMotor.set(0.1);
     }
     
     /**
@@ -150,5 +148,6 @@ public class SwerveModule {
     }
     public void outputDashboard() {
         SmartDashboard.putNumber(module+" angle", getAngle());
+        SmartDashboard.putNumber(module+" driveEncoder", getDrivePosition());
     }
   }
