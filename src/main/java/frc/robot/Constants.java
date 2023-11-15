@@ -6,7 +6,6 @@ package frc.robot;
 
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -19,73 +18,10 @@ import edu.wpi.first.math.util.Units;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-  public static enum CanIds {    
-    arm(50),
-    intake(62),
-    armEncoder(1),
-    leftgroundintake(30),
-    rightgroundintake(31),
-    wrist(13);
-    
-    
-    public final int id;
-
-    private CanIds(int id) {
-        this.id = id;
-    }
-  }
   public static class RobotConstants {
-      public static final double TalonFXTicksPerRotation = 2048;
-
       public static final double LENGTH = Units.inchesToMeters(26.5);
       public static final double HALF_LENGTH = LENGTH/2.0;
-
-      public static final double loopDt = 0.02;
-
-    public static final double armSetpoint = 0;
   }
-  
-  public static class GearConstants {
-  }
-
-  // public static class ArmConstants {
-  //     public static final double kP = 0.0001;
-  //     public static final double kI = 0;
-  //     public static final double kD = 0;
-  //     public static final double kTolerance = 100;
-  // }
-
-  public static class PowerConstants {
-      // public static final double groundIntakePower = 0.2; //arbitrary for now
-      // public static final double ArmPower = 0.2;//arbitrary for now
-      // public static final double groundIntakePower = 0.2; //arbitrary for now
-    public static final double ArmPower = 0.2;//arbitrary for now
-    public static final double ArmIntakeSpeed = 0.3; //arbitrary for now - slower speed for testing
-    public static final double ArmOuttakeSpeed = -0.5; //arbitrary for now
-    public static double maxArmPower = 1;
-  }
-
-  public static class PIDConstants {
-    public static final double BalanceAngleKi = 0;
-    public static final double BalanceAngleKd = 0; 
-    public static final double BalanceAngleKp = 0;
-    public static final double BalanceSpeedKi = 0;
-    public static final double BalanceAngleKTolerance = 0;
-    public static final double BalanceSpeedKp = 0;
-    public static final double BalanceSpeedKd = 0;
-    public static final double BalanceSpeedKTolerance = 0;
-    public static final double BalanceSpeed = 0;
-    public static final double BalanceSpeedkF = 0;
-
-    public static final double ArmAngleKp = 0.01;
-    public static final double ArmAngleKi = 0;
-    public static final double ArmAngleKd = 0;
-  }
-  /**
-   * THIS IS FOR THE SWERVE DRIVE CONSTANTS
-   */
-
   public static class SwerveConstants {
     //Not sure how to calculate this theoretically but this needs to be determined experimentally first
     //Neo Free-Speed 13.16 ft/s 15.68 ft/s 18.66 ft/s
@@ -115,7 +51,6 @@ public final class Constants {
     // public static double gearRatioCANCoder = (double) 24.0/22.0 * 15.0/45.0;
     public static double wheelDiameter = Units.inchesToMeters(4.0);
     public static double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
-    public static double maxSpeed = 4.5;
     public static double kPhysicalMaxSpeedMetersPerSecond = 5;
     public static double maxTranslationalSpeedX = Units.feetToMeters(2);
     public static final double anglekP = 0.002;
@@ -157,35 +92,6 @@ public final class Constants {
       
     }
 
-    
-  }
-
-  public static class ArmConstants {
-
-    public static final double kP = 0.0001;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kTolerance = 100;
-
-    // need to find max velocity and max acceleration
-    public static final double maxVelocity = 1000000;
-    public static final double maxAcceleration = 1000000;
-
-    // these constants are for storing purposes only
-    public static final double midConeSetpoint = 0.222;
-    public static final double highConeSetpoint = 0.489;
-    public static final double midCubeSetpoint = 0.328;
-    public static final double highCubeSetpoint = 0.477;
-    public static final double armIdle = 0.072;
-  }
-
-  public static class WristConstants {
-
-    // TODO: Need to find the actual constants
-    public static final double maxAcceleration = 0.9;
-    public static final double maxVelocity = 0.9;
-    public static final double returnWrist = 0;
-    public static final double scoreHighWrist = -43;
     
   }
 }
