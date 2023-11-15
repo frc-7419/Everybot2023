@@ -1,210 +1,197 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.drive;
-
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveModuleConstants;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 
-//https://prod.liveshare.vsengsaas.visualstudio.com/join?3AB8AF0B1045A3693E7207F70BE7E920E0EC
-// The SwerveModule file contains the the logic of the entire Swerve Drive functionality of EveryBot
-// Inputs: Motor IDs(CanSparks for now, but change when new motors arrive)
-// Outputs: The Swerve Drive functionality for EveryBot
-public class SwerveModule {
-    private CANSparkMax turnMotor;
-    private CANSparkMax speedMotor;
-    private CANCoder turnEncoder;
-    private RelativeEncoder driveEncoder;
-    private PIDController angleController;
-    private double cancoderOffset;
-    private int rID;
-    private int sID;
-    private int eID;
-    private double offset;
-    private int module;
-    DriveBaseSubsystem driveBaseSubsystem;
+public class SwerveModule extends SubsystemBase {
+ 
+  private final CANSparkMax driveMotor;
+  private final CANSparkMax turningMotor;
 
-    /**
-     * Contains the main SwerveModule logic of the bot
-     * @param rID is a CAN ID parameter(int)
-     * @param sID is a CAN ID parameter(int)
-     * @param eID is a CAN ID parameter(int)
-     * @param absolutePositionAtRobotZero is absolute pos at zero in deg (double)
-     * @param module for numbering modules during comprehensive shuffleboard outputs
-     */
-    public SwerveModule(int rID, int sID, int eID, double absolutePositionAtRobotZero, double offset,int module) {
-        this.rID = rID;
-        this.eID = eID;
-        this.sID = sID;
-        this.module = module;
-        this.offset = offset;
-        cancoderOffset = -absolutePositionAtRobotZero;
+  private final RelativeEncoder driveEncoder;
+  private final RelativeEncoder turningEncoder;
 
-        turnMotor = new CANSparkMax(rID, MotorType.kBrushless); //assuming two NEOs
-        speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
-        turnEncoder = new CANCoder(eID);
-        driveEncoder = speedMotor.getEncoder();
-        angleController = new PIDController(0.003, 0, 0.00000); //never changes after initialization anyways
+  private final PIDController turningPidController;
+  private SparkMaxPIDController builtinTurningPidController;
 
-        config();
+  private final DutyCycleEncoder absoluteEncoder;
+
+  //private final boolean absoluteEncoderReversed;
+  private final double absoluteEncoderOffsetRad;
+
+  private String moduleName;
+
+  // Class constructor where we assign default values for variable
+   public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderId, double absoluteEncoderOffset, boolean absoLuteEncoderReversed, String name) {
+
+    absoluteEncoderOffsetRad = absoluteEncoderOffset;
+    //absoluteEncoderReversed = absoLuteEncoderReversed;
+
+    moduleName = name;
+
+    // this is our absolute encoder 
+    absoluteEncoder = new DutyCycleEncoder(absoluteEncoderId);
+
+    absoluteEncoder.setDutyCycleRange(1.0/4096.0, 4095.0/4096.0);
+
+    driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
+    turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
+
+    driveMotor.setInverted(driveMotorReversed);
+    turningMotor.setInverted(turningMotorReversed);
+    driveEncoder = driveMotor.getEncoder();
+    turningEncoder = turningMotor.getEncoder();
+
+    driveEncoder.setPositionConversionFactor(SwerveModuleConstants.kDriveEncoderRot2Meter);
+    driveEncoder.setVelocityConversionFactor(SwerveModuleConstants.kDriveEncoderRPM2MeterPerSec);
+    //RADIANS
+    turningEncoder.setPositionConversionFactor(SwerveModuleConstants.kTurningEncoderRot2Rad);
+    turningEncoder.setVelocityConversionFactor(SwerveModuleConstants.kTurningEncoderRPM2RadPerSec);
+
+   //roborio pid
+
+    turningPidController = new PIDController(SwerveModuleConstants.kPTurning, 0, 0);
+
+    turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+    // end of roborio pid
+
+    builtinTurningPidController = turningMotor.getPIDController();
+    builtinTurningPidController.setP(SwerveModuleConstants.kPTurning);
+    builtinTurningPidController.setI(SwerveModuleConstants.kITurning);
+    builtinTurningPidController.setD(SwerveModuleConstants.kDTurning);
+    builtinTurningPidController.setIZone(0.0);
+    builtinTurningPidController.setFF(0.0);
+    builtinTurningPidController.setOutputRange(-1, 1);
+    turningMotor.burnFlash();
+
+    driveMotor.setIdleMode(IdleMode.kBrake);
+    turningMotor.setIdleMode(IdleMode.kBrake);
+
+    driveMotor.setSmartCurrentLimit(40);
+    turningMotor.setSmartCurrentLimit(20);
+    resetEncoders();
+
+
+
+  }
+
+  public void update(){
+
+    SmartDashboard.putNumber(moduleName + "Absolute-Position", absoluteEncoder.getAbsolutePosition());
+   // SmartDashboard.putNumber(moduleName + " Turning Position", getTurningPosition());
+  }
+
+  // Helpful get methods
+  public double getDrivePosition() {
+    return driveEncoder.getPosition();
+  }
+
+  public double getTurningPosition() {
+      return turningEncoder.getPosition();
+      //return getAbsoluteEncoderRad();
     }
 
-    public void config() {
-        turnMotor.setIdleMode(IdleMode.kCoast);
-        speedMotor.setIdleMode(IdleMode.kCoast);
-
-        angleController.setTolerance(0.5); //degrees for now...
-        angleController.enableContinuousInput(0, 360); //in accordance to rotation2D default degrees format
-
-        turnEncoder.configFactoryDefault();
-        turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360); //SushiSquad and Fusion prefer 0 to 360 but whatever
-        turnEncoder.configMagnetOffset(cancoderOffset);
-        turnEncoder.configSensorDirection(false);
-        resetToAbsolute();
-        driveEncoder.setPositionConversionFactor(1/22);
+  public double getDriveVelocity() {
+      return driveEncoder.getVelocity();
     }
-    private void resetToAbsolute() {
-        double absolutePosition = getTurningPosition() - cancoderOffset;
-        turnEncoder.setPosition(absolutePosition);
-      }
 
-    public void coast() {
-        turnMotor.setIdleMode(IdleMode.kCoast);
-        speedMotor.setIdleMode(IdleMode.kCoast);
+  public double getTurningVelocity() {
+      return turningEncoder.getVelocity();
     }
     
-    public void brake() {
-        turnMotor.setIdleMode(IdleMode.kBrake);
-        speedMotor.setIdleMode(IdleMode.kBrake);
-    }
+  public SwerveModulePosition getPosition(){
+    return( new SwerveModulePosition(
+      getDrivePosition(), new Rotation2d(getTurningPosition())));
+  }
 
-    public double getDrivePosition() {
-        return driveEncoder.getPosition();
-    }
-    public void resetDriveEnc() {
-        driveEncoder.setPosition(0);
-    }
-    public boolean reachedDist(double meters) {
-        return Math.abs(driveEncoder.getPosition()) > meters;
-    }
-    public double getTurningPosition() {
-        return turnEncoder.getPosition();
-    }
+  public double getAbsoluteEncoderRad(){
+    double angle;
+    angle = 1 - absoluteEncoder.getAbsolutePosition();
 
-    public double getDriveVelocity() {
-        return driveEncoder.getVelocity();
-    }
+    // Convert into radians
+    angle *= 2.0 * Math.PI;
+    //angle -= (SmartDashboard.getNumber(moduleName + " ABE Manual", 0) / 180.0) * Math.PI;
+    angle -= absoluteEncoderOffsetRad;
+    //angle -= absoluteEncoderOffsetRad;
 
-    public double getTurningVelocity() {
-        return turnEncoder.getVelocity();
-    }
-    public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
-    }
-  
-
-    /**
-    * Without worrying about factors such as  field-centric drive, chassis conversion, etc, this is the most fundamental method of controlling each swerve module
-    * @param speed in m/s (to match with wpilib's format) which is later converted
-    * @param rotation2D angle in wpilib's Rotation2D object format
+    /*
+    if(angle < 0){
+      angle = 2.0 * Math.PI + angle ;
+    } 
     */
-    public void setSwerveModuleState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            resetToAbsolute();
-            stop();
-            return;
-        }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
-    }
 
-    public void setSwerveModuleState2(SwerveModuleState state) {
-        setSpeed(state.speedMetersPerSecond);
-        setAnglePID(state.angle);
-    }
-    public void setSwerveModuleState2(SwerveModuleState state, XboxController joystick) {
-        setSpeed(state.speedMetersPerSecond, joystick);
-        setAnglePID(state.angle);
-    }
-    public void testTurn(){
-        turnMotor.set(0.1);
-    }
-    
-    /**
-     * This function sets the speed of the motors
-     * @param speed is in the format meters per second(m/s) type: double
-     */
-    public void setSpeed(double speed) {
-        //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
-        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
-        // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
-        speedMotor.set(motorInput);
-    }
-    /**
-     * This function sets the speed of the motors
-     * @param speed is in the format meters per second(m/s) type: double
-     */
-    public void setSpeed(double speed, XboxController joystick) {
-        //set refers to percentage motor speed output. Internally it controls voltage (which is surprisingly closely proportional to rpm) and uses a type of setpoint command
-        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
-        // SmartDashboard.putNumber("Speed" + ((Integer) module), motorInput);
-        motorInput = joystick.getLeftBumper()?motorInput*0.2:motorInput;
-        speedMotor.set(motorInput);
-    }
-    public void stop() {
-        resetToAbsolute();
-        speedMotor.set(0);
-        turnMotor.set(0);
-      }
+    //angle = Math.abs(angle);
+
+    // Make negative if set
+    //angle *= ( absoluteEncoderReversed ? -1.0 : 1.0);
     
 
-    /**
-    * Rotates the bot to the specified angle with precision
-    * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
-    */
-    public void setAnglePID(Rotation2d rotation2D) {   
-        double angleSetpoint = rotation2D.getDegrees(); // 0 to 360!
-        // angleSetpoint = MathUtil.inputModulus(angleSetpoint, -180, 180);
-        // SmartDashboard.putNumber("Angle Setpoint" + ((Integer) module), angleSetpoint);
-        // SmartDashboard.putNumber("Current Angle" + ((Integer) module), getAngle());
-        // SmartDashboard.putNumber("Position Errror" + ((Integer) module), angleSetpoint - getAngle());
-
-        // if (angleController.atSetpoint()) {
-        //     return;
-        // }
-        //We should clamp the PID output to between -1 and 1
-        double PIDVAL = angleController.calculate(getAngle(), angleSetpoint);
-        double PIDVALCLAMP = MathUtil.clamp(PIDVAL , -0.3 , 0.3);
-        // SmartDashboard.putNumber("PIDVAL" + ((Integer) module), PIDVAL);
-        // SmartDashboard.putNumber("PIDVALCLAMP" + ((Integer)module), PIDVALCLAMP);
-
-        turnMotor.set(-PIDVALCLAMP);
-    }
-    
-    /**
-     * Gets the absolute position of the cancoder, it tells you the angle of rotation of CANCoder. 
-     * @return the angle of the bot from the original starting angle
-     */
-    public double getAngle() {
-        // return turnEncoder.getAbsolutePosition() - offset; //make sure this is degrees
-        return (turnEncoder.getAbsolutePosition()); //make sure this is degrees
-    }
+    return angle;
     
   }
+
+  public void resetEncoders(){
+    driveEncoder.setPosition(0);
+  }
+
+  public SwerveModuleState getState(){
+    return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+  }
+
+  public void setDesiredState(SwerveModuleState state){
+
+    if(Math.abs(state.speedMetersPerSecond) < 0.001){
+      stop();
+      return;
+    }
+
+   
+    state = SwerveModuleState.optimize(state, getState().angle);
+
+ 
+    driveMotor.set(state.speedMetersPerSecond / SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
+
+    turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+    //turningMotor.set(builtinTurningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+    
+
+  }
+
+  public void stop() {
+    driveMotor.set(0);
+    turningMotor.set(0);
+  }
+
+  public double[] getMotorsCurrent(){
+    return(new double[]{driveMotor.getOutputCurrent(),turningMotor.getOutputCurrent()});
+  }
+
+  public double[] getMotorsTemp(){
+    return(new double[]{driveMotor.getMotorTemperature(),turningMotor.getMotorTemperature()});
+  }
+
+  public void setSmartCurrentLimiter(int driveLimit, int turningLimit){
+    driveMotor.setSmartCurrentLimit(driveLimit);
+    turningMotor.setSmartCurrentLimit(driveLimit);
+  }
+
+
+
+}

@@ -1,129 +1,207 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.drive;
-
 import com.kauailabs.navx.frc.AHRS;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class DriveBaseSubsystem extends SubsystemBase {
-  /** Creates a new DriveBaseSubsystem2. */
-  private SwerveModule[] swerveModules;
-  private SwerveDriveKinematics m_kinematics;
-  private SwerveDriveOdometry m_odometry;
-  private SwerveModulePosition[] positions;
-  private AHRS ahrs;
 
+  private final SwerveModule frontLeft = new SwerveModule(
+      SwerveConstants.kFrontLeftDriveMotorPort,
+      SwerveConstants.kFrontLeftTurningMotorPort,
+      SwerveConstants.kFrontLeftDriveEncoderReversed,
+      SwerveConstants.kFrontLeftTurningEncoderReversed,
+      SwerveConstants.kFrontLeftDriveAbsoluteEncoderPort,
+      SwerveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
+      SwerveConstants.kFrontLeftDriveAbsoluteEncoderReversed,
+      "Front Left");
+
+    private final SwerveModule frontRight = new SwerveModule(
+      SwerveConstants.kFrontRightDriveMotorPort,
+      SwerveConstants.kFrontRightTurningMotorPort,
+      SwerveConstants.kFrontRightDriveEncoderReversed,
+      SwerveConstants.kFrontRightTurningEncoderReversed,
+      SwerveConstants.kFrontRightDriveAbsoluteEncoderPort,
+      SwerveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
+      SwerveConstants.kFrontRightDriveAbsoluteEncoderReversed,
+      "Front Right");
+
+    private final SwerveModule backLeft = new SwerveModule(
+      SwerveConstants.kBackLeftDriveMotorPort,
+      SwerveConstants.kBackLeftTurningMotorPort,
+      SwerveConstants.kBackLeftDriveEncoderReversed,
+      SwerveConstants.kBackLeftTurningEncoderReversed,
+      SwerveConstants.kBackLeftDriveAbsoluteEncoderPort,
+      SwerveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
+      SwerveConstants.kBackLeftDriveAbsoluteEncoderReversed,
+      "Back Left");
+
+    private final SwerveModule backRight = new SwerveModule(
+      SwerveConstants.kBackRightDriveMotorPort,
+      SwerveConstants.kBackRightTurningMotorPort,
+      SwerveConstants.kBackRightDriveEncoderReversed,
+      SwerveConstants.kBackRightTurningEncoderReversed,
+      SwerveConstants.kBackRightDriveAbsoluteEncoderPort,
+      SwerveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
+      SwerveConstants.kBackRightDriveAbsoluteEncoderReversed,
+      "Back Right"); 
+
+  private AHRS gyro = new AHRS(SPI.Port.kMXP);
+  public SwerveModulePosition[] getModulePositions(){
+
+    return( new SwerveModulePosition[]{
+      frontLeft.getPosition(), 
+      frontRight.getPosition(), 
+      backLeft.getPosition(),
+      backRight.getPosition()});
+
+  }
+  private SwerveDriveOdometry odometer;
   public DriveBaseSubsystem() {
-    // remember when setting up, swerve0-3 has to be in this orientation:
-    // m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation,
-    // m_backRightLocation respectively
-    swerveModules = new SwerveModule[] {
-        new SwerveModule(SwerveConstants.frontLeft.turnMotorID, SwerveConstants.frontLeft.speedMotorID,
-            SwerveConstants.frontLeft.turnEncoderID, SwerveConstants.frontLeft.absolutePositionAtRobotZero, 94.219, 0),
-        new SwerveModule(SwerveConstants.frontRight.turnMotorID, SwerveConstants.frontRight.speedMotorID,
-            SwerveConstants.frontRight.turnEncoderID, SwerveConstants.frontRight.absolutePositionAtRobotZero, 28.125,
-            1),
-        new SwerveModule(SwerveConstants.backRight.turnMotorID, SwerveConstants.backRight.speedMotorID,
-            SwerveConstants.backRight.turnEncoderID, SwerveConstants.backRight.absolutePositionAtRobotZero, 266.572, 2),
-        new SwerveModule(SwerveConstants.backLeft.turnMotorID, SwerveConstants.backLeft.speedMotorID,
-            SwerveConstants.backLeft.turnEncoderID, SwerveConstants.backLeft.absolutePositionAtRobotZero, 177, 3),
-    };
-    ahrs = new AHRS(SerialPort.Port.kMXP);
-    ahrs.zeroYaw(); // field centric, we need yaw to be zero
+    resetAllEncoders();
 
-    m_kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft.location, SwerveConstants.frontRight.location,
-        SwerveConstants.backRight.location, SwerveConstants.backLeft.location);
-    
-    coast();
+    new Thread(() -> {
+  try {
+      Thread.sleep(1000);
+      gyro.calibrate();
+      zeroHeading();
+  } catch (Exception e) {
+  }
+    }).start();
+
+    odometer = new SwerveDriveOdometry(SwerveConstants.kDriveKinematics, 
+    getOdometryAngle(), getModulePositions());
+    // new Rotation2d(gyro.getYaw() * -1 / 180 * Math.PI), getModulePositions()
+
   }
 
-  public void zeroYaw() {
-    ahrs.zeroYaw();
+  public void zeroHeading() {
+    gyro.reset();
+  }
+  public void resetYaw(){
+    gyro.zeroYaw();
   }
 
-  public SwerveModule getSwerveModule(int index) {
-    return swerveModules[index];
+  public void calibrateGyro(){
+    gyro.calibrate();
+  }
+  public double getHeading(){
+    return gyro.getAngle();
+  }
+  public Pose2d getOdometryMeters(){
+    return(odometer.getPoseMeters());
+  }
+  public Rotation2d getRotation2d(){
+    return Rotation2d.fromDegrees(getHeading());
   }
 
-  public SwerveDriveKinematics getSwerveDriveKinematics() {
-    return m_kinematics;
+  public void stopModules() {
+    frontLeft.stop();
+    frontRight.stop();
+    backLeft.stop();
+    backRight.stop();
+  }
+  public void setModuleStates(SwerveModuleState[] desiredStates) {
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    frontLeft.setDesiredState(desiredStates[0]);
+    frontRight.setDesiredState(desiredStates[1]);
+    backLeft.setDesiredState(desiredStates[2]);
+    backRight.setDesiredState(desiredStates[3]);
+}
+
+  public Pose2d getPose(){
+    return odometer.getPoseMeters();
+  }
+  public void resetOdometry(Pose2d pose){
+   odometer.resetPosition(getOdometryAngle(), getModulePositions(), pose);
   }
 
-  public SwerveModule[] getSwerveModules() {
-    return swerveModules;
+  public void resetOdometry(Pose2d pose, Rotation2d rot){
+    odometer.resetPosition(rot, getModulePositions(), pose);
+  }
+  public Rotation2d getOdometryAngle(){
+    /* 
+    double angle = -gyro.getYaw() + 180;
+    if(angle > 180){
+      angle -= 360;
+    }else if(angle < -180){
+      angle += 360;
+    }
+    return Rotation2d.fromDegrees(angle);
+    */
+    return(Rotation2d.fromDegrees(gyro.getYaw()));
   }
 
-  public double getYaw() { // CW IS POSITIVE BY DEFAULT
-    return -ahrs.getYaw();
-    // ahrs.getRotation2d();
+  public double getRobotDegrees(){
+    double rawValue = gyro.getAngle() % 360.0;
+    if(rawValue < 0.0){
+      return(rawValue + 360.0);
+    }else{
+      return(rawValue);
+    }
   }
 
-  public double getPitch() {
-    return ahrs.getPitch();
+  public void resetAllEncoders(){
+      frontLeft.resetEncoders();
+      frontRight.resetEncoders();
+      backLeft.resetEncoders();
+      backRight.resetEncoders();
   }
 
-  public double getRoll() {
-    return ahrs.getRoll();
+  public double getRumble(){
+    return gyro.getRawAccelX();
   }
 
-  public boolean reachedDist(double meters) {
-    return (swerveModules[0].reachedDist(meters)) &&
-        (swerveModules[1].reachedDist(meters)) &&
-        (swerveModules[2].reachedDist(meters)) &&
-        (swerveModules[3].reachedDist(meters));
+  public double getRollChange(){
+    return(gyro.getRawGyroY());
   }
 
-  public void resetDriveEnc() {
-    for (SwerveModule s : swerveModules)
-      s.resetDriveEnc();
+  public double getRoll(){
+    return(gyro.getRoll());
   }
 
-  public Rotation2d getRotation2d() {
-    return ahrs.getRotation2d();
-    /*
-     * the thing is .getYaw is -180 to 180 so it not being 0 to 360
-     * may cause the internal conversion that Rotation2d does to be wrong
-     */
+  public double getRobotForceNewtons(){
+    return(57.0 * 9.8 * gyro.getRawAccelX());
   }
 
   @Override
-  public void periodic() {
-    SmartDashboard.putNumber( "Yaw", getYaw());
-    for (Integer i = 0; i < 4; ++i) {
+  public void periodic(){
 
-      SmartDashboard.putNumber("Swerve" + i.toString() + "angle",
-      swerveModules[i].getAngle());
-      // SmartDashboard.putNumber("Swerve" + i.toString(),
-      // swerveModules[i].getSpeed());
-    }
+   odometer.update(getOdometryAngle(), getModulePositions());
 
-  }
+   // smartdashboard - thanks to sepandar
+  //  SmartDashboard.putNumber("Heading", getHeading());
+  //  SmartDashboard.putString("Field Location", getPose().getTranslation().toString());
+  //  SmartDashboard.putNumber("ROBOT DEGREES NAVX", getRobotDegrees());
+  //  SmartDashboard.putString("ODOMETRY", odometer.getPoseMeters().toString());
+  //  SmartDashboard.putString("Raw R2d ROBOT DEG", getOdometryAngle().toString());
+    
+  // SmartDashboard.putBoolean("Gyro Calibrating", gyro.isCalibrating());
+  // SmartDashboard.putBoolean("Magnetic Issues", gyro.isMagneticDisturbance());
+  // SmartDashboard.putBoolean("Magnetic Calibartion", gyro.isMagnetometerCalibrated());
 
-  public void brake() {
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].brake();
-    }
-  }
+  // SmartDashboard.putNumber("Robot Acceleration X", gyro.getRawAccelX());
+  // SmartDashboard.putNumber("Robot Acceleration Y", gyro.getRawAccelY());
+  // SmartDashboard.putNumber("Robot Force X Newtons", 57.0 * 9.8 * gyro.getRawAccelX());
+  // SmartDashboard.putNumber("Robot Force X Pounds", (57.0 * 9.8 * gyro.getRawAccelX()) / 4.45);
 
-  public void coast() {
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].coast();
-    }
-  }
+  // SmartDashboard.putNumber("RAW ROLL", getRoll());
+  // SmartDashboard.putNumber("RAW Y", getRollChange());
 
-  public void stop() {
-    for (int i = 0; i < swerveModules.length; i++) {
-      swerveModules[i].setSpeed(0.0);
-    }
+
+  frontLeft.update();
+  frontRight.update();
+  backLeft.update();
+  backRight.update();
+
   }
 }

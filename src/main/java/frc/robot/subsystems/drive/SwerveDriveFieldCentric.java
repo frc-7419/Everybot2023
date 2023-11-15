@@ -1,130 +1,123 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.drive;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.drive.DriveBaseSubsystem;
 
+import java.util.function.Supplier;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.SwerveConstants;
+
 public class SwerveDriveFieldCentric extends CommandBase {
-  private XboxController joystick;
-  private DriveBaseSubsystem driveBaseSubsystem;
 
-  public SwerveDriveFieldCentric(XboxController joystick, DriveBaseSubsystem driveBaseSubsystem) {
-    this.joystick = joystick;
+  private final DriveBaseSubsystem driveBaseSubsystem;
+  private final double xSpdFunction, ySpdFunction, turningSpdFunction, headingFunction;
+  private final boolean fieldOrientedFunction;
+  private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+  private final boolean flickFunction;
+  private double initialHeading;
+  private PIDController thetaController;
+  
+  private SendableChooser<Double> autoChooser = new SendableChooser<>();
+ 
+  private double added;
+  private int counter;
+  public SwerveDriveFieldCentric(DriveBaseSubsystem driveBaseSubsystem,
+  double xSpdFunction, double ySpdFunction, double turningSpdFunction,
+  boolean fieldOrientedFunction, double headingFunction, boolean flickFunction){
     this.driveBaseSubsystem = driveBaseSubsystem;
-    addRequirements(driveBaseSubsystem);
-  }
-  
-  /**
-   * Returns chassis speeds from field-centric joystick controls. This is what determines the translational speed of the robot in proportion to joystick values.
-   * @param joystick
-   * @return
-   */
-  public ChassisSpeeds getChassisSpeedsFromJoystick(XboxController joystick) {
+    this.xSpdFunction = xSpdFunction;
+    this.ySpdFunction = ySpdFunction;
+    this.turningSpdFunction = turningSpdFunction;
+    this.fieldOrientedFunction = fieldOrientedFunction;
+    this.headingFunction = headingFunction;
 
-    //DEADBAND WAS WHY FOWARD/BACKWARD DIDNT WORK
-    double vx = Math.abs(joystick.getLeftY())>0.05?joystick.getLeftY() *SwerveConstants.maxTranslationalSpeed:0;
-    double vy = Math.abs(joystick.getLeftX())>0.05?joystick.getLeftX()*SwerveConstants.maxTranslationalSpeed:0;
-    double rx = Math.abs(joystick.getRightX())>0.05?-0.7*joystick.getRightX()*SwerveConstants.maxRotationalSpeed:0;
+      this.flickFunction = flickFunction;
+      this.initialHeading = headingFunction;
+      this.xLimiter = new SlewRateLimiter(SwerveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+      this.yLimiter = new SlewRateLimiter(SwerveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
+      this.turningLimiter = new SlewRateLimiter(SwerveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+      thetaController = new PIDController(SwerveConstants.kPThetaController, SwerveConstants.kIThetaController, SwerveConstants.kDThetaController);
 
-    // SmartDashboard.putNumber("LeftX", joystick.getLeftX());
-    // SmartDashboard.putNumber("LeftY", joystick.getLeftY());
-    // SmartDashboard.putNumber("RightX", joystick.getRightX());
+      added = 0;
+      counter = 0;
 
-    // SmartDashboard.putNumber("vx", vx);
-    // SmartDashboard.putNumber("vy", vy);
-    SmartDashboard.putNumber("omega", rx);
+      // Tell command that it needs subsstytemmem
+      addRequirements(driveBaseSubsystem);
 
-    //WPILIB does the Field-Relative Conversions for you, easy peas y
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, driveBaseSubsystem.getRotation2d());
-
-    // SmartDashboard.putNumber("Robot vx", speeds.vxMetersPerSecond);
-    // SmartDashboard.putNumber("Robot vy", speeds.vyMetersPerSecond);
-    // SmartDashboard.putNumber("Robot omega", speeds.omegaRadiansPerSecond);
-    return speeds;
-  }
-
-  /**
-   * Converts chassis speeds to individual module speeds
-   * @param chassisSpeeds
-   * @return 
-   */
-  public SwerveModuleState[] ChassisSpeedstoModuleSpeeds(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] moduleStates = driveBaseSubsystem.getSwerveDriveKinematics().toSwerveModuleStates(chassisSpeeds);
-    return moduleStates;
-  }
-  /**
-   * Sets the individual swerve module states
-   * @param moduleStates
-   */
-  public void setModuleStates(SwerveModuleState[] moduleStates) {
-    for (int i=0; i<4; ++i) {
-      // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
-      // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i]);
     }
-  }
-  public void setModuleStatesTeleop(SwerveModuleState[] moduleStates, XboxController joystick) {
-    for (int i=0; i<4; ++i) {
-      // SmartDashboard.putNumber("Setpoint Speed of Module" + String.valueOf(i), moduleStates[i].speedMetersPerSecond);
-      // SmartDashboard.putNumber("Setpoint Angle of Module" + String.valueOf(i), moduleStates[i].angle.getDegrees()); 
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState2(moduleStates[i], joystick);
+
+    @Override
+    public void initialize() {
+      initialHeading = headingFunction;
+      added = 0;
     }
-  }
-  //The following two function smake the code less verbose by combining the above functions
-  /**
-   * Sets the module states directly from the chassis speed
-   * @param chassisSpeeds
-   */
-  public void setModuleStatesFromChassisSpeed(ChassisSpeeds chassisSpeeds) {
-    setModuleStates(ChassisSpeedstoModuleSpeeds(chassisSpeeds));
-  }
-  public void setModuleStatesFromChassisSpeedTeleop(ChassisSpeeds chassisSpeeds, XboxController joystick) {
-    setModuleStatesTeleop(ChassisSpeedstoModuleSpeeds(chassisSpeeds), joystick);
-  }
-  /**
-   * this is what makes the robot begin moving, the entry point for swerve centric drive!
-   * @param joystick
-   */
-  public void setModuleStatesFromJoystick(XboxController joystick) {
-    setModuleStatesFromChassisSpeedTeleop(getChassisSpeedsFromJoystick(joystick), joystick);
-  }
 
-  /**
-   * Set swerve modules to its zero state. Note that the CANCoders must be zeroed to their correct position first...
-   */
+    @Override
+    public void execute(){
+
+      double xSpeed = xSpdFunction;
+      double ySpeed = ySpdFunction;
+      double turningSpeed = turningSpdFunction * 8;
+
+      xSpeed = Math.abs(xSpeed) > SwerveConstants.kDeadband ? xSpeed : 0.0;
+      ySpeed = Math.abs(ySpeed) > SwerveConstants.kDeadband ? ySpeed : 0.0;
+      turningSpeed = Math.abs(turningSpeed) > SwerveConstants.kDeadband ? turningSpeed : 0.0;
+
+      xSpeed = xLimiter.calculate(xSpeed) * SwerveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+      ySpeed = yLimiter.calculate(ySpeed) * SwerveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    
+
+      initialHeading += turningSpeed;
+
+
+      double newHeading = headingFunction;
+
   
+      if(flickFunction){
+        counter += 1;
+      if(counter > 6){
+        added += 90;
+        counter = 0;
+      }
+    }else{counter = 0;}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    driveBaseSubsystem.coast();
-    driveBaseSubsystem.zeroYaw();
-    // zero();
+    turningSpeed = thetaController.calculate(newHeading - added, initialHeading) * 100;
+    //turningSpeed = (headingFunction.get() - initialHeading) * turningPValue;
+    
+
+    turningSpeed = Math.abs(turningSpeed) > 0.05 ? turningSpeed : 0.0;
+    turningSpeed *= -1;
+
+
+    if (turningSpeed > SwerveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond){
+      turningSpeed = SwerveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    }
+    else if (turningSpeed < -SwerveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond){
+      turningSpeed = -SwerveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+    }
+    
+    SmartDashboard.putNumber("Turning Speed", turningSpeed);
+    SmartDashboard.putNumber("Inital Heading", initialHeading);
+    SmartDashboard.putNumber("NavX Heading", headingFunction);
+
+
+    ChassisSpeeds chassisSpeeds;
+
+    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, Rotation2d.fromDegrees(driveBaseSubsystem.getRobotDegrees()));
+    //chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,turningSpeed);
+    SwerveModuleState[] moduleStates = SwerveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    driveBaseSubsystem.setModuleStates(moduleStates);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    setModuleStatesFromJoystick(joystick);
-    // if (joystick.getAButton()) {
-    //   zero();
-    // }
-  }
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    driveBaseSubsystem.brake();
-  }
+  public void end(boolean interrupted){driveBaseSubsystem.stopModules();}
 
-  // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
-  }
+  public boolean isFinished(){return false;}
+
 }
