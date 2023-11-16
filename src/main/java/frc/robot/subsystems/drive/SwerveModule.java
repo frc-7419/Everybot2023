@@ -16,7 +16,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -93,14 +92,10 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(turnEncoder.getPosition()));
     }
     public void setSwerveModuleState(SwerveModuleState state) {
-        driveMotor.set(state.speedMetersPerSecond/Constants.SwerveConstants.maxTranslationalSpeed);
-        setAnglePID(state.angle);
-    }
-    public void setSwerveModuleState(SwerveModuleState state, XboxController joystick) {
-        setSpeed(state.speedMetersPerSecond, joystick);
-        setAnglePID(state.angle);
-    }
-    
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
+        driveMotor.set(optimizedState.speedMetersPerSecond/Constants.SwerveConstants.maxTranslationalSpeed);
+        turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), optimizedState.angle.getDegrees()) , -0.3 , 0.3));
+    }   
     /**
      * This function sets the speed of the motors
      * @param speed is in the format meters per second(m/s) type: double
@@ -108,27 +103,9 @@ public class SwerveModule {
     public void setSpeed(double speed) {
         driveMotor.set(speed/Constants.SwerveConstants.maxTranslationalSpeed);
     }
-    /**
-     * This function sets the speed of the motors
-     * @param speed is in the format meters per second(m/s) type: double
-     */
-    public void setSpeed(double speed, XboxController joystick) {
-        double motorInput = speed/Constants.SwerveConstants.maxTranslationalSpeed;
-        motorInput = joystick.getLeftBumper()?motorInput*0.2:motorInput;
-        driveMotor.set(motorInput);
-    }
     public void stop() {
         driveMotor.set(0);
         turnMotor.set(0);
-    }
-    
-
-    /**
-    * Rotates the bot to the specified angle with precision
-    * @param rotation2D is of type Rotation2d. This is the angle that you want to turn the robot
-    */
-    public void setAnglePID(Rotation2d rotation2D) {
-        turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), rotation2D.getDegrees()) , -0.3 , 0.3));
     }
     
     public void outputDashboard() {

@@ -30,7 +30,7 @@ public class SwerveDriveFieldCentric extends CommandBase {
   }
   public void setModuleStatesTeleop(SwerveModuleState[] moduleStates, XboxController joystick) {
     for (int i=0; i<4; ++i) {
-      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i], joystick);
+      driveBaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i]);
     }
   }
   /**
@@ -40,15 +40,12 @@ public class SwerveDriveFieldCentric extends CommandBase {
   public void setModuleStatesFromChassisSpeed(ChassisSpeeds chassisSpeeds) {
     setModuleStates(driveBaseSubsystem.ChassisSpeedstoModuleSpeeds(chassisSpeeds));
   }
-  public void setModuleStatesFromChassisSpeedTeleop(ChassisSpeeds chassisSpeeds, XboxController joystick) {
-    setModuleStatesTeleop(driveBaseSubsystem.ChassisSpeedstoModuleSpeeds(chassisSpeeds), joystick);
-  }
   /**
    * this is what makes the robot begin moving, the entry point for swerve centric drive!
    * @param joystick
    */
   public void setModuleStatesFromJoystick(XboxController joystick) {
-    setModuleStatesFromChassisSpeedTeleop(driveBaseSubsystem.getChassisSpeedsFromJoystick(joystick), joystick);
+    setModuleStatesFromChassisSpeed(driveBaseSubsystem.getChassisSpeedsFromJoystick(joystick));
   }
 
   @Override
