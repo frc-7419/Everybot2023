@@ -46,7 +46,7 @@ public class SwerveModule {
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         turnEncoder = new CANCoder(turnEncoderID);
         driveEncoder = driveMotor.getEncoder();
-        angleController = new PIDController(Constants.SwerveConstants.anglekP, 0, Constants.SwerveConstants.anglekD);
+        angleController = new PIDController(Constants.SwerveConstants.anglekP, Constants.SwerveConstants.anglekI, Constants.SwerveConstants.anglekD);
         turnMotor.setIdleMode(IdleMode.kCoast);
         driveMotor.setIdleMode(IdleMode.kCoast);
         angleController.setTolerance(1);
