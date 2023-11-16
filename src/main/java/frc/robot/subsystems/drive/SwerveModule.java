@@ -124,16 +124,16 @@ public class SwerveModule {
     * @param speed in m/s (to match with wpilib's format) which is later converted
     * @param rotation2D angle in wpilib's Rotation2D object format
     */
-    public void setSwerveModuleState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            resetToAbsolute();
-            stop();
-            return;
-        }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
-    }
+    // public void setSwerveModuleState(SwerveModuleState state) {
+    //     if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+    //         resetToAbsolute();
+    //         stop();
+    //         return;
+    //     }
+    //     state = SwerveModuleState.optimize(state, getState().angle);
+    //     speedMotor.set(state.speedMetersPerSecond / Constants.SwerveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    //     turnMotor.set(angleController.calculate(getTurningPosition(), state.angle.getRadians()));
+    // }
 
     public void setSwerveModuleState2(SwerveModuleState state) {
         setSpeed(state.speedMetersPerSecond);
