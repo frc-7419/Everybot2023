@@ -51,7 +51,7 @@ public final class Constants {
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumfrence = wheelDiameter * 2 * Math.PI;
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
-    public static final double anglekP = 0.003;
+    public static final double anglekP = 0.002;
     public static final double anglekI = 0;
     public static final double anglekD = 0;
 

@@ -93,6 +93,7 @@ public class SwerveModule {
     }
     public void setSwerveModuleState(SwerveModuleState state) {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
+        SmartDashboard.putString(module+" state", optimizedState.toString());
         driveMotor.set(optimizedState.speedMetersPerSecond/Constants.SwerveConstants.maxTranslationalSpeed);
         turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), optimizedState.angle.getDegrees()) , -0.3 , 0.3));
     }   
