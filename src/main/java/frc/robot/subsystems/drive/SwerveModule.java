@@ -59,7 +59,7 @@ public class SwerveModule {
         speedMotor = new CANSparkMax(sID, MotorType.kBrushless);
         turnEncoder = new CANCoder(eID);
         driveEncoder = speedMotor.getEncoder();
-        angleController = new PIDController(0, 0, 0); //never changes after initialization anyways
+        angleController = new PIDController(0.0036, 0, 0); //never changes after initialization anyways
 
         config();
     }
@@ -68,7 +68,7 @@ public class SwerveModule {
         turnMotor.setIdleMode(IdleMode.kCoast);
         speedMotor.setIdleMode(IdleMode.kCoast);
 
-        angleController.setTolerance(0.5); //degrees for now...
+        angleController.setTolerance(10); //degrees for now...
         angleController.enableContinuousInput(0, 360); //in accordance to rotation2D default degrees format
 
         turnEncoder.configFactoryDefault();
@@ -137,12 +137,16 @@ public class SwerveModule {
 
     public void setSwerveModuleState2(SwerveModuleState state) {
         // state = SwerveModuleState.optimize(state, getState().angle);
-        state = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
+        state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition()));
         setSpeed(state.speedMetersPerSecond);
         setAnglePID(state.angle);
     }
     public void setSwerveModuleState2(SwerveModuleState state, XboxController joystick) {
-        state = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
+        state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition()));
+        SmartDashboard.putString("module "+module, state.toString());
+        SmartDashboard.putString("module "+module, state.angle.toString());
+
+        // if (Math.abs(state.angle mod- ))
         setSpeed(state.speedMetersPerSecond, joystick);
         setAnglePID(state.angle);
     }
