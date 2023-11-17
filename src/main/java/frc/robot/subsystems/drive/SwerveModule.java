@@ -92,10 +92,10 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(turnEncoder.getPosition()));
     }
     public void setSwerveModuleState(SwerveModuleState state) {
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
-        SmartDashboard.putString(module+" state", optimizedState.toString());
-        driveMotor.set(optimizedState.speedMetersPerSecond/Constants.SwerveConstants.maxTranslationalSpeed);
-        turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), optimizedState.angle.getDegrees()) , -0.3 , 0.3));
+        state = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
+        SmartDashboard.putString(module+" state", state.toString());
+        driveMotor.set(state.speedMetersPerSecond/Constants.SwerveConstants.maxTranslationalSpeed);
+        turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), state.angle.getDegrees()) , -0.3 , 0.3));
     }   
     /**
      * This function sets the speed of the motors
