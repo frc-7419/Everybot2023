@@ -92,12 +92,7 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(turnEncoder.getPosition()));
     }
     public void setSwerveModuleState(SwerveModuleState state) {
-        // SmartDashboard.putNumber(module, state.angle.getDegrees());
-        // state = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getAbsolutePosition()));
-        // if(Math.abs((state.angle.getDegrees()+180)-turnEncoder.getAbsolutePosition())>90) {
-            // state = new SwerveModuleState(-state.speedMetersPerSecond, new Rotation2d(((state.angle.getDegrees()+360)%360)));
-        // }
-        // SmartDashboard.putString(module+" state", state.toString());
+        state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition()));
         driveMotor.set(state.speedMetersPerSecond);
         turnMotor.set(-MathUtil.clamp(angleController.calculate(turnEncoder.getAbsolutePosition(), state.angle.getDegrees()) , -0.3 , 0.3));
     }   
