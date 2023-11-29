@@ -125,10 +125,10 @@ public final class Constants {
     //INFO: according to WPILib docs "The locations for the modules must be relative to the center of the robot. Positive x
     //values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot." 
     public static final SwerveModuleConstants frontLeft = new SwerveModuleConstants(
-      2, 1, 9, 258.3, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
+      2, 1, 9, 78.3, new Translation2d(RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH) );
     public static final SwerveModuleConstants frontRight = new SwerveModuleConstants(4, 3, 10, 353.67,  new Translation2d(RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backRight = new SwerveModuleConstants(
-      6, 5,11, 291.533,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
+      6, 5,11, 305.533,  new Translation2d(-RobotConstants.HALF_LENGTH, -RobotConstants.HALF_LENGTH));
     public static final SwerveModuleConstants backLeft = new SwerveModuleConstants(
       8, 7, 12, 17.57, new Translation2d(-RobotConstants.HALF_LENGTH, RobotConstants.HALF_LENGTH));
   }
